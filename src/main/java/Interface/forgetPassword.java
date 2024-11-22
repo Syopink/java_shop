@@ -468,7 +468,6 @@ public class forgetPassword extends javax.swing.JFrame {
                     parentPanel.add(B4);
                     parentPanel.repaint();
                     parentPanel.revalidate();
-                    JOptionPane.showMessageDialog(this, "Đổi mật khẩu thành công.");
                 } catch (SQLException ex) {
                     ex.printStackTrace(); // Log lỗi cho developer
                     JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi đổi mật khẩu. Vui lòng thử lại.");
