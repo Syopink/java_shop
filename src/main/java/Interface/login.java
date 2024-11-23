@@ -98,7 +98,6 @@ public class login extends javax.swing.JFrame {
         jtxtEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
         bg.add(jtxtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 270, 30));
 
-        jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
         bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 270, -1));
@@ -107,7 +106,6 @@ public class login extends javax.swing.JFrame {
         jLabel5.setText("Mật khẩu");
         bg.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
 
-        jSeparator2.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
         bg.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 270, -1));
@@ -178,7 +176,6 @@ public class login extends javax.swing.JFrame {
         jtxtCapcha.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
         bg.add(jtxtCapcha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 120, 30));
 
-        jSeparator3.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator3.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
         bg.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 120, -1));

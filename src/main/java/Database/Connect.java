@@ -13,9 +13,9 @@ public class Connect {
         }
 
         try {
-            String userName = "sa";
-            String password = "123456";
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=VietPro;encrypt=true;trustServerCertificate=true;";
+             String userName = "sa";
+            String password = "123456789";
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=VietPro1;encrypt=true;trustServerCertificate=true;";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             conn = DriverManager.getConnection(url, userName, password);
