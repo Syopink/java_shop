@@ -31,6 +31,7 @@ com\mycompany\components\util\rowProducts$3.class
 com\mycompany\components\util\rowOrder.class
 com\mycompany\components\ManagerUser.class
 Interface\forgetPassword$5.class
+com\mycompany\components\ManagerProducts$9.class
 com\mycompany\components\Navbar$6.class
 Interface\forgetPassword$11.class
 com\mycompany\components\ManagerCategory$2.class
@@ -49,6 +50,7 @@ com\mycompany\components\util\rowComment$2.class
 com\mycompany\components\ManagerCategory.class
 utils\PasswordUtils.class
 Interface\forgetPassword$12.class
+com\mycompany\components\ManagerProducts$8.class
 com\mycompany\components\ManagerCategory$3.class
 com\mycompany\components\Home.class
 com\mycompany\components\ManagerUser$3.class
