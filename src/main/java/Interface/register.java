@@ -203,47 +203,50 @@ public class register extends javax.swing.JFrame {
     }//GEN-LAST:event_jLReturnMouseClicked
 
     private void jbtnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRegisterActionPerformed
-     // Thu thập dữ liệu từ giao diện
-UserDTO dto = new UserDTO();
-dto.setEmail(jtxtEmail.getText());
-dto.setFullName(jtxtFullName.getText());
-String password = new String(jP1.getPassword()); // Mật khẩu chính
-String confirmPassword = new String(jP2.getPassword()); // Mật khẩu xác nhận
-dto.setPassword(password);
-dto.setPhone(jtxtPhone.getText());
-dto.setAddress(jtxtAddress.getText());
-
+        // Thu thập dữ liệu từ giao diện
+        UserDTO dto = new UserDTO();
+        dto.setEmail(jtxtEmail.getText());
+        dto.setFullName(jtxtFullName.getText());
+        String password = new String(jP1.getPassword()); // Mật khẩu chính
+        String confirmPassword = new String(jP2.getPassword()); // Mật khẩu xác nhận
+        dto.setPassword(password);
+        dto.setPhone(jtxtPhone.getText());
+        dto.setAddress(jtxtAddress.getText());
+        if (!jCbox.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Bạn cần đồng ý với điều khoản người dùng để tiếp tục.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 // Kiểm tra mật khẩu và mật khẩu xác nhận có trùng không
-if (!password.equals(confirmPassword)) {
-    JOptionPane.showMessageDialog(this, "Mật khẩu và xác nhận mật khẩu không trùng khớp!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-    return;
-}
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu và xác nhận mật khẩu không trùng khớp!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
 // Sử dụng Hibernate Validator để kiểm tra các trường khác
-ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-Validator validator = factory.getValidator();
-Set<ConstraintViolation<UserDTO>> violations = validator.validate(dto);
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<UserDTO>> violations = validator.validate(dto);
 
 // Kiểm tra lỗi và dừng ngay khi gặp lỗi đầu tiên
-for (ConstraintViolation<UserDTO> violation : violations) {
-    JOptionPane.showMessageDialog(this, violation.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-    return; // Dừng lại ngay sau khi thông báo lỗi đầu tiên
-}
+        for (ConstraintViolation<UserDTO> violation : violations) {
+            JOptionPane.showMessageDialog(this, violation.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return; // Dừng lại ngay sau khi thông báo lỗi đầu tiên
+        }
 
 // Nếu không có lỗi nào, thực hiện tiếp tục xử lý
-try {
-    customers cs = new customers();
-    if (cs.registerCustomer(dto.getEmail(), dto.getPassword(), dto.getFullName(), dto.getPhone(), dto.getAddress())) {
-        JOptionPane.showMessageDialog(this, "Đăng ký thành công!");
-        this.dispose();
-        login frmLogin = new login();
-        frmLogin.setVisible(true);
-    } else {
-        JOptionPane.showMessageDialog(this, "Đăng ký thất bại. Vui lòng thử lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-    }
-} catch (SQLException e) {
-    JOptionPane.showMessageDialog(this, "Lỗi kết nối cơ sở dữ liệu: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-}
+        try {
+            customers cs = new customers();
+            if (cs.registerCustomer(dto.getEmail(), dto.getPassword(), dto.getFullName(), dto.getPhone(), dto.getAddress())) {
+                JOptionPane.showMessageDialog(this, "Đăng ký thành công!");
+                this.dispose();
+                login frmLogin = new login();
+                frmLogin.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Đăng ký thất bại. Vui lòng thử lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối cơ sở dữ liệu: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_jbtnRegisterActionPerformed
 

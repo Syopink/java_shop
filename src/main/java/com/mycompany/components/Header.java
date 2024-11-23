@@ -32,8 +32,7 @@ public class Header extends javax.swing.JPanel {
         us = Homepage.getUser();
         initComponents();
         Menu();
-        jLcustomerName.setText(us.getFullName());
-        jLrole.setText(us.getRole());
+        updateUserInfo(us);
         jPanel1.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -44,7 +43,17 @@ public class Header extends javax.swing.JPanel {
             }
         });
     }
+    public void updateUserInfo(user us) {
+    // Gán tên người dùng
+    jLcustomerName.setText(us.getFullName());
     
+    // Gán vai trò với điều kiện
+    String roleText = "Khách hàng";  // Mặc định là "Khách hàng"
+    if ("admin".equals(us.getRole())) {
+        roleText = "Admin";
+    }
+    jLrole.setText(roleText);
+}
     void  Menu(){
         jPopupMenu1.setSize(200, 200);
         JMenuItem item1 = new JMenuItem("Đăng xuất");

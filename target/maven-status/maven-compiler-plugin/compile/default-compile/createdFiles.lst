@@ -29,6 +29,7 @@ com\mycompany\components\Card\CardDashBoard.class
 Interface\login$2.class
 com\mycompany\components\util\rowProducts$3.class
 com\mycompany\components\util\rowOrder.class
+Interface\frmChangeInformation$1.class
 com\mycompany\components\ManagerUser.class
 Interface\forgetPassword$5.class
 com\mycompany\components\ManagerProducts$9.class
@@ -45,6 +46,7 @@ com\mycompany\vietpro\Homepage.class
 com\mycompany\components\util\rowProducts$4.class
 com\raven\component\Profile.class
 Interface\forgetPassword$6.class
+Interface\frmChangeInformation$2.class
 Interface\register$3.class
 com\mycompany\components\util\rowComment$2.class
 com\mycompany\components\ManagerCategory.class
@@ -64,6 +66,7 @@ com\mycompany\components\UserManager.class
 com\mycompany\components\ManagerCategory$4.class
 Interface\forgetPassword$13.class
 com\mycompany\components\Button\toggleButtonRouter.class
+Interface\frmChangeInformation.class
 CustomBorder\RoundedPanelBorder.class
 com\mycompany\vietpro\Homepage$1.class
 Process\customers.class
@@ -73,6 +76,7 @@ com\mycompany\components\ManagerProducts$7.class
 com\mycompany\components\Navbar$4.class
 com\raven\component\TextFieldWithPlaceholder$2.class
 Interface\register$2.class
+Interface\frmChangeInformation$3.class
 Interface\login$3.class
 com\mycompany\components\util\Option.class
 com\mycompany\components\ManagerProducts$1.class

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\raven\component\RoundedButton.java
 C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Process\customers.java
 C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\Action.java
@@ -38,3 +39,46 @@ C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\CustomBorder
 C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\Connect.java
 C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Button\Search.java
 C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Header.java
+=======
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Interface\frmChangeInformation.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Database\Action.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Validate\Validate.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\Navbar.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\util\Option.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Interface\register.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Process\sendMail.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\Home.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\Header.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\ManagerProducts.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\utils\PasswordUtils.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\ManagerOrders.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\util\rowProducts.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\raven\component\Profile.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Interface\forgetPassword.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Library\Library.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\raven\component\Textfield.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\raven\component\RoundedButton.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\Button\Search.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\ManagerCategory.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\CustomBorder\RoundedTextFieldBorder.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Library\Capcha.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Validate\UserDTO.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\vietpro\Vietpro.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Process\customers.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Process\user.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\Card\CardDashBoard.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\util\rowCate.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Database\Connect.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\UserManager.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Library\hashPassword.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\ManagerUser.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\ManagerComments.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\CustomBorder\RoundedPanelBorder.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\vietpro\Homepage.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\raven\component\TextFieldWithPlaceholder.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\util\rowComment.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\util\rowOrder.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\util\rows.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Interface\login.java
+D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\Button\toggleButtonRouter.java
+>>>>>>> 38877dac87d7d182d81474ea1249f3739e7c7225
