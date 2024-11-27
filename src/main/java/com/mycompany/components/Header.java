@@ -4,6 +4,7 @@
  */
 package com.mycompany.components;
 
+import Interface.frmChangeInformation;
 import Interface.login;
 import Process.customers;
 import Process.user;
@@ -29,7 +30,7 @@ public class Header extends javax.swing.JPanel {
      * Creates new form Header
      */
     public Header() {
-        us = Homepage.getUser();
+    us = Homepage.getUser();
         initComponents();
         Menu();
         updateUserInfo(us);
@@ -56,16 +57,14 @@ public class Header extends javax.swing.JPanel {
 }
     void  Menu(){
         jPopupMenu1.setSize(200, 200);
-        JMenuItem item1 = new JMenuItem("Đăng xuất");
-        JMenuItem item2 = new JMenuItem("Đổi tài khoản");
-        JMenuItem item3 = new JMenuItem("Sửa thông tin");
+        JMenuItem logout = new JMenuItem("Đăng xuất");
+        JMenuItem changeInformation = new JMenuItem("Sửa thông tin");
         
-        jPopupMenu1.add(item1);
-        jPopupMenu1.add(item2);
-        jPopupMenu1.add(item3);
+        jPopupMenu1.add(logout);
+        jPopupMenu1.add(changeInformation);
       
 
-        item1.addActionListener(e -> {
+        logout.addActionListener(e -> {
 
             int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận", JOptionPane.YES_NO_OPTION);
     if (confirm == JOptionPane.YES_OPTION) {
@@ -76,8 +75,12 @@ public class Header extends javax.swing.JPanel {
     }
         });
 
-        item2.addActionListener(e -> JOptionPane.showMessageDialog(this, "You selected Option 2"));
-        item3.addActionListener(e -> JOptionPane.showMessageDialog(this, "You selected Option 3"));
+        changeInformation.addActionListener(e -> {
+        JFrame homepageFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        homepageFrame.dispose();
+        frmChangeInformation frmChangeInfor = new frmChangeInformation();  // Tạo đối tượng frmLogin
+        frmChangeInfor.setVisible(true);  // Hiển thị cửa sổ đăng nhập
+        });
     }
 
     /**

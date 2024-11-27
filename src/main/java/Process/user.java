@@ -15,12 +15,25 @@ public class user {
     private String email;
     private String fullName;
     private String role;
+    private String password;
+    private String address;
+    private String numberOfPhone;
 
     public user(String email, String fullName, String role) {
         this.email = email;
         this.fullName = fullName;
         this.role = role;
     }
+
+    public user(String email, String fullName, String role, String address, String numberOfPhone) {
+        this.email = email;
+        this.fullName = fullName;
+        this.role = role;
+        this.address = address;
+        this.numberOfPhone = numberOfPhone;
+    }
+    
+    
 
     public user(String email) {
         this.email = email;
@@ -53,4 +66,29 @@ public class user {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setNumberOfPhone(String numberOfPhone) {
+        this.numberOfPhone = numberOfPhone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getNumberOfPhone() {
+        return numberOfPhone;
+    }
+    
 }

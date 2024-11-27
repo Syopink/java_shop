@@ -133,9 +133,83 @@ public String getCustomerNameByEmail(String email) throws SQLException {
 
     return null; // Trả về null nếu không tìm thấy người dùng
 }
-public user findUserByEmail(String email){
-    String detailsQuery = "SELECT * from customers WHERE email = ?";
+
+  // Cập nhật thông tin người dùng
+    public boolean updateUserInfo(String email, String fullName, String address, String phone, String password) {
+        String checkEmailSql = "SELECT * FROM customers WHERE email = ? AND isDeleted = '0'";
+            String checkPhoneSql = "SELECT * FROM customers WHERE numberOfPhone = ? AND email != ? AND isDeleted = '0'";  // Check if phone exists for other users
+        String updateSql = "UPDATE customers SET fullName = ?, address = ?, numberOfPhone = ?, updatedAt = GETDATE()";
+
+        // Nếu có mật khẩu mới, thêm vào câu lệnh cập nhật
+        if (password != null && !password.isEmpty()) {
+            String hashedPassword = PasswordUtils.hashBCrypt(password); // Băm mật khẩu mới
+            updateSql += ", password = ?"; // Thêm mật khẩu vào câu lệnh UPDATE
+        }
+
+        updateSql += " WHERE email = ? AND isDeleted = '0'"; // Cập nhật theo email
+
+        try (PreparedStatement checkStmt = conn.prepareStatement(checkEmailSql); 
+             PreparedStatement checkPhoneStmt = conn.prepareStatement(checkPhoneSql); 
+             PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+
+            // Kiểm tra sự tồn tại của email
+           checkStmt.setString(1, email);
+        try (ResultSet rs = checkStmt.executeQuery()) {
+            if (rs.next()) {
+                // Kiểm tra xem số điện thoại đã tồn tại chưa (cho người dùng khác)
+                checkPhoneStmt.setString(1, phone);
+                checkPhoneStmt.setString(2, email);
+                try (ResultSet phoneRs = checkPhoneStmt.executeQuery()) {
+                    if (phoneRs.next()) {
+                        System.err.println("Số điện thoại đã tồn tại.");
+                        return false;  // Nếu số điện thoại đã tồn tại, trả về false
+                    }
+                }
+
+                // Cập nhật thông tin người dùng
+                updateStmt.setString(1, fullName);
+                updateStmt.setString(2, address);
+                updateStmt.setString(3, phone);
+
+                // Nếu mật khẩu mới có, thêm vào câu lệnh UPDATE
+                if (password != null && !password.isEmpty()) {
+                    String hashedPassword = PasswordUtils.hashBCrypt(password); // Băm mật khẩu
+                    updateStmt.setString(4, hashedPassword);
+                    updateStmt.setString(5, email);
+                } else {
+                    updateStmt.setString(4, email);
+                }
+
+                int rowsAffected = updateStmt.executeUpdate();
+                return rowsAffected > 0; // Trả về true nếu có dòng bị ảnh hưởng
+            } else {
+                System.err.println("Email không tồn tại.");
+                return false;  // Nếu email không tồn tại, trả về false
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi cập nhật thông tin người dùng: " + e.getMessage());
+        return false;  // Nếu có lỗi, trả về false
+    }
+    }
     
+    public boolean isPhoneUnique(String phone, String email) {
+    String checkPhoneSql = "SELECT * FROM customers WHERE numberOfPhone = ? AND email != ? AND isDeleted = '0'";
+
+    try (PreparedStatement stmt = conn.prepareStatement(checkPhoneSql)) {
+        stmt.setString(1, phone);
+        stmt.setString(2, email);  // Exclude the current user
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            return !rs.next(); // If no rows are returned, the phone number is unique
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi kiểm tra số điện thoại: " + e.getMessage());
+        return false;  // If there's an error, assume phone is not unique
+    }
+}
+public user findUserByEmail(String email){
+    String detailsQuery = "SELECT * from customers WHERE email = ?";    
     user us = new user();
         try (PreparedStatement stmt = conn.prepareStatement(detailsQuery)) {
         stmt.setString(1, email);
@@ -143,7 +217,9 @@ public user findUserByEmail(String email){
             if (rs.next()) {
                String name = rs.getString("fullName");
                String role = rs.getString("role");
-               us = new user(email, name, role);
+               String phone = rs.getString("numberOfPhone");
+               String address = rs.getString("address");
+               us = new user(email, name, role, address, phone);
             }
         }
     } catch (SQLException e) {

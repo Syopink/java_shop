@@ -23,7 +23,7 @@ public class Capcha extends JPanel {
         captchaField.setHorizontalAlignment(JTextField.CENTER);
         captchaField.setEditable(false); // Không cho phép chỉnh sửa
         captchaField.setText(generateCaptcha()); // Đặt giá trị CAPTCHA ban đầu
-
+        captchaField.setEnabled(false);
         // Tạo nút "Tạo mới" để tạo Captcha mới
         refreshButton = new JButton("Tạo mới");
         refreshButton.setFont(new Font("Segoe UI ", Font.PLAIN, 12)); // Đặt font cho nút
