@@ -6,9 +6,7 @@ package com.mycompany.components;
 
 import Database.Action;
 import com.mycompany.components.util.Option;
-import com.mycompany.components.util.rowCate;
 import com.mycompany.components.util.rowProducts;
-import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,11 +16,9 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -38,17 +34,52 @@ public class ManagerProducts extends javax.swing.JPanel {
     private Action ac=new Action();
     private List<Object[]> categories = ac.getCate() ;
     private Option ops=new Option();
+    private float priceMin;
+    private float priceMax;
+    private String selectCate;
+    private boolean isFilter =false;
+    private boolean isFoundRange =false;
+    private boolean isFoundCate =false;
+    private String selectRanges;
+    
+ 
+
+    
 
     public ManagerProducts() {
         initComponents();
+        SelectItemBox();
         buttonShowDialog();
         ImgUpLoad();
         initializeForm();
         addRows();
         addProduct();
+        
+        
+
     }
     
-    void buttonShowDialog() {
+void initializeForm() {
+    statusBox.setModel(new DefaultComboBoxModel<>(ops.StatusOptions()));
+    CateBox.setModel(new DefaultComboBoxModel<>(cateList().toArray(new String[0])));
+    statusBox.setModel(new DefaultComboBoxModel<>(ops.StatusOptions()));
+    CateBox.setModel(new DefaultComboBoxModel<>(cateList().toArray(new String[0])));
+
+
+    statusBox.setModel(new DefaultComboBoxModel<>(ops.StatusOptions()));
+
+    DefaultComboBoxModel<String> cateModel = new DefaultComboBoxModel<>(cateList().toArray(new String[0]));
+    cateModel.insertElementAt("Chọn danh mục", 0); 
+    jCateBoxProducts.setModel(cateModel);  
+    jCateBoxProducts.setSelectedIndex(0);  
+
+    DefaultComboBoxModel<String> priceModel = new DefaultComboBoxModel<>(ops.PriceOptions());
+    priceModel.insertElementAt("Chọn khoảng giá", 0);  
+    jRangesPrice.setModel(priceModel);  
+    jRangesPrice.setSelectedIndex(0);  
+    }    
+    
+void buttonShowDialog() {
     AddProduct.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -59,13 +90,36 @@ public class ManagerProducts extends javax.swing.JPanel {
     });
 }
 
+void SelectItemBox() {
+    Filter.addActionListener(e -> {
+        selectRanges = (String) jRangesPrice.getSelectedItem();
+        this.selectCate = (String) jCateBoxProducts.getSelectedItem();
+        
+        if (!"Chọn khoảng giá".equals(selectRanges) ) {
+            isFilter = true;
+            if (selectRanges != null && !selectRanges.trim().isEmpty()) {
+                String[] parts = selectRanges.split("-");
+                if (parts.length == 2) {
+                    priceMin = Float.parseFloat(parts[0].trim());  // Giá trị min
+                    priceMax = Float.parseFloat(parts[1].trim());  // Giá trị max
+                } else {
+                    priceMin = Float.parseFloat(parts[0].trim());  // Chỉ có min
+                    priceMax = Float.MAX_VALUE;  // Đặt max là giá trị lớn nhất
+                }
+            }
+        } else {
+            isFilter = false;
+        }
+        
+        addRows();  // Gọi hàm để hiển thị lại các hàng
+    });
+}
+
 public void setPopUp(JFrame JP) {
     jDialog1.setSize(560, 500);  
     jDialog1.setResizable(false);
     jDialog1.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
-    // Đặt vị trí của jDialog1 ở giữa parent frame
     jDialog1.setLocationRelativeTo(JP); 
-    // Hiển thị hoặc ẩn jDialog1 dựa trên giá trị của isShowed
     jDialog1.setVisible(isShowed);
 }
 
@@ -79,8 +133,8 @@ void ImgUpLoad(){
 }
     
  private void uploadImage() {
-        // Tạo JFileChooser để chọn ảnh
-        jFileChooser1.setDialogTitle("Chọn hình ảnh");
+       
+            jFileChooser1.setDialogTitle("Chọn hình ảnh");
             jFileChooser1.setAcceptAllFileFilterUsed(false);
             jFileChooser1.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png", "gif"));
         int result = jFileChooser1.showOpenDialog(this);
@@ -94,9 +148,59 @@ void ImgUpLoad(){
         }
     }
 
- void initializeForm() {
-    statusBox.setModel(new DefaultComboBoxModel<>(ops.StatusOptions()));
-    CateBox.setModel(new DefaultComboBoxModel<>(cateList().toArray(new String[0])));
+ 
+    void addComponents(JPanel panelRows,int idProduct,String nameCate,String name,float price,String thumbnail,String status,Runnable callback){
+        rowProducts rowComponent = new rowProducts();
+        rowComponent.set(idProduct, nameCate, name, price, thumbnail, status);
+        panelRows.add(rowComponent,0);
+        deleteCate(rowComponent,rowComponent.getIdProduct());
+        rowComponent.updateProduct(callback);
+    }
+    
+void filter(int idProduct, String name, float price, String thumbnail, String status, String nameCate, JPanel panelRows) {
+    boolean productAdded = false;  
+    if (isFilter) {
+        boolean isInPriceRange = price >= this.priceMin && price <= this.priceMax;
+        boolean isInCategory = selectCate != "Chọn danh mục" && selectCate.equals(nameCate);
+        if (isInPriceRange && isInCategory) {
+            isFoundRange = true;
+            isFoundCate = true;
+            addComponents(panelRows, idProduct, nameCate, name, price, thumbnail, status, this::addRows);
+            productAdded = true;
+        }else if(selectCate == "Chọn danh mục" && isInPriceRange){
+            isFoundRange = true;
+            addComponents(panelRows, idProduct, nameCate, name, price, thumbnail, status, this::addRows);
+            productAdded = true;
+        }else if(selectRanges == "Chọn khoảng giá" && isInCategory){
+            isFoundCate = true;
+            addComponents(panelRows, idProduct, nameCate, name, price, thumbnail, status, this::addRows);
+            productAdded = true;
+        }
+        
+    } else {
+        // Nếu không lọc, thêm tất cả sản phẩm
+        addComponents(panelRows, idProduct, nameCate, name, price, thumbnail, status, this::addRows);
+        productAdded = true;
+    }
+
+    // Nếu không có sản phẩm nào thỏa mãn điều kiện, đặt lại các cờ
+    if (!productAdded) {
+        isFoundCate = false;
+        isFoundRange = false;
+    }
+}
+
+
+void alertFilter(){
+    if (isFilter) {
+         if (isFoundCate && !isFoundRange) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm theo khoảng giá");
+        } else if (!isFoundCate && isFoundRange) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm theo danh mục");
+        } else if(!isFoundCate && !isFoundRange) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm");
+        }
+    }
 }
  
  
@@ -108,20 +212,17 @@ void ImgUpLoad(){
     panelRows.removeAll();
     // Duyệt qua danh sách categories và thêm các dòng vào giao diện
     for (Object[] row : products) {
-        rowProducts rowComponent = new rowProducts();
-        int idProduct = (int) row[0];    // Lấy giá trị idCate
-        String name = (String) row[1]; // Lấy giá trị name
+        int idProduct = (int) row[0]; 
+        String name = (String) row[1];
         float price =(float) row[3];
         String thumbnail = (String)row[4] ;
         String status = (String) row[5] ;
         String nameCate  = (String) row[6]  ;
-        rowComponent.set(idProduct, nameCate, name, price, thumbnail, status);
-        panelRows.add(rowComponent,0);
-        deleteCate(rowComponent,rowComponent.getIdProduct());
-        rowComponent.updateProduct(this::addRows);
+        System.out.println("Price: " + price + ", Min: " + this.priceMin + ", Max: " + this.priceMax);
+        filter(idProduct, name, price, thumbnail, status, nameCate, panelRows);
     }
+    alertFilter();
     jScrollPane2.setViewportView(panelRows);
-    // Cập nhật lại giao diện sau khi thêm các dòng vào
     jScrollPane2.revalidate();
     jScrollPane2.repaint();
 }
@@ -205,12 +306,10 @@ void ImgUpLoad(){
         jLabel1 = new javax.swing.JLabel();
         AddProduct = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jCateBoxProducts = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         rowProducts2 = new com.mycompany.components.util.rowProducts();
@@ -222,6 +321,9 @@ void ImgUpLoad(){
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jRangesPrice = new javax.swing.JComboBox<>();
+        Filter = new javax.swing.JToggleButton();
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -340,6 +442,7 @@ void ImgUpLoad(){
         );
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(java.awt.Color.white);
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -365,26 +468,23 @@ void ImgUpLoad(){
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Lọc:");
         jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(51, 51, 51)));
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 108, -1, -1));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Giá ");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 148, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Tên");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 182, -1, -1));
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 182, 308, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 147, 117, -1));
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Loại");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(194, 148, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, -1, -1));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 147, 122, -1));
+        jCateBoxProducts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCateBoxProductsActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jCateBoxProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 140, 122, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 148, -1, -1));
@@ -434,16 +534,23 @@ void ImgUpLoad(){
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 780, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 793, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel11.setText("Giá khoảng");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, 20));
+
+        jPanel1.add(jRangesPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 260, -1));
+
+        Filter.setSelected(true);
+        Filter.setText("Lọc");
+        Filter.setOpaque(false);
+        Filter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FilterActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Filter, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, -1, -1));
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 793, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProductActionPerformed
@@ -463,18 +570,27 @@ void ImgUpLoad(){
         // TODO add your handling code here:
     }//GEN-LAST:event_priceProActionPerformed
 
+    private void jCateBoxProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCateBoxProductsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCateBoxProductsActionPerformed
+
+    private void FilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FilterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FilterActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton AddNewProduct;
     private javax.swing.JToggleButton AddProduct;
     private javax.swing.JComboBox<String> CateBox;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JToggleButton Filter;
+    private javax.swing.JComboBox<String> jCateBoxProducts;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -485,7 +601,6 @@ void ImgUpLoad(){
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -496,6 +611,7 @@ void ImgUpLoad(){
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JComboBox<String> jRangesPrice;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;

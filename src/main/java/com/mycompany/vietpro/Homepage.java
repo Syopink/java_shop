@@ -1,9 +1,10 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+ */ 
 package com.mycompany.vietpro;
 
+import Interface.login;
 import Process.user;
 import com.mycompany.components.Home;
 import com.mycompany.components.ManagerCategory;
@@ -24,8 +25,8 @@ public final class Homepage extends javax.swing.JFrame {
 
     private static user us;
     /**
-     * Creates new form Homepage
      */
+<<<<<<< HEAD
     private int posX = 0, posY = 0;
 
     public Homepage(user us) {
@@ -41,6 +42,22 @@ public final class Homepage extends javax.swing.JFrame {
                 posY = e.getY();
             }
         });
+=======
+      private int posX = 0, posY = 0;   
+       public Homepage(user us) {
+           this.us = us;
+           System.out.println("com.mycompany.vietpro.Homepage.<init>()"+ us.getEmail());
+            setUndecorated(true);
+            initComponents();
+            setResizable(false);
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    posX = e.getX();
+                    posY = e.getY();
+                }
+            });
+>>>>>>> b67c72cc9629bb942ca50c74ec2cf6b0746cf851
 
         addMouseMotionListener(new MouseAdapter() {
             @Override
@@ -52,6 +69,12 @@ public final class Homepage extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         setUpPanels();
     }
+<<<<<<< HEAD
+=======
+            public static user getUser(){
+                return Homepage.us;
+            }
+>>>>>>> b67c72cc9629bb942ca50c74ec2cf6b0746cf851
 
     public static user getUser() {
         return Homepage.us;
@@ -163,8 +186,18 @@ public final class Homepage extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
+<<<<<<< HEAD
             Homepage homepage = new Homepage(us);
             homepage.setVisible(true);
+=======
+            Homepage homepage;
+                 if(us != null){
+                    homepage=new Homepage(us);
+                    homepage.setVisible(true);
+                 }else{
+                     new login().setVisible(true);
+                 }
+>>>>>>> b67c72cc9629bb942ca50c74ec2cf6b0746cf851
         });
     }
 

@@ -14,4 +14,7 @@ public class Option {
     public  String[] StatusOptions() {
         return new String[]{"Còn hàng", "Hết hàng", "Đang bảo hành"};
     }
+    public  String[] PriceOptions() {
+        return new String[]{"0.10 - 500000.10", "500000.10 - 1000000.10", "1000000.10 - 4000000.10","4000000.10 - 8000000.10","10000000.10"};
+        }
 }

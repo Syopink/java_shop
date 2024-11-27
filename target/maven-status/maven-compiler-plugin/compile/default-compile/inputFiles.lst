@@ -1,3 +1,45 @@
+<<<<<<< HEAD
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\raven\component\RoundedButton.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Process\customers.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\Action.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rowProducts.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\raven\component\TextFieldWithPlaceholder.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rowComment.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Interface\register.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerComments.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Navbar.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Process\user.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\vietpro\Vietpro.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\raven\component\Profile.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Interface\login.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Button\toggleButtonRouter.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\raven\component\Textfield.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Interface\forgetPassword.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\Option.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Card\CardDashBoard.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerUser.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Home.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rowOrder.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rowCate.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\utils\PasswordUtils.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Process\sendMail.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Validate\Validate.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Library\hashPassword.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Validate\UserDTO.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerOrders.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\vietpro\Homepage.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Library\Library.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Library\Capcha.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\UserManager.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rows.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\CustomBorder\RoundedTextFieldBorder.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerCategory.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerProducts.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\CustomBorder\RoundedPanelBorder.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\Connect.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Button\Search.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Header.java
+=======
 D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Interface\frmChangeInformation.java
 D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Database\Action.java
 D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Validate\Validate.java
@@ -40,3 +82,4 @@ D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompa
 D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\util\rows.java
 D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\Interface\login.java
 D:\Onedrive\Documents\NetBeansProjects\VietPro2 - Copy\src\main\java\com\mycompany\components\Button\toggleButtonRouter.java
+>>>>>>> 38877dac87d7d182d81474ea1249f3739e7c7225

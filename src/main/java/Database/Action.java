@@ -222,6 +222,76 @@ public class Action {
         return "An error occurred: " + e.getMessage();
     }
 }
-    
+//public String filterProducts(String selectedCate, Float Min, Float Max) {
+//    String queryRanges = "SELECT * FROM products WHERE price > ? AND price < ?";
+//    String queryOutRanges = "SELECT * FROM products WHERE price > ?";
+//    String queryCateRange = "SELECT * FROM products WHERE idCate = ?";
+//    String queryIdCate = "SELECT idCate FROM categories WHERE title = ?";
+//    String queryCateRangeWithPrice = "SELECT * FROM products WHERE idCate = ? AND price > ? AND price < ?";
+//    String queryCateRangeWithPriceOut = "SELECT * FROM products WHERE idCate = ? AND price > ?";
+//
+//    try (
+//        PreparedStatement statementRanges = connection.prepareStatement(queryRanges);
+//        PreparedStatement statementOutRanges = connection.prepareStatement(queryOutRanges);
+//        PreparedStatement statementIdCate = connection.prepareStatement(queryIdCate);
+//        PreparedStatement statementCateRange = connection.prepareStatement(queryCateRange);
+//        PreparedStatement statementCateRangeWithPrice = connection.prepareStatement(queryCateRangeWithPrice);
+//        PreparedStatement statementCateRangeWithPriceOut = connection.prepareStatement(queryCateRangeWithPriceOut);
+//    ) {
+//        ResultSet rs;
+//
+//        // Xử lý khi có `selectedCate`
+//        int idCate = 0;
+//        if (selectedCate != null && !selectedCate.isEmpty()) {
+//            statementIdCate.setString(1, selectedCate);
+//            rs = statementIdCate.executeQuery();
+//            if (rs.next()) {
+//                idCate = rs.getInt("idCate");
+//            } else {
+//                return "Category not found!";
+//            }
+//        }
+//
+//        // Kiểm tra điều kiện và thực hiện truy vấn tương ứng
+//        if (selectedCate != null && Min != null && Max != null) {
+//            // Truy vấn theo idCate và khoảng giá
+//            statementCateRangeWithPrice.setInt(1, idCate);
+//            statementCateRangeWithPrice.setFloat(2, Min);
+//            statementCateRangeWithPrice.setFloat(3, Max);
+//            rs = statementCateRangeWithPrice.executeQuery();
+//        } else if (selectedCate != null && Min != null) {
+//            // Truy vấn theo idCate và giá min
+//            statementCateRangeWithPriceOut.setInt(1, idCate);
+//            statementCateRangeWithPriceOut.setFloat(2, Min);
+//            rs = statementCateRangeWithPriceOut.executeQuery();
+//        } else if (Min != null && Max != null) {
+//            // Truy vấn theo khoảng giá khi không có `selectedCate`
+//            statementRanges.setFloat(1, Min);
+//            statementRanges.setFloat(2, Max);
+//            rs = statementRanges.executeQuery();
+//        } else if (Min != null) {
+//            // Truy vấn theo giá min khi không có `selectedCate`
+//            statementOutRanges.setFloat(1, Min);
+//            rs = statementOutRanges.executeQuery();
+//        } else {
+//            return "Invalid query conditions!";
+//        }
+//
+//        // Xử lý kết quả truy vấn
+//        StringBuilder result = new StringBuilder();
+//        while (rs.next()) {
+//            result.append("Product ID: ").append(rs.getInt("id")).append("\n");
+//            result.append("Product Name: ").append(rs.getString("name")).append("\n");
+//            result.append("Product Price: ").append(rs.getFloat("price")).append("\n");
+//        }
+//        return result.length() > 0 ? result.toString() : "Không tìm thấy sản phẩm";
+//
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//        return "Error occurred during query execution.";
+//    }
+//}
+
+
     }
 
