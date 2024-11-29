@@ -7,6 +7,7 @@ com\mycompany\components\Header.class
 com\mycompany\components\ManagerCategory.class
 com\mycompany\components\util\rowProducts$3.class
 com\mycompany\components\Button\Search.class
+com\mycompany\components\ManagerProducts$8.class
 com\mycompany\components\ManagerCategory$3.class
 com\mycompany\components\util\rowOrder.class
 com\mycompany\components\Home.class

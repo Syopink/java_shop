@@ -47,6 +47,7 @@ public class ManagerProducts extends javax.swing.JPanel {
         addRows();
         addProduct();
     }
+ 
     
     void buttonShowDialog() {
     AddProduct.addActionListener(new ActionListener() {
@@ -94,7 +95,9 @@ void ImgUpLoad(){
 
  void initializeForm() {
     statusBox.setModel(new DefaultComboBoxModel<>(ops.StatusOptions()));
-    CateBox.setModel(new DefaultComboBoxModel<>(cateList().toArray(new String[0])));
+    CateBox.setModel(new DefaultComboBoxModel<>(cateList().toArray(new String[0])));    
+    PriceBox.setModel(new DefaultComboBoxModel<>(ops.PriceOptions()));
+    CateBoxProducts.setModel(new DefaultComboBoxModel<>(cateList().toArray(new String[0])));
 }
  
  
@@ -206,9 +209,9 @@ void ImgUpLoad(){
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        PriceBox = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        CateBoxProducts = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         rowProducts2 = new com.mycompany.components.util.rowProducts();
@@ -374,15 +377,18 @@ void ImgUpLoad(){
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 182, -1, -1));
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 182, 308, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 147, 117, -1));
+        PriceBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PriceBoxActionPerformed(evt);
+            }
+        });
+        jPanel1.add(PriceBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 147, 117, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Loại");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(194, 148, -1, -1));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 147, 122, -1));
+        jPanel1.add(CateBoxProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(225, 147, 122, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 148, -1, -1));
@@ -461,13 +467,17 @@ void ImgUpLoad(){
         // TODO add your handling code here:
     }//GEN-LAST:event_priceProActionPerformed
 
+    private void PriceBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PriceBoxActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton AddNewProduct;
     private javax.swing.JToggleButton AddProduct;
     private javax.swing.JComboBox<String> CateBox;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> CateBoxProducts;
+    private javax.swing.JComboBox<String> PriceBox;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JFileChooser jFileChooser1;
