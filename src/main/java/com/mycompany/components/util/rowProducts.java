@@ -122,6 +122,7 @@ public void set(int id, String cate, String name, float price, String thumbnail,
 void initializeForm() {
     StatusBox.setModel(new DefaultComboBoxModel<>(ops.StatusOptions()));
     CateBox.setModel(new DefaultComboBoxModel<>(cateList().toArray(new String[0])));
+
 }
 
 List<String> cateList(){
