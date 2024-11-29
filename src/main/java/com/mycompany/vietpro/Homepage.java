@@ -52,7 +52,11 @@ public final class Homepage extends javax.swing.JFrame {
             }
         });
         this.setLocationRelativeTo(null);
-        setUpPanels();}
+        setUpPanels();
+       }else{
+           login lg=new login();
+           lg.setVisible(true);
+       }
     }
 
     public static user getUser() {

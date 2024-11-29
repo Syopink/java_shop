@@ -4,7 +4,7 @@
  */
 package com.mycompany.components.util;
 
-import Database.Action;
+import Database.ActionCate;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import javax.swing.JTextField;
@@ -21,7 +21,7 @@ public class rowCate extends javax.swing.JPanel {
      */
 
     private JTextField updateField ;
-    private Action ac=new Action();
+    private ActionCate ac=new ActionCate();
     private int id;
     private String text;
 

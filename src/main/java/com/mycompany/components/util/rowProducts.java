@@ -4,7 +4,8 @@
  */
 package com.mycompany.components.util;
 
-import Database.Action;
+import Database.ActionCate;
+import Database.ActionProduct;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,14 +30,23 @@ public class rowProducts extends javax.swing.JPanel {
     private int id;
     private boolean isUpdate =false;
     private boolean isShowed=false;
-    private Action ac=new Action();
+    private ActionCate ac=new ActionCate();
+    private ActionProduct acp=new ActionProduct();
+    
     private Option ops =new Option();
     private List<Object[]> categories =ac.getCate();
+    private String the_name_product;
+    private String the_category_product;
+    private String the_status_product;
+    private String the_thumbnail_product;
+    private float the_price_product;
+    
 
     public rowProducts() {
         initComponents();
         buttonShowDialog();
         ImgUpLoad();
+        initializeForm();
         image.setSize(100,167);
         image.setPreferredSize(new java.awt.Dimension(100,167));
         image.setMaximumSize(new java.awt.Dimension(100,167));
@@ -65,8 +75,8 @@ public class rowProducts extends javax.swing.JPanel {
             ImageIcon imageIcon = new ImageIcon(selectedFile.getAbsolutePath());
             Image image = imageIcon.getImage().getScaledInstance(260, 260, Image.SCALE_SMOOTH);
             ImageIcon resizedIcon = new ImageIcon(image);
-            jLabel13.setIcon(resizedIcon);
-            jLabel13.setText("");
+            update_thumbnail.setIcon(resizedIcon);
+            update_thumbnail.setText("");
         }
     }
     
@@ -79,16 +89,7 @@ public Integer getIdProduct(){
     return id;
 }
 
-    void buttonShowDialog() {
-    UpdateToggle.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(UpdateToggle);
-            isShowed = true;
-            setPopUp(parentFrame);
-        }
-    });
-}
+    
 
 public void setPopUp(JFrame JP) {
     jDialog1.setSize(560, 500);  
@@ -124,16 +125,37 @@ public void set(int id, String cate, String name, float price, String thumbnail,
     } 
 
     // Cập nhật các label
+    this.the_name_product=name;
+    this.the_category_product=cate;
+    this.the_price_product=price;
+    this.the_thumbnail_product=thumbnail;
+    this.the_status_product=status;
     jLabel1.setText(String.valueOf(id));
-    jLabel2.setText(name);
+    name_product.setText(name);
     jLabel3.setText(String.valueOf(price));
-    jLabel4.setText(status);
-    jLabel5.setText(cate);
+    status_product.setText(status);
+    category_product.setText(cate);
+}
+
+void buttonShowDialog() {
+    UpdateToggle.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(UpdateToggle);
+            isShowed = true;
+            setPopUp(parentFrame);
+            namechange.setText(the_name_product);
+            category_product.setText(the_category_product);
+            update_thumbnail.setIcon(new javax.swing.ImageIcon(the_thumbnail_product));
+            status_product.setText(the_status_product);
+            pricePro.setText(String.valueOf(Float.valueOf(the_price_product)));
+        }
+    });
 }
 
 public void updateProduct(Runnable onSuccessCallbac){
     updateToggleRp.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
+        @Override 
         public void mouseClicked(java.awt.event.MouseEvent e) {
             // Directly get the text from the nameProduct field
             String names = namechange.getText();
@@ -154,7 +176,7 @@ public void updateProduct(Runnable onSuccessCallbac){
 
             String selectedStatus = (String) StatusBox.getSelectedItem();
             String selectedCate = (String) CateBox.getSelectedItem();
-            String result = ac.updateProduct(names, price, thumbnail, selectedStatus, selectedCate, idProduct);
+            String result = acp.updateProduct(names, price, thumbnail, selectedStatus, selectedCate, idProduct);
             javax.swing.JOptionPane.showMessageDialog(null, result);
             onSuccessCallbac.run();
         }
@@ -208,7 +230,7 @@ public void updateProduct(Runnable onSuccessCallbac){
         pricePro = new javax.swing.JTextField();
         StatusBox = new javax.swing.JComboBox<>();
         updateToggleRp = new javax.swing.JToggleButton();
-        jLabel13 = new javax.swing.JLabel();
+        update_thumbnail = new javax.swing.JLabel();
         jToggleButton5 = new javax.swing.JToggleButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
@@ -221,10 +243,10 @@ public void updateProduct(Runnable onSuccessCallbac){
         UpdateToggle = new javax.swing.JToggleButton();
         image = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        name_product = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        status_product = new javax.swing.JLabel();
+        category_product = new javax.swing.JLabel();
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -266,13 +288,13 @@ public void updateProduct(Runnable onSuccessCallbac){
         });
         jPanel3.add(updateToggleRp, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 510, -1));
 
-        jLabel13.setBackground(new java.awt.Color(153, 153, 153));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-image-50.png"))); // NOI18N
-        jLabel13.setToolTipText("");
-        jLabel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jLabel13.setOpaque(true);
-        jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 169, 130, 130));
+        update_thumbnail.setBackground(new java.awt.Color(153, 153, 153));
+        update_thumbnail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        update_thumbnail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-image-50.png"))); // NOI18N
+        update_thumbnail.setToolTipText("");
+        update_thumbnail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        update_thumbnail.setOpaque(true);
+        jPanel3.add(update_thumbnail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 169, 130, 130));
 
         jToggleButton5.setText("Choose File");
         jToggleButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -357,13 +379,13 @@ public void updateProduct(Runnable onSuccessCallbac){
 
         jLabel1.setText("jLabel1");
 
-        jLabel2.setText("jLabel2");
+        name_product.setText("jLabel2");
 
         jLabel3.setText("jLabel3");
 
-        jLabel4.setText("jLabel4");
+        status_product.setText("jLabel4");
 
-        jLabel5.setText("jLabel5");
+        category_product.setText("jLabel5");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -372,15 +394,15 @@ public void updateProduct(Runnable onSuccessCallbac){
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(name_product, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(image, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(status_product, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(category_product, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(UpdateToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -393,10 +415,10 @@ public void updateProduct(Runnable onSuccessCallbac){
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(category_product, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(status_product, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(name_product, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(UpdateToggle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                     .addComponent(deletetoggle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -437,6 +459,7 @@ public void updateProduct(Runnable onSuccessCallbac){
     private javax.swing.JComboBox<String> CateBox;
     private javax.swing.JComboBox<String> StatusBox;
     private javax.swing.JToggleButton UpdateToggle;
+    private javax.swing.JLabel category_product;
     private javax.swing.JToggleButton deletetoggle;
     private javax.swing.JLabel image;
     private javax.swing.JDialog jDialog1;
@@ -446,20 +469,19 @@ public void updateProduct(Runnable onSuccessCallbac){
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JToggleButton jToggleButton5;
+    private javax.swing.JLabel name_product;
     private javax.swing.JTextField namechange;
     private javax.swing.JTextField pricePro;
+    private javax.swing.JLabel status_product;
     private javax.swing.JToggleButton updateToggleRp;
+    private javax.swing.JLabel update_thumbnail;
     // End of variables declaration//GEN-END:variables
 }
