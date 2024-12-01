@@ -39,9 +39,9 @@ public class ManagerProducts extends javax.swing.JPanel {
     private Option ops=new Option();
     private float priceMin;
     private float priceMax;
-    private String selectCate;
-    private boolean isFilter =false;
-    private String selectRanges;
+    private String selectCate="Chọn danh mục";
+    private String selectRanges="Chọn khoảng giá";
+    private String selectStatus="Chọn trạng thái";
     
  
 
@@ -100,8 +100,8 @@ void SelectItemBox() {
     Filter.addActionListener(e -> {
         selectRanges = (String) jRangesPrice.getSelectedItem();
         this.selectCate = (String) jCateBoxProducts.getSelectedItem();
+        this.selectStatus = (String) jStatusBox.getSelectedItem();
         if (!"Chọn khoảng giá".equals(selectRanges) ) {
-            isFilter = true;
             if (selectRanges != null && !selectRanges.trim().isEmpty()) {
                 String[] parts = selectRanges.split("-");
                 if (parts.length == 2) {
@@ -112,9 +112,7 @@ void SelectItemBox() {
                     priceMax = Float.MAX_VALUE;  // Đặt max là giá trị lớn nhất
                 }
             }
-        } else {
-            isFilter = false;
-        }
+        } 
         
         addRows();  // Gọi hàm để hiển thị lại các hàng
     });
@@ -157,32 +155,25 @@ void ImgUpLoad(){
         rowProducts rowComponent = new rowProducts();
         rowComponent.set(idProduct, nameCate, name, price, thumbnail, status);
         panelRows.add(rowComponent,0);
-        deleteCate(rowComponent,rowComponent.getIdProduct());
         rowComponent.updateProduct(callback);
+        rowComponent.deleteProduct(callback);
     }
     
  
     
-void filter(int idProduct, String name, float price, String thumbnail, String status, String nameCate, JPanel panelRows) {
-    if (!isFilter) {
-        // Nếu không áp dụng bộ lọc, thêm tất cả sản phẩm
-        addComponents(panelRows, idProduct, nameCate, name, price, thumbnail, status, this::addRows);
-    } else {
-        // Kiểm tra các điều kiện khi áp dụng bộ lọc
-        boolean isInPriceRange = price >= this.priceMin && price <= this.priceMax;
-        boolean isInCategory = !selectCate.equals("Chọn danh mục") && selectCate.equals(nameCate);  // Sửa lại điều kiện so với cũ
-        List<String> listStatus = Arrays.asList(ops.StatusOptions()); // Giả sử ops.StatusOptions() trả về mảng các trạng thái hợp lệ
-        boolean selectStatus = listStatus.contains(status);
+    void filter(int idProduct, String name, float price, String thumbnail, String status, String nameCate, JPanel panelRows) {
+    
+        boolean isInPriceRange = selectRanges.equals("Chọn khoảng giá") || (price >= this.priceMin && price <= this.priceMax);
+        boolean isInCategory = selectCate.equals("Chọn danh mục") || selectCate.equals(nameCate);
+        boolean isInStatus = selectStatus.equals("Chọn trạng thái") || selectStatus.equals(status);
 
-        // Kiểm tra điều kiện để thêm sản phẩm vào panel
-        if ((isInCategory && isInPriceRange && selectStatus) ||  // Tất cả các điều kiện lọc đều thỏa mãn
-            (isInCategory && selectRanges.equals("Chọn khoảng giá")) || // Lọc theo danh mục và không có khoảng giá
-            (isInPriceRange && selectCate.equals("Chọn danh mục")) || // Lọc theo khoảng giá và không có danh mục
-            selectStatus) { // Lọc theo trạng thái
+        if (isInPriceRange && isInCategory && isInStatus) {
             addComponents(panelRows, idProduct, nameCate, name, price, thumbnail, status, this::addRows);
         }
-    }
+   
 }
+
+
 
 
 
@@ -202,7 +193,6 @@ void filter(int idProduct, String name, float price, String thumbnail, String st
         String thumbnail = (String)row[4] ;
         String status = (String) row[5] ;
         String nameCate  = (String) row[6]  ;
-        System.out.println("Price: " + price + ", Min: " + this.priceMin + ", Max: " + this.priceMax);
         filter(idProduct, name, price, thumbnail, status, nameCate, panelRows);
     }
     jScrollPane2.setViewportView(panelRows);
@@ -231,9 +221,6 @@ void filter(int idProduct, String name, float price, String thumbnail, String st
             float price = Float.valueOf(pricePro.getText());
             File selectedFile = jFileChooser1.getSelectedFile();
             String thumbnail = selectedFile.getAbsolutePath();
-            System.out.println(".mouseClicked() : " + thumbnail);
-            
-
             String selectedStatus = (String) statusBox.getSelectedItem();
             String selectedCate = (String) CateBox.getSelectedItem();
             String result = acp.addProduct(names, selectedCate, thumbnail, selectedStatus, price);
@@ -245,15 +232,7 @@ void filter(int idProduct, String name, float price, String thumbnail, String st
 }
    
 
-   public void deleteCate(rowProducts rpd,int id) {
-    rpd.getDeleteToggle().addActionListener(e -> {
-        System.out.println("com.mycompany.components.ManagerProducts.deleteCate() : "+id);
-        String result = acp.DeleteProduct(id);
-        javax.swing.JOptionPane.showMessageDialog(null, result);
-        addRows();
-    });
-}
-   
+ 
 
     
 
