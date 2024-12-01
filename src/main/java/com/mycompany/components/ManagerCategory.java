@@ -5,7 +5,7 @@
 package com.mycompany.components;
 
 import com.mycompany.components.util.rowCate;
-import Database.Action;
+import Database.ActionCate;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -24,7 +24,7 @@ public class ManagerCategory extends javax.swing.JPanel  {
     
     private boolean isOpen =false;
     
-    private Action ac=new Action();
+    private ActionCate ac=new ActionCate();
 
     public ManagerCategory() {
         initComponents();

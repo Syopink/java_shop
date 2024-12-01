@@ -4,7 +4,7 @@
  */
 package com.mycompany.components.util;
 
-import Database.Action;
+import Database.ActionCate;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import javax.swing.JTextField;
@@ -19,7 +19,7 @@ public class rowComment extends javax.swing.JPanel {
      * Creates new form rowComment
      */
     private String text;
-    private Action ac=new Action();
+    private ActionCate ac=new ActionCate();
     private int id;
     private JTextField updateField;
     public rowComment() {

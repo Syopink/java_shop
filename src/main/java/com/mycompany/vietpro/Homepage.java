@@ -30,9 +30,8 @@ public final class Homepage extends javax.swing.JFrame {
     private int posX = 0, posY = 0;
 
     public Homepage(user us) {
-        this.us = us;
-       if(us !=null){
-            setUndecorated(true);
+       this.us = us;
+        setUndecorated(true);
         initComponents();
         setResizable(false);
         addMouseListener(new MouseAdapter() {
@@ -52,7 +51,8 @@ public final class Homepage extends javax.swing.JFrame {
             }
         });
         this.setLocationRelativeTo(null);
-        setUpPanels();}
+        setUpPanels();
+       
     }
 
     public static user getUser() {
@@ -165,8 +165,13 @@ public final class Homepage extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
+            if(us!=null){
             Homepage homepage = new Homepage(us);
-            homepage.setVisible(true);
+            homepage.setVisible(true);}else{
+            login lg=new login();
+            lg.setVisible(true);
+            }
+            
         });
     }
 
