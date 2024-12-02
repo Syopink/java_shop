@@ -127,7 +127,7 @@ public class login extends javax.swing.JFrame {
                 jbtnLoginActionPerformed(evt);
             }
         });
-        bg.add(jbtnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, -1, -1));
+        bg.add(jbtnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 325, -1, -1));
 
         jCbox.setText("<html>Tôi đồng ý với</b>\n");
         bg.add(jCbox, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, -1, -1));
@@ -140,7 +140,7 @@ public class login extends javax.swing.JFrame {
                 jtxtRegisterMouseClicked(evt);
             }
         });
-        bg.add(jtxtRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, -1, 30));
+        bg.add(jtxtRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 325, 90, 30));
 
         jLShow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/eye.png"))); // NOI18N
         jLShow.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -221,16 +221,15 @@ public class login extends javax.swing.JFrame {
             String role = cs.login(user.getEmail(), user.getPassword());
             switch (role) {
                 case "admin" -> {
-                    JOptionPane.showMessageDialog(this, "Đăng nhập tài khoản admin thành công");
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
                     us = cs.findUserByEmail(user.getEmail());
-                    System.out.println("Interface.login.jbtnLoginActionPerformed()"+ us);
                     Homepage homepageFrame = new Homepage(us);  // Pass the email here
                     homepageFrame.setVisible(true);
                     this.dispose(); // Close the login frame
                     // chuyển giao diện admin
                 }
                 case "customer" -> {
-                    JOptionPane.showMessageDialog(this, "Đăng nhập tài khoản người dùng thành công");
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
                     us = cs.findUserByEmail(user.getEmail());
                     Homepage homepageFrame = new Homepage(us);
                     homepageFrame.setVisible(true);

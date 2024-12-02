@@ -9,6 +9,7 @@ import Process.user;
 import com.mycompany.components.Home;
 import com.mycompany.components.ManagerCategory;
 import com.mycompany.components.ManagerComments;
+import com.mycompany.components.ManagerCustomer;
 import com.mycompany.components.ManagerOrders;
 import com.mycompany.components.ManagerProducts;
 import com.mycompany.components.ManagerUser;
@@ -66,20 +67,20 @@ public final class Homepage extends javax.swing.JFrame {
         managerProducts.setPopUp(this);
         jPanel2.add(new Home(), "Trang chủ");
         jPanel2.add(managerProducts, "Sản phẩm");
-        jPanel2.add(new ManagerUser(), "Người dùng");
+        jPanel2.add(new ManagerUser(), "Thành viên");
         jPanel2.add(new ManagerCategory(), "Danh mục");
         jPanel2.add(new ManagerOrders(), "Đơn hàng");
         jPanel2.add(new ManagerComments(), "Bình luận");
-
+        jPanel2.add(new ManagerCustomer(), "Khách hàng");
         cardlayout.show(jPanel2, "Trang chủ");
         //thiết lập điều hướng
         navbar2.setRouter1(jPanel2, "Trang chủ");
         navbar2.setRouter3(jPanel2, "Sản phẩm");
-        navbar2.setRouter4(jPanel2, "Người dùng");
+        navbar2.setRouter4(jPanel2, "Thành viên");
         navbar2.setRouter5(jPanel2, "Danh mục");
         navbar2.setRouter6(jPanel2, "Đơn hàng");
         navbar2.setRouter7(jPanel2, "Bình luận");
-
+        navbar2.setRouter8(jPanel2, "Khách hàng");
     }
 
     // Method to switch panels
@@ -166,7 +167,6 @@ public final class Homepage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             Homepage homepage = new Homepage(us);
-            homepage.setVisible(true);
         });
     }
 

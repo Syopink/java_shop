@@ -5,10 +5,13 @@
 package Process;
 
 import Database.Connect;
+import Pojo.Customer;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 import utils.PasswordUtils;
 
@@ -226,5 +229,193 @@ public user findUserByEmail(String email){
         System.err.println("Lỗi khi lấy tên người dùng: " + e.getMessage());
     }    
         return us;
+}
+public List<Customer> getAllCustomers() throws SQLException {
+    List<Customer> customers = new ArrayList<>();
+    String sql = "SELECT * FROM customers WHERE isDeleted = '0' AND role = 'customer' ";  // Lấy danh sách khách hàng chưa bị xóa
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql); 
+         ResultSet rs = pstmt.executeQuery()) {
+
+        while (rs.next()) {
+            String id = rs.getString("idCustomer");
+            String email = rs.getString("email");
+            String fullName = rs.getString("fullName");
+            String phone = rs.getString("numberOfPhone");
+            String address = rs.getString("address");
+            String role = rs.getString("role");
+
+            customers.add(new Customer(id, email, fullName, phone, address, role));  // Thêm khách hàng vào danh sách
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi lấy danh sách khách hàng: " + e.getMessage());
+        throw e;  // Ném lại ngoại lệ nếu có lỗi
+    }
+    return customers;
+}
+public boolean deleteCustomer(String id) throws SQLException {
+    String deleteSql = "UPDATE customers SET isDeleted = '1', updatedAt = GETDATE() WHERE idCustomer = ? AND isDeleted = '0'";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(deleteSql)) {
+        pstmt.setString(1, id);  // Đặt giá trị email cần xóa
+        int rowsAffected = pstmt.executeUpdate();
+
+        return rowsAffected > 0;  // Trả về true nếu có dòng bị ảnh hưởng
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi xóa khách hàng: " + e.getMessage());
+        return false;  // Trả về false nếu có lỗi
+    }
+}
+
+public Customer getCustomerById(String idCustomer) throws SQLException {
+    String sql = "SELECT * FROM customers WHERE idCustomer = ? AND isDeleted = '0'";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, idCustomer);  // Đặt giá trị ID khách hàng
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                String email = rs.getString("email");
+                String fullName = rs.getString("fullName");
+                String phone = rs.getString("numberOfPhone");
+                String address = rs.getString("address");
+                String role = rs.getString("role");
+
+                return new Customer(idCustomer, email, fullName, phone, address, role);  // Trả về đối tượng Customer
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi lấy thông tin khách hàng: " + e.getMessage());
+        throw e;  // Ném lại ngoại lệ nếu có lỗi
+    }
+    return null;  // Trả về null nếu không tìm thấy khách hàng
+}
+
+
+public Customer getCustomerByEmail(String email) throws SQLException {
+    // Câu lệnh SQL để tìm khách hàng theo email
+    String sql = "SELECT * FROM customers WHERE email = ? AND isDeleted = '0'";  // Chỉ tìm khách hàng chưa bị xóa (isDeleted = '0')
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, email);  // Đặt giá trị email vào câu lệnh SQL
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                // Nếu tìm thấy khách hàng
+                String idCustomer = rs.getString("idCustomer");
+                String fullName = rs.getString("fullName");
+                String phone = rs.getString("numberOfPhone");
+                String address = rs.getString("address");
+                String role = rs.getString("role");
+
+                // Tạo đối tượng Customer từ kết quả truy vấn và trả về
+                return new Customer(idCustomer, email, fullName, phone, address, role);
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi tìm kiếm khách hàng theo email: " + e.getMessage());
+        throw e;  // Ném lại ngoại lệ nếu có lỗi
+    }
+
+    return null;  // Trả về null nếu không tìm thấy khách hàng
+}
+public boolean updateCustomer(Customer customer) throws SQLException{
+    // Câu lệnh SQL để cập nhật thông tin khách hàng
+    String sql = "UPDATE customers SET email = ?, fullName = ?, numberOfPhone = ?, address = ?, role = ? WHERE idCustomer = ? AND isDeleted = '0'";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        // Đặt giá trị các trường vào câu lệnh SQL
+        pstmt.setString(1, customer.getEmail());
+        pstmt.setString(2, customer.getFullName());
+        pstmt.setString(3, customer.getNumberOfPhone());
+        pstmt.setString(4, customer.getAddress());
+        pstmt.setString(5, customer.getRole());
+        pstmt.setString(6, customer.getId());
+
+        // Thực thi câu lệnh UPDATE
+        int rowsUpdated = pstmt.executeUpdate();
+
+        return rowsUpdated > 0; // Trả về true nếu có bản ghi được cập nhật
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi cập nhật thông tin khách hàng: " + e.getMessage());
+        throw e;  // Ném lại ngoại lệ nếu có lỗi
+    }
+}
+public boolean deleteCustomers(String idCustomer) throws SQLException{
+    // Câu lệnh SQL để đánh dấu khách hàng là đã xóa
+    String sql = "UPDATE customers SET isDeleted = '1' WHERE idCustomer = ? AND isDeleted = '0'";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        // Đặt giá trị idCustomer vào câu lệnh SQL
+        pstmt.setString(1, idCustomer);
+
+        // Thực thi câu lệnh UPDATE
+        int rowsUpdated = pstmt.executeUpdate();
+
+        return rowsUpdated > 0; // Trả về true nếu có bản ghi được xóa
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi xóa khách hàng: " + e.getMessage());
+        throw e;  // Ném lại ngoại lệ nếu có lỗi
+    }
+}
+public List<Customer> searchCustomer(String name, String email) throws SQLException {
+    StringBuilder sql = new StringBuilder("SELECT * FROM customers WHERE isDeleted = '0'");
+    List<Object> params = new ArrayList<>(); // Danh sách tham số
+
+    if (!name.isEmpty()) {
+        sql.append(" AND fullName LIKE ?");
+        params.add("%" + name + "%"); // Thêm giá trị tìm kiếm theo tên
+    }
+
+    if (!email.isEmpty()) {
+        sql.append(" AND email LIKE ?");
+        params.add("%" + email + "%"); // Thêm giá trị tìm kiếm theo email
+    }
+
+    List<Customer> customers = new ArrayList<>();
+    try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+        for (int i = 0; i < params.size(); i++) {
+            pstmt.setObject(i + 1, params.get(i)); // Đặt giá trị cho từng tham số
+        }
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                String idCustomer = rs.getString("idCustomer");
+                String fullName = rs.getString("fullName");
+                String emailAddr = rs.getString("email");
+                String phone = rs.getString("numberOfPhone");
+                String address = rs.getString("address");
+                String role = rs.getString("role");
+
+                customers.add(new Customer(idCustomer, emailAddr, fullName, phone, address, role));
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi tìm kiếm khách hàng: " + e.getMessage());
+        throw e;
+    }
+
+    return customers;
+}
+public boolean deleteCustomers(List<Customer> customersToDelete) throws SQLException {
+    if (customersToDelete == null || customersToDelete.isEmpty()) {
+        throw new IllegalArgumentException("Danh sách khách hàng không hợp lệ.");
+    }
+
+    String deleteSql = "UPDATE customers SET isDeleted = '1', updatedAt = GETDATE() WHERE idCustomer = ? AND isDeleted = '0'";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(deleteSql)) {
+        int rowsAffected = 0;
+
+        for (Customer customer : customersToDelete) {
+            pstmt.setString(1, String.valueOf(customer.getId()));  // Đặt giá trị ID của khách hàng cần xóa
+            rowsAffected += pstmt.executeUpdate();  // Cộng dồn số dòng bị ảnh hưởng
+        }
+
+        return rowsAffected > 0;  // Trả về true nếu có ít nhất 1 khách hàng bị xóa
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi xóa khách hàng: " + e.getMessage());
+        return false;  // Trả về false nếu có lỗi
+    }
 }
 }

@@ -1,6 +1,8 @@
 Interface\login$6.class
 Library\Library.class
+Pojo\Customer.class
 Interface\forgetPassword$15.class
+com\mycompany\components\ManagerCustomer$1.class
 Interface\forgetPassword$3.class
 com\mycompany\components\Button\toggleButtonRouter$1.class
 Process\sendMail$1.class
@@ -33,6 +35,7 @@ Interface\frmChangeInformation$1.class
 com\mycompany\components\ManagerUser.class
 Interface\forgetPassword$5.class
 com\mycompany\components\ManagerProducts$9.class
+com\mycompany\components\ManagerCustomer$2.class
 com\mycompany\components\Navbar$6.class
 Interface\forgetPassword$11.class
 com\mycompany\components\ManagerCategory$2.class
@@ -43,12 +46,14 @@ Interface\forgetPassword$10.class
 Interface\forgetPassword$8.class
 Interface\forgetPassword$7.class
 com\mycompany\vietpro\Homepage.class
+com\mycompany\components\Navbar$7.class
 com\mycompany\components\util\rowProducts$4.class
 com\raven\component\Profile.class
 Interface\forgetPassword$6.class
 Interface\frmChangeInformation$2.class
 Interface\register$3.class
 com\mycompany\components\util\rowComment$2.class
+com\mycompany\components\ManagerCustomer.class
 com\mycompany\components\ManagerCategory.class
 utils\PasswordUtils.class
 Interface\forgetPassword$12.class
@@ -70,6 +75,7 @@ Interface\frmChangeInformation.class
 CustomBorder\RoundedPanelBorder.class
 com\mycompany\vietpro\Homepage$1.class
 Process\customers.class
+com\mycompany\components\ManagerCustomer$3.class
 com\mycompany\components\ManagerUser$2.class
 com\mycompany\components\Navbar$5.class
 com\mycompany\components\ManagerProducts$7.class
@@ -84,6 +90,7 @@ com\mycompany\components\Navbar$3.class
 Library\hashPassword.class
 com\mycompany\components\ManagerUser$4.class
 com\raven\component\TextFieldWithPlaceholder$1.class
+com\mycompany\components\util\rowsCustomer.class
 com\mycompany\components\Header.class
 Validate\UserDTO.class
 com\mycompany\components\Button\Search.class
