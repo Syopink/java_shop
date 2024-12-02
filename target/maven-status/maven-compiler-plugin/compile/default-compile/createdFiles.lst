@@ -9,6 +9,7 @@ Process\sendMail$1.class
 Interface\login.class
 com\mycompany\components\Navbar$2.class
 com\mycompany\components\ManagerProducts$5.class
+Database\ActionComments.class
 CustomBorder\RoundedTextFieldBorder.class
 Interface\forgetPassword$9.class
 Interface\login$1.class
@@ -42,8 +43,10 @@ com\mycompany\components\ManagerCategory$2.class
 Database\Connect.class
 com\mycompany\components\ManagerCategory$1.class
 com\mycompany\components\util\rowProducts$5.class
+Database\ActionOrders.class
 Interface\forgetPassword$10.class
 Interface\forgetPassword$8.class
+Database\ActionProduct.class
 Interface\forgetPassword$7.class
 com\mycompany\vietpro\Homepage.class
 com\mycompany\components\Navbar$7.class
@@ -57,6 +60,7 @@ com\mycompany\components\ManagerCustomer.class
 com\mycompany\components\ManagerCategory.class
 utils\PasswordUtils.class
 Interface\forgetPassword$12.class
+Database\ActionCate.class
 com\mycompany\components\ManagerProducts$8.class
 com\mycompany\components\ManagerCategory$3.class
 com\mycompany\components\Home.class
@@ -84,6 +88,7 @@ com\raven\component\TextFieldWithPlaceholder$2.class
 Interface\register$2.class
 Interface\frmChangeInformation$3.class
 Interface\login$3.class
+Database\ActionCustomers.class
 com\mycompany\components\util\Option.class
 com\mycompany\components\ManagerProducts$1.class
 com\mycompany\components\Navbar$3.class
@@ -95,6 +100,7 @@ com\mycompany\components\Header.class
 Validate\UserDTO.class
 com\mycompany\components\Button\Search.class
 com\mycompany\components\util\rows.class
+com\mycompany\components\util\Select.class
 com\mycompany\components\util\rowComment$1.class
 Interface\forgetPassword$2.class
 Interface\forgetPassword$14.class
@@ -115,6 +121,5 @@ Interface\login$5.class
 com\raven\component\TextFieldWithPlaceholder.class
 com\raven\component\Textfield.class
 com\mycompany\components\ManagerProducts$4.class
-Database\Action.class
 com\mycompany\components\Navbar$1.class
 Interface\forgetPassword$16.class
