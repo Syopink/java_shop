@@ -118,7 +118,7 @@ public class Navbar extends javax.swing.JPanel {
         });
     }
     public void setRouter8(JPanel mainPanel,String text){
-        toggleButtonRouter7.set(text, mainPanel, "/img/icons8-comments-24.png");
+        toggleButtonRouter7.set(text, mainPanel, "/img/icons8-user-24.png");
         toggleButtonRouter7.getLabel().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

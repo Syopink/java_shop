@@ -90,6 +90,7 @@ Interface\frmChangeInformation$3.class
 Interface\login$3.class
 Database\ActionCustomers.class
 com\mycompany\components\util\Option.class
+com\mycompany\components\ManagerCustomer$4.class
 com\mycompany\components\ManagerProducts$1.class
 com\mycompany\components\Navbar$3.class
 Library\hashPassword.class
@@ -99,6 +100,7 @@ com\mycompany\components\util\rowsCustomer.class
 com\mycompany\components\Header.class
 Validate\UserDTO.class
 com\mycompany\components\Button\Search.class
+com\mycompany\components\ManagerCustomer$5.class
 com\mycompany\components\util\rows.class
 com\mycompany\components\util\Select.class
 com\mycompany\components\util\rowComment$1.class

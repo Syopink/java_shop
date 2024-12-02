@@ -192,11 +192,13 @@ public class login extends javax.swing.JFrame {
 
     private void jbtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLoginActionPerformed
         // TODO add your handling code here:
-        UserDTO user = new UserDTO();
         if (!jCbox.isSelected()) {
             JOptionPane.showMessageDialog(this, "Bạn cần đồng ý với điều khoản người dùng để tiếp tục.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
+                UserDTO user = new UserDTO();
+
         user.setEmail(jtxtEmail.getText());
         user.setPassword(new String(jP.getPassword()));
 

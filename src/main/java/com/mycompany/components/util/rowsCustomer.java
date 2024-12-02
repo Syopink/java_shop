@@ -17,19 +17,23 @@ import javax.swing.JOptionPane;
  * @author An Ninh
  */
 public class rowsCustomer extends javax.swing.JPanel {
+
     private List<rowsCustomer> rowsList = new ArrayList<>();  // Danh sách các rowsCustomer
 
     private int index;
+    private boolean selected;   // Represents whether this row is selected or not
 
     private Customer customer;
     private customers cs;
-    private ButtonGroup group; // Button group for radio buttons
 
     /**
      * Creates new form rows
      */
     public rowsCustomer() {
         initComponents();
+    }
+      public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
 //       public rowsCustomer(Customer customer, customers cs) {
@@ -46,22 +50,24 @@ public class rowsCustomer extends javax.swing.JPanel {
         initComponents();
         loadData();
         addEventListeners(); // Thêm các sự kiện cho các nút
-        group = new ButtonGroup(); // Initialize the button group
-        group.add(jRChose); // Add radio button to the group
+
     }
 
     public boolean isSelected() {
         return jRChose.isSelected();
     }
-
     
+    public void setRChoseSelected(boolean selected) {
+    jRChose.setSelected(selected);  // Setter để thay đổi trạng thái chọn của jRChose
+}
+
     public Customer getCustomer() {
         return customer; // Trả về đối tượng Customer của hàng này
     }
 
     private void loadData() {
         // Hiển thị số thứ tự
-    setIndex(index); // Gọi setIndex để cập nhật id
+        setIndex(index); // Gọi setIndex để cập nhật id
         setCustomerData(customer);
     }
 
@@ -90,30 +96,29 @@ public class rowsCustomer extends javax.swing.JPanel {
     }
 
     // Xử lý sự kiện khi nút Delete được nhấn
-private void jbtnDeleteActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
-    int confirm = JOptionPane.showConfirmDialog(this,
-            "Bạn có chắc chắn muốn xóa khách hàng này?",
-            "Xác nhận xóa",
-            JOptionPane.YES_NO_OPTION);
-    if (confirm == JOptionPane.YES_OPTION) {
-        boolean isDeleted = cs.deleteCustomer(customer.getId()); // Gọi phương thức xóa từ lớp `customers`
-        if (isDeleted) {
-            this.setVisible(false); // Ẩn hàng này khỏi giao diện
-            JOptionPane.showMessageDialog(this, "Xóa thành công!");
-            updateIndexes(rowsList);  // Cập nhật lại số thứ tự sau khi xóa
-        } else {
-            JOptionPane.showMessageDialog(this, "Xóa thất bại!");
+    private void jbtnDeleteActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Bạn có chắc chắn muốn xóa khách hàng này?",
+                "Xác nhận xóa",
+                JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            boolean isDeleted = cs.deleteCustomer(customer.getId()); // Gọi phương thức xóa từ lớp `customers`
+            if (isDeleted) {
+                this.setVisible(false); // Ẩn hàng này khỏi giao diện
+                JOptionPane.showMessageDialog(this, "Xóa thành công!");
+                updateIndexes(rowsList);  // Cập nhật lại số thứ tự sau khi xóa
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa thất bại!");
+            }
         }
     }
-}
-
 
     private void addEventListeners() {
         jbtnUpdate.addActionListener(evt -> {
             try {
                 jbtnUpdateActionPerformed(evt);
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error updating customer: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Lỗi khi cập nhật: " + e.getMessage());
             }
         });
 
@@ -121,7 +126,7 @@ private void jbtnDeleteActionPerformed(java.awt.event.ActionEvent evt) throws SQ
             try {
                 jbtnDeleteActionPerformed(evt);
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error deleting customer: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Lỗi khi xóa: " + e.getMessage());
             }
         });
     }
@@ -195,18 +200,19 @@ private void jbtnDeleteActionPerformed(java.awt.event.ActionEvent evt) throws SQ
         );
     }// </editor-fold>//GEN-END:initComponents
 public static void updateIndexes(List<rowsCustomer> rowsList) {
-    int count = 1;
-    for (rowsCustomer row : rowsList) {
-        row.setIndex(count);  // Cập nhật lại index cho từng row
-        row.loadData();  // Hiển thị lại dữ liệu khi index thay đổi
-        count++;
+        int count = 1;
+        for (rowsCustomer row : rowsList) {
+            row.setIndex(count);  // Cập nhật lại index cho từng row
+            row.loadData();  // Hiển thị lại dữ liệu khi index thay đổi
+            count++;
+        }
     }
-}
-public void setIndex(int index) {
-    this.index = index;
-    // Cập nhật lại dữ liệu hiển thị số thứ tự trong giao diện
-    id.setText(String.valueOf(index));
-}
+
+    public void setIndex(int index) {
+        this.index = index;
+        // Cập nhật lại dữ liệu hiển thị số thứ tự trong giao diện
+        id.setText(String.valueOf(index));
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel email;
     private javax.swing.JLabel id;
