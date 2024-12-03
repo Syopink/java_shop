@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 import Validate.Validate;
 import Library.Library;
 import Process.sendMail;
-import javax.mail.MessagingException;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 

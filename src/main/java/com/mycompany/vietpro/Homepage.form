@@ -73,13 +73,6 @@
             </DimensionLayout>
           </Layout>
         </Container>
-        <Component class="com.mycompany.components.Header" name="header1">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="1250" height="-1"/>
-            </Constraint>
-          </Constraints>
-        </Component>
         <Component class="com.mycompany.components.Navbar" name="navbar2">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

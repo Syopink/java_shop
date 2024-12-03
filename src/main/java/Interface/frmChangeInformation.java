@@ -82,7 +82,6 @@ public class frmChangeInformation extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(604, 576));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -105,7 +104,7 @@ public class frmChangeInformation extends javax.swing.JFrame {
         jSeparator9.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator9.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        jPanel1.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, 270, -1));
+        jPanel1.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, 260, -1));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel19.setText("Mật khẩu");
@@ -114,7 +113,7 @@ public class frmChangeInformation extends javax.swing.JFrame {
         jSeparator10.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator10.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        jPanel1.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, 270, -1));
+        jPanel1.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, 260, -1));
 
         jP.setBorder(null);
         jPanel1.add(jP, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 250, 270, 30));
@@ -147,12 +146,12 @@ public class frmChangeInformation extends javax.swing.JFrame {
         jSeparator3.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator3.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        jPanel1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 270, -1));
+        jPanel1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 260, -1));
 
         jSeparator5.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator5.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 350, 270, -1));
+        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 350, 260, -1));
 
         jtxtAddress.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
         jPanel1.add(jtxtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 320, 270, 30));
@@ -173,7 +172,7 @@ public class frmChangeInformation extends javax.swing.JFrame {
         jSeparator6.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator6.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 0, 0, 0));
-        jPanel1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 410, 270, -1));
+        jPanel1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 410, 260, -1));
 
         jLReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/return.png"))); // NOI18N
         jLReturn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -184,7 +183,20 @@ public class frmChangeInformation extends javax.swing.JFrame {
         });
         jPanel1.add(jLReturn, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 530));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
