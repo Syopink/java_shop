@@ -40,6 +40,7 @@ public class rowProducts extends javax.swing.JPanel {
     private String the_status_product;
     private String the_thumbnail_product;
     private float the_price_product;
+    private boolean choose_file=false;
     
 
     public rowProducts() {
@@ -166,14 +167,18 @@ public void updateProduct(Runnable onSuccessCallbac){
                 javax.swing.JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để trống");
                 return;  
             }
-
-            File selectedFile = jFileChooser1.getSelectedFile();
-            if (selectedFile == null) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Vui lòng chọn một ảnh đại diện");
-                return;
-            }
+            String thumbnail;
             
-            String thumbnail = selectedFile.getAbsolutePath();
+            if(choose_file==true){
+                File selectedFile = jFileChooser1.getSelectedFile();
+                if (selectedFile == null) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Vui lòng chọn một ảnh đại diện");
+                    return;
+                }
+            thumbnail = selectedFile.getAbsolutePath();
+            }else{
+                thumbnail=the_thumbnail_product;
+            }
             int idProduct = Integer.valueOf(jLabel1.getText());
 
             String selectedStatus = (String) StatusBox.getSelectedItem();
@@ -427,6 +432,8 @@ public void updateProduct(Runnable onSuccessCallbac){
 
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
         // TODO add your handling code here:
+        
+        choose_file=!choose_file;
     }//GEN-LAST:event_jToggleButton5ActionPerformed
 
     private void updateToggleRpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateToggleRpActionPerformed
