@@ -51,25 +51,36 @@ public class customers {
     }
 
     public boolean registerCustomer(String email, String password, String fullName, String address, String phone) throws SQLException {
-        String hashedPassword = PasswordUtils.hashBCrypt(password);
-
-        String sql = "INSERT INTO customers (email, password, isDeleted, createdAt, updatedAt, fullName, numberOfPhone, address) "
-                + "VALUES (?, ?, 0, GETDATE(), GETDATE(), ?, ?, ?)";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, email);
-            pstmt.setString(2, hashedPassword);
-            pstmt.setString(3, fullName);
-            pstmt.setString(5, phone);
-            pstmt.setString(4, address);
-            pstmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.err.println("Lỗi khi thêm người dùng: " + e.getMessage());
-            return false;
-        }
+    // Kiểm tra xem email và số điện thoại đã tồn tại chưa
+    if (isEmailExists(email)) {
+        System.out.println("Email đã tồn tại!");
+        return false; // Nếu email đã tồn tại, trả về false
     }
+    
+    if (isPhoneExists(phone)) {
+        System.out.println("Số điện thoại đã tồn tại!");
+        return false; // Nếu số điện thoại đã tồn tại, trả về false
+    }
+    
+    // Mã hóa mật khẩu
+    String hashedPassword = PasswordUtils.hashBCrypt(password);
+
+    String sql = "INSERT INTO customers (email, password, isDeleted, createdAt, updatedAt, fullName, numberOfPhone, address) "
+               + "VALUES (?, ?, 0, GETDATE(), GETDATE(), ?, ?, ?)";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, email);
+        pstmt.setString(2, hashedPassword);
+        pstmt.setString(3, fullName);
+        pstmt.setString(4, address);
+        pstmt.setString(5, phone);
+        pstmt.executeUpdate();
+        return true; // Đăng ký thành công
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi thêm người dùng: " + e.getMessage());
+        return false; // Lỗi khi thực hiện truy vấn
+    }
+}
 
     public boolean isEmailExists(String email) throws SQLException {
         String sql = "SELECT COUNT(*) FROM customers WHERE email = ?";
@@ -83,6 +94,23 @@ public class customers {
             }
         } catch (SQLException e) {
             System.err.println("Lỗi khi kiểm tra email: " + e.getMessage());
+        }
+
+        return false; // Trả về false nếu có lỗi hoặc email không tồn tại
+    }
+    
+        public boolean isPhoneExists(String phone) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM customers WHERE numberOfPhone = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, phone); // Đặt giá trị email cần kiểm tra
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Trả về true nếu số lượng > 0, nghĩa là email tồn tại
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi kiểm tra số điện thoại: " + e.getMessage());
         }
 
         return false; // Trả về false nếu có lỗi hoặc email không tồn tại

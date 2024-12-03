@@ -17,6 +17,9 @@ import com.mycompany.components.ManagerUser;
 import java.awt.CardLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,7 +33,7 @@ public final class Homepage extends javax.swing.JFrame {
      */
     private int posX = 0, posY = 0;
 
-    public Homepage(user us) {
+    public Homepage(user us) throws SQLException {
        this.us = us;
         setUndecorated(true);
         initComponents();
@@ -60,7 +63,7 @@ public final class Homepage extends javax.swing.JFrame {
         return Homepage.us;
     }
 
-    public void setUpPanels() {
+    public void setUpPanels() throws SQLException {
         CardLayout cardlayout = new CardLayout();
         jPanel2.setLayout(cardlayout);
         ManagerProducts managerProducts = new ManagerProducts();
@@ -165,8 +168,13 @@ public final class Homepage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             if(us!=null){
-            Homepage homepage = new Homepage(us);
-            homepage.setVisible(true);}else{
+                try {
+                    Homepage homepage = new Homepage(us);
+                    homepage.setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Homepage.class.getName()).log(Level.SEVERE, null, ex);
+                }
+}else{
             login lg=new login();
             lg.setVisible(true);
             }

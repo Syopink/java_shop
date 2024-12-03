@@ -138,7 +138,7 @@ public class ManagerCustomer extends javax.swing.JPanel {
         jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(51, 51, 51));
         jLabel28.setText("DANH SÁCH KHÁCH HÀNG");
-        bg.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 6, 680, 73));
+        bg.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 680, 73));
 
         jPanel3.setForeground(new java.awt.Color(204, 204, 204));
         jPanel3.setOpaque(false);
@@ -228,7 +228,7 @@ public class ManagerCustomer extends javax.swing.JPanel {
                 .addGap(7, 7, 7))
         );
 
-        bg.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 85, -1, -1));
+        bg.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 95, -1, -1));
 
         jbtnDel.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jbtnDel.setText("X");

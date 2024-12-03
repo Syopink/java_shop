@@ -236,6 +236,16 @@ public class register extends javax.swing.JFrame {
 // Nếu không có lỗi nào, thực hiện tiếp tục xử lý
         try {
             customers cs = new customers();
+            
+             if (cs.isEmailExists(dto.getEmail())) {
+        JOptionPane.showMessageDialog(this, "Email đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return; // Dừng lại nếu email đã tồn tại
+    }
+
+    if (cs.isPhoneExists(dto.getPhone())) {
+        JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return; // Dừng lại nếu số điện thoại đã tồn tại
+    }
             if (cs.registerCustomer(dto.getEmail(), dto.getPassword(), dto.getFullName(), dto.getPhone(), dto.getAddress())) {
                 JOptionPane.showMessageDialog(this, "Đăng ký thành công!");
                 this.dispose();

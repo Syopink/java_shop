@@ -7,6 +7,9 @@ package Interface;
 import Process.customers;
 import Process.user;
 import com.mycompany.vietpro.Homepage;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -202,11 +205,15 @@ public class frmChangeInformation extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLReturnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLReturnMouseClicked
-        // TODO add your handling code here:
-        Homepage frHomePage = new Homepage(us);
-        frHomePage.setVisible(true);
-
-        this.dispose();
+        try {
+            // TODO add your handling code here:
+            Homepage frHomePage = new Homepage(us);
+            frHomePage.setVisible(true);
+            
+            this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(frmChangeInformation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jLReturnMouseClicked
 
     private void jbtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUpdateActionPerformed
@@ -242,10 +249,14 @@ public class frmChangeInformation extends javax.swing.JFrame {
     // Call the method from the customers class to update user information in the database
     boolean isUpdated = cs.updateUserInfo(us.getEmail(), fullName, address, phone, password);
     if (isUpdated) {
-        JOptionPane.showMessageDialog(this, "Cập nhật thông tin thành công!");
-        this.dispose();
-        Homepage frHomePage = new Homepage(us);
-        frHomePage.setVisible(true);
+        try {
+            JOptionPane.showMessageDialog(this, "Cập nhật thông tin thành công!");
+            this.dispose();
+            Homepage frHomePage = new Homepage(us);
+            frHomePage.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(frmChangeInformation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     } else {
         JOptionPane.showMessageDialog(this, "Cập nhật thông tin thất bại.");
     }

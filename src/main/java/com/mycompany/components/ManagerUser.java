@@ -40,7 +40,7 @@ public class ManagerUser extends javax.swing.JPanel {
             List<Customer> customerList = cs.getAllUsers(); // Lấy toàn bộ người dùng
             loadCustomers(customerList); // Hiển thị lên giao diện
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error loading customers: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
         }
     }
 
@@ -139,7 +139,7 @@ public class ManagerUser extends javax.swing.JPanel {
         jLabel28.setForeground(new java.awt.Color(51, 51, 51));
         jLabel28.setText("DANH SÁCH NGƯỜI DÙNG");
         jLabel28.setToolTipText("");
-        bg.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 6, 680, 73));
+        bg.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 680, 73));
 
         jPanel3.setForeground(new java.awt.Color(204, 204, 204));
         jPanel3.setOpaque(false);
@@ -271,9 +271,7 @@ public class ManagerUser extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

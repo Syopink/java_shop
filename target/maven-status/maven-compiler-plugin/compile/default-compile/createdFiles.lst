@@ -12,6 +12,7 @@ com\mycompany\components\ManagerProducts$5.class
 Database\ActionComments.class
 CustomBorder\RoundedTextFieldBorder.class
 Interface\forgetPassword$9.class
+Pojo\Order.class
 Interface\login$1.class
 com\mycompany\components\ManagerProducts.class
 com\mycompany\components\util\rowProducts$2.class
@@ -24,13 +25,13 @@ com\mycompany\components\util\rowComment.class
 com\mycompany\components\ManagerUser$1.class
 com\mycompany\components\ManagerComments.class
 com\raven\component\RoundedButton.class
-com\mycompany\components\util\rowOrder$1.class
 com\mycompany\vietpro\Vietpro.class
 Interface\forgetPassword$4.class
 Interface\forgetPassword.class
 Process\sendMail.class
 com\mycompany\components\Card\CardDashBoard.class
 Interface\login$2.class
+com\mycompany\components\ManagerOrders$1.class
 com\mycompany\components\util\rowProducts$3.class
 com\mycompany\components\util\rowOrder.class
 Interface\frmChangeInformation$1.class

@@ -4,17 +4,70 @@
  */
 package com.mycompany.components;
 
+import Database.ActionOrders;
+import Pojo.Customer;
+import Pojo.Order;
+import Process.customers;
+import com.mycompany.components.util.rowOrder;
+import com.mycompany.components.util.rowsUser;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 /**
  *
  * @author An Ninh
  */
 public class ManagerOrders extends javax.swing.JPanel {
 
+    private List<rowOrder> rowsList = new ArrayList<>(); // Danh sách các hàng người dùng
+    private Order order;
+
+    ActionOrders Ao = new ActionOrders();  // Khởi tạo đối tượng customers
+
     /**
      * Creates new form ManagerOrders
      */
     public ManagerOrders() {
         initComponents();
+        initOrderList(); // Tải dữ liệu người dùng khi khởi tạo
+
+    }
+
+    private void initOrderList() {
+        try {
+            ActionOrders Ao = new ActionOrders();
+            List<Order> orderList = Ao.getAllOrders(); // Lấy toàn bộ đơn hàng
+            loadOrders(orderList); // Hiển thị lên giao diện
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+        }
+    }
+ private void loadOrders(List<Order> orders) {
+        jScrollPane1.getViewport().removeAll(); // Xóa nội dung cũ nếu có
+        rowsList.clear();
+
+        // Tạo một JPanel mới để chứa các hàng
+        JPanel listPanel = new JPanel();
+        listPanel.setLayout(new javax.swing.BoxLayout(listPanel, javax.swing.BoxLayout.Y_AXIS)); // Sắp xếp theo chiều dọc
+
+        int index = 1; // Bắt đầu từ số thứ tự 1
+        for (Order order : orders) {
+            rowOrder row = new rowOrder(index, order, Ao); // Truyền số thứ tự vào rowOrder
+            rowsList.add(row); // Thêm vào danh sách quản lý
+            listPanel.add(row); // Thêm hàng vào giao diện
+            index++; // Tăng số thứ tự
+        }
+        listPanel.setPreferredSize(new java.awt.Dimension(listPanel.getPreferredSize().width, 400));  // Thiết lập chiều cao cố định cho listPanel
+
+        // Đặt JPanel mới vào JScrollPane
+        jScrollPane1.setViewportView(listPanel);
+
+        // Làm mới giao diện
+        listPanel.revalidate();
+        listPanel.repaint();
     }
 
     /**
@@ -28,7 +81,14 @@ public class ManagerOrders extends javax.swing.JPanel {
 
         jPanel3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jtxtName = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jtxtEmail = new javax.swing.JTextField();
+        jbtnSearch = new javax.swing.JButton();
+        jtxtPhone = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -37,12 +97,11 @@ public class ManagerOrders extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         rowOrder2 = new com.mycompany.components.util.rowOrder();
 
         setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(1100, 600));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setOpaque(false);
@@ -50,19 +109,73 @@ public class ManagerOrders extends javax.swing.JPanel {
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel10.setText("Danh sách đơn ");
-        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 397, 73));
+        jLabel10.setText("DANH SÁCH ĐƠN HÀNG");
+        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 470, 73));
 
-        jLabel11.setBackground(new java.awt.Color(153, 255, 51));
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-add-20.png"))); // NOI18N
-        jLabel11.setText("Thêm bình luận");
-        jLabel11.setOpaque(true);
-        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 145, 37));
+        jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.white, java.awt.Color.lightGray, java.awt.Color.white));
 
-        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 170));
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel12.setText("Tên:");
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel13.setText("Email:");
+
+        jbtnSearch.setBackground(new java.awt.Color(153, 204, 255));
+        jbtnSearch.setText("Tìm kiếm");
+        jbtnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnSearchActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel14.setText("Số điện thoại:");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnSearch)
+                .addGap(14, 14, 14))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtxtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(76, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtxtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel14))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel12)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbtnSearch)
+                .addGap(7, 7, 7))
+        );
+
+        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 720, -1));
+
+        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 210));
 
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -83,7 +196,7 @@ public class ManagerOrders extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Sản phẩm");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, 80, 50));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 0, 80, 50));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Số điện thoại");
@@ -99,38 +212,64 @@ public class ManagerOrders extends javax.swing.JPanel {
         jLabel1.setText("Ngày mua");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 100, 50));
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("Hành động");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 0, 80, 50));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 990, -1));
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 170, 1080, 50));
+        jScrollPane1.setViewportView(rowOrder2);
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setText("Hành động");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 170, 90, 50));
-
-        jScrollPane2.setViewportView(rowOrder2);
-
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 1040, 230));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 980, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbtnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSearchActionPerformed
+     // TODO add your handling code here:
+        try {
+            searchOrder(); // Gọi phương thức tìm kiếm
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi tìm kiếm người dùng: " + e.getMessage());
+        }
+    }//GEN-LAST:event_jbtnSearchActionPerformed
+private void searchOrder() throws SQLException {
+    String name = jtxtName.getText().trim(); // Lấy giá trị từ ô nhập tên
+    String email = jtxtEmail.getText().trim(); // Lấy giá trị từ ô nhập email
+    String phone = jtxtPhone.getText().trim(); // Lấy giá trị từ ô nhập số điện thoại
+
+    ActionOrders Ao = new ActionOrders(); // Tạo đối tượng ActionOrders để xử lý tìm kiếm
+
+    // Nếu không nhập gì, hiển thị toàn bộ danh sách đơn hàng
+    if (name.isEmpty() && email.isEmpty() && phone.isEmpty()) {
+        List<Order> allOrders = Ao.getAllOrders(); // Lấy tất cả đơn hàng
+        loadOrders(allOrders); // Hiển thị toàn bộ danh sách đơn hàng
+        return;
+    }
+
+    // Tìm kiếm đơn hàng theo tên, email hoặc số điện thoại
+    List<Order> filteredOrders = Ao.searchOrdersByNameEmailOrPhone(name, email, phone); // Tìm kiếm đơn hàng
+    if (filteredOrders.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Không tìm thấy đơn hàng nào phù hợp!");
+    } else {
+        loadOrders(filteredOrders); // Hiển thị kết quả tìm kiếm
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbtnSearch;
+    private javax.swing.JTextField jtxtEmail;
+    private javax.swing.JTextField jtxtName;
+    private javax.swing.JTextField jtxtPhone;
     private com.mycompany.components.util.rowOrder rowOrder2;
     // End of variables declaration//GEN-END:variables
 }

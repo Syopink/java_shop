@@ -4,26 +4,32 @@
  */
 package com.mycompany.components;
 
+import Database.Action;
 import java.awt.Color;
+import java.sql.SQLException;
 
 /**
  *
  * @author An Ninh
  */
 public class Home extends javax.swing.JPanel {
-
+    Action ac = new Action();
     /**
      * Creates new form Home
      */
-    public Home() {
+    public Home() throws SQLException {
         initComponents();
         setCardDashBoard();
     }
 
-     public void setCardDashBoard(){
-        cardDashBoard1.setCard("Doanh thu","1.000.000.000$", "/img/icons8-revenue-50.png",Color.green);
-        cardDashBoard2.setCard("Người dùng","100000", "/img/icons8-category-48.png",Color.red);
-        cardDashBoard3.setCard("Sản phẩm","2301", "/img/icons8-products-50.png",Color.yellow);
+     public void setCardDashBoard() throws SQLException{
+         
+         int totalProducts = ac.countProducts();
+         int totalCustomers = ac.countCustomers();
+         double totalOrders = ac.getTotalRevenueForAllOrders();
+        cardDashBoard1.setCard("Doanh thu",String.valueOf(totalOrders)+"VND", "/img/icons8-revenue-50.png",Color.green);
+        cardDashBoard2.setCard("Người dùng",String.valueOf(totalCustomers), "/img/icons8-category-48.png",Color.red);
+        cardDashBoard3.setCard("Sản phẩm",String.valueOf(totalProducts), "/img/icons8-products-50.png",Color.yellow);
         cardDashBoard4.setCard("Comments","550601", "/img/icons8-comments-50.png",Color.BLUE);
     }
      
