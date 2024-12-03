@@ -24,6 +24,7 @@ com\mycompany\components\util\rowComment.class
 com\mycompany\components\ManagerUser$1.class
 com\mycompany\components\ManagerComments.class
 com\raven\component\RoundedButton.class
+com\mycompany\components\util\rowOrder$1.class
 com\mycompany\vietpro\Vietpro.class
 Interface\forgetPassword$4.class
 Interface\forgetPassword.class
