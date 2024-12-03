@@ -35,6 +35,7 @@ com\mycompany\components\util\rowOrder.class
 Interface\frmChangeInformation$1.class
 com\mycompany\components\ManagerUser.class
 Interface\forgetPassword$5.class
+com\mycompany\components\util\rowsUser.class
 com\mycompany\components\ManagerProducts$9.class
 com\mycompany\components\ManagerCustomer$2.class
 com\mycompany\components\Navbar$6.class

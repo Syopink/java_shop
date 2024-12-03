@@ -158,19 +158,19 @@ public class ManagerCustomer extends javax.swing.JPanel {
 
         jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel32.setText("ID");
-        jPanel3.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        jPanel3.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         jScrollPane1.setBorder(null);
         jScrollPane1.setOpaque(false);
         jScrollPane1.setViewportView(rowsCustomer);
 
-        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 946, -1));
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 940, -1));
 
         jScrollPane2.setBorder(null);
         jScrollPane2.setOpaque(false);
         jScrollPane2.setViewportView(rowsCustomer1);
 
-        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 30, 940, -1));
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 940, -1));
 
         bg.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 198, -1, 396));
 
@@ -258,7 +258,7 @@ public class ManagerCustomer extends javax.swing.JPanel {
         });
         bg.add(jRestore, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 220, -1, -1));
 
-        jbtnSelectAll.setText("A");
+        jbtnSelectAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-select-30.png"))); // NOI18N
         jbtnSelectAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnSelectAllActionPerformed(evt);
