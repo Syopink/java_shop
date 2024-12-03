@@ -70,7 +70,6 @@ public final class Homepage extends javax.swing.JFrame {
         jPanel2.add(new ManagerUser(), "Thành viên");
         jPanel2.add(new ManagerCategory(), "Danh mục");
         jPanel2.add(new ManagerOrders(), "Đơn hàng");
-        jPanel2.add(new ManagerComments(), "Bình luận");
         jPanel2.add(new ManagerCustomer(), "Khách hàng");
         cardlayout.show(jPanel2, "Trang chủ");
         //thiết lập điều hướng
@@ -79,7 +78,6 @@ public final class Homepage extends javax.swing.JFrame {
         navbar2.setRouter4(jPanel2, "Thành viên");
         navbar2.setRouter5(jPanel2, "Danh mục");
         navbar2.setRouter6(jPanel2, "Đơn hàng");
-        navbar2.setRouter7(jPanel2, "Bình luận");
         navbar2.setRouter8(jPanel2, "Khách hàng");
     }
 
