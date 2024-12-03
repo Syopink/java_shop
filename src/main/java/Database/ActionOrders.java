@@ -20,7 +20,7 @@ public class ActionOrders {
     }
 
     public List<Object[]> getOrders() {
-        String query = "SELECT * FROM products"; // Assuming you're getting order-related data from the "products" table
+        String query = "SELECT * FROM orders"; // Assuming you're getting order-related data from the "products" table
         List<Object[]> resultList = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(query);
@@ -59,5 +59,25 @@ public class ActionOrders {
         return resultList;
     }
      
+  public String getNameProduct(int idProduct) {
+    String query = "SELECT name FROM products WHERE idProduct = ?";
+    String productName = ""; 
+
+    try (PreparedStatement statement = connection.prepareStatement(query)) {
+        statement.setInt(1, idProduct);
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            productName = resultSet.getString("name");  
+        }
+    } catch (Exception e) {
+        e.printStackTrace();  
+    }
+
+    return productName;  
+}
+  
+  
+
 }
 

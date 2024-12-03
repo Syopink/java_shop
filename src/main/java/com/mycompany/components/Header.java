@@ -30,20 +30,22 @@ public class Header extends javax.swing.JPanel {
      * Creates new form Header
      */
     public Header() {
-    us = Homepage.getUser();
-        initComponents();
+    initComponents();
+    if (Homepage.getUser() != null) {
+        us = Homepage.getUser();
         Menu();
         updateUserInfo(us);
         jPanel1.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                // Kiểm tra nhấn chuột trái
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                   jPopupMenu1.show(jPanel1, e.getX(), e.getY());
+                    jPopupMenu1.show(jPanel1, e.getX(), e.getY());
                 }
             }
         });
     }
+}
+
     public void updateUserInfo(user us) {
     // Gán tên người dùng
     jLcustomerName.setText(us.getFullName());

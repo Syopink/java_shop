@@ -44,9 +44,7 @@ public class toggleButtonRouter extends javax.swing.JPanel {
         jLabel1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Đổi màu nền của jLabel1 khi nhấn vào
                 
-                // Chuyển đổi panel theo CardLayout
                 CardLayout cl = (CardLayout) mainPanel.getLayout();
                 cl.show(mainPanel, text);
             }

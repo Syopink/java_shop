@@ -4,18 +4,54 @@
  */
 package com.mycompany.components;
 
+import Database.ActionOrders;
+import com.mycompany.components.util.rowOrder;
+import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+
 /**
  *
  * @author An Ninh
  */
 public class ManagerOrders extends javax.swing.JPanel {
-
+ private ActionOrders aco=new ActionOrders();
     /**
      * Creates new form ManagerOrders
      */
     public ManagerOrders() {
         initComponents();
+        addrows();
     }
+    void addComponets(int idOrders,int idCustomer,int idProduct,String name,String phone,String email,String address,String item,String Created,JPanel panelRow){
+        rowOrder rod =new rowOrder();
+        rod.set(idOrders, idCustomer, idProduct, name, phone, email, address, item, Created);
+        panelRow.add(rod);
+    }
+
+    
+     void addrows(){
+           List<Object[]> products = aco.getOrders();
+           JPanel panelRows = new JPanel();
+           panelRows.setLayout(new BoxLayout(panelRows,BoxLayout.Y_AXIS));
+           panelRows.removeAll();
+            for (Object[] row : products) {
+                int idOrder = (int) row[0];
+                int idCustomer = (int) row[1];
+                int idProduct = (int) row[2];
+                String name = (String) row[3];
+                String phone = (String) row[4];
+                String email = (String) row[5];
+                String address = (String) row[6];
+                String item = (String) row[7];
+                String createdAt = (String) row[8];
+                addComponets(idOrder, idCustomer, idProduct, name, phone, email, address, item, createdAt,panelRows);
+             }
+            jScrollPane2.setViewportView(panelRows);
+            jScrollPane2.revalidate();
+            jScrollPane2.repaint();
+
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,6 +65,8 @@ public class ManagerOrders extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        rowOrder2 = new com.mycompany.components.util.rowOrder();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -37,10 +75,7 @@ public class ManagerOrders extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        rowOrder2 = new com.mycompany.components.util.rowOrder();
 
         setOpaque(false);
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -64,55 +99,50 @@ public class ManagerOrders extends javax.swing.JPanel {
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 170));
 
+        jScrollPane2.setViewportView(rowOrder2);
+
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 880, 220));
+
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("ID");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 60, 50));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 50, 50));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Email");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 80, 50));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 70, 50));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Người mua");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 120, 50));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 120, 50));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Sản phẩm");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, 80, 50));
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 0, 80, 50));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Số điện thoại");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 90, 50));
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 90, 50));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Địa chỉ");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 120, 50));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 160, 50));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Ngày mua");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 100, 50));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("Hành động");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 0, 80, 50));
-
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 170, 1080, 50));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, 100, 50));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setText("Hành động");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 170, 90, 50));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 0, 90, 50));
 
-        jScrollPane2.setViewportView(rowOrder2);
-
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 1040, 230));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 880, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -127,7 +157,6 @@ public class ManagerOrders extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;

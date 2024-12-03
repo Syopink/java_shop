@@ -250,7 +250,7 @@ public void updateProduct(Runnable onSuccessCallbac){
         jLabel11.setText("Trạng thái: ");
         jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 100, -1));
 
-        namechange.setActionCommand(null);
+        namechange.setActionCommand("null");
         namechange.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel3.add(namechange, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 120, 36));
 
@@ -432,7 +432,7 @@ public void updateProduct(Runnable onSuccessCallbac){
 
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
         // TODO add your handling code here:
-        
+
         choose_file=!choose_file;
     }//GEN-LAST:event_jToggleButton5ActionPerformed
 

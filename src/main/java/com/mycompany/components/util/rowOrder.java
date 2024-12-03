@@ -4,18 +4,104 @@
  */
 package com.mycompany.components.util;
 
+import Database.ActionOrders;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author An Ninh
  */
 public class rowOrder extends javax.swing.JPanel {
+        private ActionOrders aco=new ActionOrders();
+        private boolean isSelect=false;
+        private int idOrders;
+        private int idProducts;
+        private int idCustomers;
+        private String names;
+        private String nameProducts;
+        private String phones;
+        private String emails;
+        private String addresss;
+        private String items;
+        private String createdAts;  
+        private String dates;
+        private String times;
 
     /**
      * Creates new form rowOrder
      */
     public rowOrder() {
         initComponents();
+        buttonShowDialog();
     }
+    
+    
+    public void set(int idOrders, int idCustomer, int idProduct, String name, String phone, String email, String address, String item, String Created) {
+    // Cập nhật các trường trên giao diện người dùng
+    jLabel1.setText(String.valueOf(idOrders));  // Cập nhật ID đơn hàng
+    cus.setText(String.valueOf(idCustomer));    // Cập nhật ID khách hàng
+    nameProducts = aco.getNameProduct(idProduct); // Cập nhật tên sản phẩm, sử dụng phương thức getNameProduct từ ActionOrders
+    pro.setText(nameProducts);                    // Cập nhật tên sản phẩm
+    Ema.setText(email);                          // Cập nhật email
+    pho.setText(phone);                          // Cập nhật số điện thoại
+    adr.setText(address);                        // Cập nhật địa chỉ
+
+    String[] parts = Created.split(" ");
+    String date = parts[0]; 
+    String time = parts[1];  
+    
+    
+
+    this.date.setText(date); 
+        
+    this.dates=date;
+    this.times=time;
+    this.idProducts=idProduct;
+    this.idOrders = idOrders;
+    this.idCustomers = idCustomer;
+    this.addresss = address;
+    this.items = item;
+    this.createdAts = Created;
+    this.names = name;
+    this.idProducts = idProduct;
+    this.phones = phone;   
+    this.emails = email;   
+}
+
+    
+   public void showDialog(JFrame JP){
+        jDialog1.setVisible(isSelect);
+        jDialog1.setSize(540, 410);
+        jDialog1.setResizable(false);
+        jDialog1.setResizable(false);
+        jDialog1.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        jDialog1.setLocationRelativeTo(JP);
+        ordername.setText(String.valueOf(this.idOrders));
+        customername.setText(names);
+        email.setText(emails);
+        phone.setText(phones);
+        address.setText(addresss);
+        dateOrde.setText(dates);
+        timeOrde.setText(times);
+        idCus.setText(String.valueOf(idCustomers));
+        idPro.setText(String.valueOf(idProducts));
+        idPro.setText(String.valueOf(idProducts));
+        namePro.setText(nameProducts);
+    }
+   
+   void buttonShowDialog() {
+    jDetailOrder.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(jDetailOrder);
+            isSelect = true;
+            showDialog(parentFrame);
+        }
+    });
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,60 +112,193 @@ public class rowOrder extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        ordername = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        customername = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        email = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        idCus = new javax.swing.JLabel();
+        address = new javax.swing.JLabel();
+        namePro = new javax.swing.JLabel();
+        dateOrde = new javax.swing.JLabel();
+        timeOrde = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        phone = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        idPro = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        cus = new javax.swing.JLabel();
+        Ema = new javax.swing.JLabel();
+        adr = new javax.swing.JLabel();
+        pho = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        date = new javax.swing.JLabel();
+        pro = new javax.swing.JLabel();
+        jDetailOrder = new javax.swing.JButton();
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setText("Đơn hàng :");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 60, 30));
+
+        ordername.setText("jLabel13");
+        jPanel1.add(ordername, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 220, 30));
+
+        jLabel14.setText("Khách hàng :");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 70, 50));
+
+        customername.setText("jLabel15");
+        jPanel1.add(customername, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 220, 40));
+
+        jLabel16.setText("Thời gian đặt : ");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, 80, 40));
+
+        jLabel18.setText("Email :");
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 70, 40));
+
+        email.setText("jLabel19");
+        jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 170, 40));
+
+        jLabel20.setText("Số điện thoại :");
+        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 200, 80, 40));
+
+        jLabel21.setText("Địa chỉ :");
+        jPanel1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 70, 40));
+
+        jLabel22.setText("Sản phẩm");
+        jPanel1.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 70, 40));
+
+        jLabel23.setText("Ngày đặt    :");
+        jPanel1.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 70, 40));
+
+        idCus.setText("jLabel19");
+        jPanel1.add(idCus, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, 150, 40));
+
+        address.setText("jLabel19");
+        jPanel1.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 160, 40));
+
+        namePro.setText("jLabel19");
+        jPanel1.add(namePro, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 180, 40));
+
+        dateOrde.setText("jLabel19");
+        jPanel1.add(dateOrde, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, 220, 40));
+
+        timeOrde.setText("jLabel19");
+        jPanel1.add(timeOrde, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 300, 120, 40));
+
+        jLabel29.setText("Mã khách hàng");
+        jPanel1.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 110, 40));
+
+        phone.setText("jLabel19");
+        jPanel1.add(phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, 110, 40));
+
+        jLabel17.setText("Mã sản phẩm :");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 250, 80, 40));
+
+        idPro.setText("jLabel31");
+        jPanel1.add(idPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 250, 120, 40));
+
+        jPanel2.setBackground(new java.awt.Color(255, 0, 51));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Thông tin đơn hàng");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(356, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 40));
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 559, Short.MAX_VALUE)
+            .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 392, Short.MAX_VALUE)
+            .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(952, 43));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel6.setOpaque(false);
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setText("Người mua");
-        jPanel6.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 100, 42));
+        cus.setText("Người mua");
+        jPanel6.add(cus, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 100, 50));
 
-        jLabel5.setText("Email");
-        jPanel6.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 90, 42));
+        Ema.setText("Email");
+        jPanel6.add(Ema, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 90, 50));
 
-        jLabel6.setText("Địa chỉ");
-        jPanel6.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, 130, 40));
+        adr.setText("Địa chỉ");
+        jPanel6.add(adr, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 110, 50));
 
-        jLabel7.setText("Số điệ thoại");
-        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, 110, 40));
+        pho.setText("Số điện thoại");
+        jPanel6.add(pho, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 0, 110, 50));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("ID");
-        jPanel6.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 43));
+        jPanel6.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 50));
 
-        jLabel8.setText("Ngày mua");
-        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 120, 40));
+        date.setText("Ngày mua");
+        jPanel6.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 0, 120, 50));
 
-        jLabel2.setText("Sản phẩm");
-        jPanel6.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 110, 50));
+        pro.setText("Sản phẩm");
+        jPanel6.add(pro, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 0, 100, 50));
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 51));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("D");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jDetailOrder.setBackground(new java.awt.Color(255, 204, 51));
+        jDetailOrder.setForeground(new java.awt.Color(255, 255, 255));
+        jDetailOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-detail-20.png"))); // NOI18N
+        jDetailOrder.setBorder(null);
+        jDetailOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jDetailOrderActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 0, 50, 40));
+        jPanel6.add(jDetailOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, 50, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 1070, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 853, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,20 +306,45 @@ public class rowOrder extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jDetailOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDetailOrderActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_jDetailOrderActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel Ema;
+    private javax.swing.JLabel address;
+    private javax.swing.JLabel adr;
+    private javax.swing.JLabel cus;
+    private javax.swing.JLabel customername;
+    private javax.swing.JLabel date;
+    private javax.swing.JLabel dateOrde;
+    private javax.swing.JLabel email;
+    private javax.swing.JLabel idCus;
+    private javax.swing.JLabel idPro;
+    private javax.swing.JButton jDetailOrder;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JLabel namePro;
+    private javax.swing.JLabel ordername;
+    private javax.swing.JLabel pho;
+    private javax.swing.JLabel phone;
+    private javax.swing.JLabel pro;
+    private javax.swing.JLabel timeOrde;
     // End of variables declaration//GEN-END:variables
 }

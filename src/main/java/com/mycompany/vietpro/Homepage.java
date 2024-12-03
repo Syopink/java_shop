@@ -8,11 +8,11 @@ import Interface.login;
 import Process.user;
 import com.mycompany.components.Home;
 import com.mycompany.components.ManagerCategory;
-import com.mycompany.components.ManagerComments;
 import com.mycompany.components.ManagerCustomer;
 import com.mycompany.components.ManagerOrders;
 import com.mycompany.components.ManagerProducts;
 import com.mycompany.components.ManagerUser;
+import com.mycompany.components.util.rowOrder;
 
 import java.awt.CardLayout;
 import java.awt.event.MouseAdapter;
@@ -32,7 +32,7 @@ public final class Homepage extends javax.swing.JFrame {
 
     public Homepage(user us) {
        this.us = us;
-        setUndecorated(true);
+        setUndecorated(false);
         initComponents();
         setResizable(false);
         addMouseListener(new MouseAdapter() {
@@ -69,7 +69,10 @@ public final class Homepage extends javax.swing.JFrame {
         jPanel2.add(managerProducts, "Sản phẩm");
         jPanel2.add(new ManagerUser(), "Thành viên");
         jPanel2.add(new ManagerCategory(), "Danh mục");
-        jPanel2.add(new ManagerOrders(), "Đơn hàng");
+        rowOrder rod=new rowOrder();
+        rod.showDialog(this);
+        ManagerOrders managerOrders= new ManagerOrders();
+        jPanel2.add(managerOrders, "Đơn hàng");
         jPanel2.add(new ManagerCustomer(), "Khách hàng");
         cardlayout.show(jPanel2, "Trang chủ");
         //thiết lập điều hướng
@@ -108,16 +111,16 @@ public final class Homepage extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1065, Short.MAX_VALUE)
+            .addGap(0, 1030, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 1020, 538));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 1030, 538));
         jPanel1.add(header1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1250, -1));
-        jPanel1.add(navbar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, -1, 590));
+        jPanel1.add(navbar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, -1, 620));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,7 +169,8 @@ public final class Homepage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> {
             if(us!=null){
             Homepage homepage = new Homepage(us);
-            homepage.setVisible(true);}else{
+            homepage.setVisible(true);}
+            else{
             login lg=new login();
             lg.setVisible(true);
             }
