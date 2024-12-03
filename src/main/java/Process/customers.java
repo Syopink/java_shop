@@ -231,52 +231,143 @@ public class customers {
         }
         return us;
     }
-
+//
+//    public List<Customer> getAllCustomers() throws SQLException {
+//        List<Customer> customers = new ArrayList<>();
+//        String sql = "SELECT * FROM customers WHERE isDeleted = '0' AND role = 'customer' ";  // Lấy danh sách khách hàng chưa bị xóa
+//
+//        try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+//
+//            while (rs.next()) {
+//                String id = rs.getString("idCustomer");
+//                String email = rs.getString("email");
+//                String fullName = rs.getString("fullName");
+//                String phone = rs.getString("numberOfPhone");
+//                String address = rs.getString("address");
+//                String role = rs.getString("role");
+//
+//                customers.add(new Customer(id, email, fullName, phone, address, role));  // Thêm khách hàng vào danh sách
+//            }
+//        } catch (SQLException e) {
+//            System.err.println("Lỗi khi lấy danh sách khách hàng: " + e.getMessage());
+//            throw e;  // Ném lại ngoại lệ nếu có lỗi
+//        }
+//        return customers;
+//    }
+//
+//    public List<Customer> getAllCustomersDeleted() throws SQLException {
+//        List<Customer> customers = new ArrayList<>();
+//        String sql = "SELECT * FROM customers WHERE isDeleted = '1' AND role = 'customer' ";  // Lấy danh sách khách hàng chưa bị xóa
+//
+//        try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+//
+//            while (rs.next()) {
+//                String id = rs.getString("idCustomer");
+//                String email = rs.getString("email");
+//                String fullName = rs.getString("fullName");
+//                String phone = rs.getString("numberOfPhone");
+//                String address = rs.getString("address");
+//                String role = rs.getString("role");
+//
+//                customers.add(new Customer(id, email, fullName, phone, address, role));  // Thêm khách hàng vào danh sách
+//            }
+//        } catch (SQLException e) {
+//            System.err.println("Lỗi khi lấy danh sách khách hàng: " + e.getMessage());
+//            throw e;  // Ném lại ngoại lệ nếu có lỗi
+//        }
+//        return customers;
+//    }
+    
+//    
+//       public List<Customer> getAllUsers() throws SQLException {
+//        List<Customer> customers = new ArrayList<>();
+//        String sql = "SELECT * FROM customers WHERE isDeleted = '0' AND role = 'customer' ";  // Lấy danh sách khách hàng chưa bị xóa
+//
+//        try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+//
+//            while (rs.next()) {
+//                String id = rs.getString("idCustomer");
+//                String email = rs.getString("email");
+//                String fullName = rs.getString("fullName");
+//                String phone = rs.getString("numberOfPhone");
+//                String address = rs.getString("address");
+//                String role = rs.getString("role");
+//
+//                customers.add(new Customer(id, email, fullName, phone, address, role));  // Thêm khách hàng vào danh sách
+//            }
+//        } catch (SQLException e) {
+//            System.err.println("Lỗi khi lấy danh sách khách hàng: " + e.getMessage());
+//            throw e;  // Ném lại ngoại lệ nếu có lỗi
+//        }
+//        return customers;
+//    }
+    
+    public List<Customer> getAllByRoleAndStatus(String role, boolean isDeleted) throws SQLException {
+    List<Customer> customers = new ArrayList<>();
+    String sql = "SELECT * FROM customers WHERE role = ? AND isDeleted = ?";
+    
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, role);
+        pstmt.setBoolean(2, isDeleted);
+        
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                String id = rs.getString("idCustomer");
+                String email = rs.getString("email");
+                String fullName = rs.getString("fullName");
+                String phone = rs.getString("numberOfPhone");
+                String address = rs.getString("address");
+                customers.add(new Customer(id, email, fullName, phone, address, role));
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi lấy danh sách: " + e.getMessage());
+        throw e;
+    }
+    return customers;
+}
+    
     public List<Customer> getAllCustomers() throws SQLException {
-        List<Customer> customers = new ArrayList<>();
-        String sql = "SELECT * FROM customers WHERE isDeleted = '0' AND role = 'customer' ";  // Lấy danh sách khách hàng chưa bị xóa
+    return getAllByRoleAndStatus("customer", false);
+}
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+public List<Customer> getAllCustomersDeleted() throws SQLException {
+    return getAllByRoleAndStatus("customer", true);
+}
 
-            while (rs.next()) {
-                String id = rs.getString("idCustomer");
-                String email = rs.getString("email");
-                String fullName = rs.getString("fullName");
-                String phone = rs.getString("numberOfPhone");
-                String address = rs.getString("address");
-                String role = rs.getString("role");
+public List<Customer> getAllUsers() throws SQLException {
+    return getAllByRoleAndStatus("admin", false);
+}
 
-                customers.add(new Customer(id, email, fullName, phone, address, role));  // Thêm khách hàng vào danh sách
-            }
-        } catch (SQLException e) {
-            System.err.println("Lỗi khi lấy danh sách khách hàng: " + e.getMessage());
-            throw e;  // Ném lại ngoại lệ nếu có lỗi
-        }
-        return customers;
-    }
+public List<Customer> getAllUsersDeleted() throws SQLException {
+    return getAllByRoleAndStatus("admin", true);
+}
 
-    public List<Customer> getAllCustomersDeleted() throws SQLException {
-        List<Customer> customers = new ArrayList<>();
-        String sql = "SELECT * FROM customers WHERE isDeleted = '1' AND role = 'customer' ";  // Lấy danh sách khách hàng chưa bị xóa
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                String id = rs.getString("idCustomer");
-                String email = rs.getString("email");
-                String fullName = rs.getString("fullName");
-                String phone = rs.getString("numberOfPhone");
-                String address = rs.getString("address");
-                String role = rs.getString("role");
-
-                customers.add(new Customer(id, email, fullName, phone, address, role));  // Thêm khách hàng vào danh sách
-            }
-        } catch (SQLException e) {
-            System.err.println("Lỗi khi lấy danh sách khách hàng: " + e.getMessage());
-            throw e;  // Ném lại ngoại lệ nếu có lỗi
-        }
-        return customers;
-    }
+//
+//    public List<Customer> getAllUsersDeleted() throws SQLException {
+//        List<Customer> customers = new ArrayList<>();
+//        String sql = "SELECT * FROM customers WHERE isDeleted = '1' AND role = 'customer' ";  // Lấy danh sách khách hàng chưa bị xóa
+//
+//        try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+//
+//            while (rs.next()) {
+//                String id = rs.getString("idCustomer");
+//                String email = rs.getString("email");
+//                String fullName = rs.getString("fullName");
+//                String phone = rs.getString("numberOfPhone");
+//                String address = rs.getString("address");
+//                String role = rs.getString("role");
+//
+//                customers.add(new Customer(id, email, fullName, phone, address, role));  // Thêm khách hàng vào danh sách
+//            }
+//        } catch (SQLException e) {
+//            System.err.println("Lỗi khi lấy danh sách khách hàng: " + e.getMessage());
+//            throw e;  // Ném lại ngoại lệ nếu có lỗi
+//        }
+//        return customers;
+//    }
+//    
+    
 
     public boolean deleteCustomer(String id) throws SQLException {
         String query; // Câu truy vấn sẽ thay đổi tùy theo trạng thái
@@ -408,54 +499,58 @@ public class customers {
             throw e;  // Ném lại ngoại lệ nếu có lỗi
         }
     }
-
-    public List<Customer> searchCustomer(String name, String email, boolean isDeleted) throws SQLException {
-        StringBuilder sql = new StringBuilder("SELECT * FROM customers WHERE role = 'customer' AND isDeleted = ?");
-        List<Object> params = new ArrayList<>(); // Danh sách tham số
-
-        // Thêm tham số trạng thái isDeleted vào truy vấn
-        params.add(isDeleted ? 1 : 0);  // Nếu isDeleted là true thì isDeleted = 1 (đã xóa), nếu false thì 0 (chưa xóa)
-
-        if (!name.isEmpty()) {
-            sql.append(" AND fullName LIKE ?");
-            params.add("%" + name + "%"); // Thêm giá trị tìm kiếm theo tên
-        }
-
-        if (!email.isEmpty()) {
-            sql.append(" AND email LIKE ?");
-            params.add("%" + email + "%"); // Thêm giá trị tìm kiếm theo email
-        }
-
-        List<Customer> customers = new ArrayList<>();
-        try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
-            // Đặt giá trị cho từng tham số
-            for (int i = 0; i < params.size(); i++) {
-                pstmt.setObject(i + 1, params.get(i));
-            }
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    String idCustomer = rs.getString("idCustomer");
-                    String fullName = rs.getString("fullName");
-                    String emailAddr = rs.getString("email");
-                    String phone = rs.getString("numberOfPhone");
-                    String address = rs.getString("address");
-                    String role = rs.getString("role");
-
-                    customers.add(new Customer(idCustomer, emailAddr, fullName, phone, address, role));
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Lỗi khi tìm kiếm khách hàng: " + e.getMessage());
-            throw e;
-        }
-
-        return customers;
+public List<Customer> searchByRole(String role, String name, String email, boolean isDeleted) throws SQLException {
+    StringBuilder sql = new StringBuilder("SELECT * FROM customers WHERE role = ? AND isDeleted = ?");
+    List<Object> params = new ArrayList<>();
+    
+    params.add(role);
+    params.add(isDeleted ? 1 : 0);
+    
+    if (!name.isEmpty()) {
+        sql.append(" AND fullName LIKE ?");
+        params.add("%" + name + "%");
     }
+    
+    if (!email.isEmpty()) {
+        sql.append(" AND email LIKE ?");
+        params.add("%" + email + "%");
+    }
+    
+    List<Customer> customers = new ArrayList<>();
+    try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+        for (int i = 0; i < params.size(); i++) {
+            pstmt.setObject(i + 1, params.get(i));
+        }
+        
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                String idCustomer = rs.getString("idCustomer");
+                String fullName = rs.getString("fullName");
+                String emailAddr = rs.getString("email");
+                String phone = rs.getString("numberOfPhone");
+                String address = rs.getString("address");
+                customers.add(new Customer(idCustomer, emailAddr, fullName, phone, address, role));
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi tìm kiếm: " + e.getMessage());
+        throw e;
+    }
+    return customers;
+}
+
+public List<Customer> searchCustomer(String name, String email, boolean isDeleted) throws SQLException {
+    return searchByRole("customer", name, email, isDeleted);
+}
+
+public List<Customer> searchUser(String name, String email, boolean isDeleted) throws SQLException {
+    return searchByRole("admin", name, email, isDeleted);
+}
+
 
     public boolean deleteCustomers(List<Customer> customersToDelete) throws SQLException {
         if (customersToDelete == null || customersToDelete.isEmpty()) {
-            throw new IllegalArgumentException("Danh sách khách hàng không hợp lệ.");
+            throw new IllegalArgumentException("Danh sách không hợp lệ.");
         }
 
         String checkStatusSql = "SELECT isDeleted FROM customers WHERE idCustomer = ?";
@@ -508,7 +603,7 @@ public class customers {
 
             return rowsAffected > 0;  // Trả về true nếu có ít nhất 1 khách hàng được phục hồi
         } catch (SQLException e) {
-            System.err.println("Lỗi khi phục hồi khách hàng: " + e.getMessage());
+            System.err.println("Lỗi khi phục hồi: " + e.getMessage());
             return false;  // Trả về false nếu có lỗi
         }
     }

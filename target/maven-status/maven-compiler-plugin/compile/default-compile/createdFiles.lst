@@ -36,6 +36,7 @@ com\mycompany\components\util\rowOrder.class
 Interface\frmChangeInformation$1.class
 com\mycompany\components\ManagerUser.class
 Interface\forgetPassword$5.class
+com\mycompany\components\util\rowsUser.class
 com\mycompany\components\ManagerProducts$9.class
 com\mycompany\components\ManagerCustomer$2.class
 com\mycompany\components\Navbar$6.class
@@ -50,7 +51,6 @@ Interface\forgetPassword$8.class
 Database\ActionProduct.class
 Interface\forgetPassword$7.class
 com\mycompany\vietpro\Homepage.class
-com\mycompany\components\Navbar$7.class
 com\mycompany\components\util\rowProducts$4.class
 com\raven\component\Profile.class
 Interface\forgetPassword$6.class
@@ -124,5 +124,6 @@ Interface\login$5.class
 com\raven\component\TextFieldWithPlaceholder.class
 com\raven\component\Textfield.class
 com\mycompany\components\ManagerProducts$4.class
+Database\Action.class
 com\mycompany\components\Navbar$1.class
 Interface\forgetPassword$16.class

@@ -38,7 +38,6 @@ public class Navbar extends javax.swing.JPanel {
     toggleButtonRouter1.getPanel().setBackground(defaultBackgroundColor);
     toggleButtonRouter2.getPanel().setBackground(defaultBackgroundColor);
     toggleButtonRouter3.getPanel().setBackground(defaultBackgroundColor);
-    toggleButtonRouter5.getPanel().setBackground(defaultBackgroundColor);
     toggleButtonRouter7.getPanel().setBackground(defaultBackgroundColor);
 
     
@@ -107,16 +106,6 @@ public class Navbar extends javax.swing.JPanel {
             }
         });
     }
-    public void setRouter7(JPanel mainPanel,String text){
-        toggleButtonRouter5.set(text, mainPanel, "/img/icons8-comments-24.png");
-        toggleButtonRouter5.getLabel().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                 updateBackgroundColor(toggleButtonRouter5.getPanel());// Reset màu cho label của toggleButtonRouter6
-
-            }
-        });
-    }
     public void setRouter8(JPanel mainPanel,String text){
         toggleButtonRouter7.set(text, mainPanel, "/img/icons8-user-24.png");
         toggleButtonRouter7.getLabel().addMouseListener(new MouseAdapter() {
@@ -144,7 +133,6 @@ public class Navbar extends javax.swing.JPanel {
         toggleButtonRouter6 = new com.mycompany.components.Button.toggleButtonRouter();
         toggleButtonRouter4 = new com.mycompany.components.Button.toggleButtonRouter();
         toggleButtonRouter3 = new com.mycompany.components.Button.toggleButtonRouter();
-        toggleButtonRouter5 = new com.mycompany.components.Button.toggleButtonRouter();
         toggleButtonRouter7 = new com.mycompany.components.Button.toggleButtonRouter();
 
         setBackground(new java.awt.Color(51, 51, 51));
@@ -156,8 +144,7 @@ public class Navbar extends javax.swing.JPanel {
         jPanel1.add(toggleButtonRouter6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, -1, 60));
         jPanel1.add(toggleButtonRouter4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, -1, 60));
         jPanel1.add(toggleButtonRouter3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, -1, 60));
-        jPanel1.add(toggleButtonRouter5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, -1, 60));
-        jPanel1.add(toggleButtonRouter7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, -1, 60));
+        jPanel1.add(toggleButtonRouter7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, -1, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -178,7 +165,6 @@ public class Navbar extends javax.swing.JPanel {
     private com.mycompany.components.Button.toggleButtonRouter toggleButtonRouter2;
     private com.mycompany.components.Button.toggleButtonRouter toggleButtonRouter3;
     private com.mycompany.components.Button.toggleButtonRouter toggleButtonRouter4;
-    private com.mycompany.components.Button.toggleButtonRouter toggleButtonRouter5;
     private com.mycompany.components.Button.toggleButtonRouter toggleButtonRouter6;
     private com.mycompany.components.Button.toggleButtonRouter toggleButtonRouter7;
     // End of variables declaration//GEN-END:variables
