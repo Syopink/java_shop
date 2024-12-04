@@ -2,7 +2,11 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
+<<<<<<< HEAD:src/main/java/com/CustomerLayout/CustomerNavbar.form
+    <Container class="javax.swing.JPopupMenu" name="jPopupMenu1">
+=======
     <Container class="javax.swing.JPopupMenu" name="jPopupMenu">
+>>>>>>> fd4965cc66a5bac0192e336c6a5b2bffaa0e04ed:src/main/java/com/mycompany/CustomerLayout/CustomerNavbar.form
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="true"/>
@@ -49,11 +53,21 @@
                   <Component id="jLabel1" min="-2" pref="47" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+<<<<<<< HEAD:src/main/java/com/CustomerLayout/CustomerNavbar.form
+                  <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                  <Component id="customerToggleRouter1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="customerToggleRouter2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                  <Component id="customerToggleRouter3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="212" max="32767" attributes="0"/>
+=======
                   <EmptySpace min="-2" pref="161" max="-2" attributes="0"/>
                   <Component id="customerToggleRouter2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="customerToggleRouter1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="252" max="32767" attributes="0"/>
+>>>>>>> fd4965cc66a5bac0192e336c6a5b2bffaa0e04ed:src/main/java/com/mycompany/CustomerLayout/CustomerNavbar.form
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -62,12 +76,18 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
               <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
+              <Component id="customerToggleRouter1" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
+<<<<<<< HEAD:src/main/java/com/CustomerLayout/CustomerNavbar.form
+              <Component id="customerToggleRouter3" max="32767" attributes="0"/>
+              <Component id="customerToggleRouter2" alignment="1" max="32767" attributes="0"/>
+=======
               <Component id="customerToggleRouter1" max="32767" attributes="0"/>
               <Component id="customerToggleRouter2" alignment="0" max="32767" attributes="0"/>
+>>>>>>> fd4965cc66a5bac0192e336c6a5b2bffaa0e04ed:src/main/java/com/mycompany/CustomerLayout/CustomerNavbar.form
           </Group>
         </DimensionLayout>
       </Layout>
@@ -105,7 +125,11 @@
                           <Component id="jRole" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+<<<<<<< HEAD:src/main/java/com/CustomerLayout/CustomerNavbar.form
+                      <Component id="user" min="-2" pref="48" max="-2" attributes="0"/>
+=======
                       <Component id="jAvatar" min="-2" pref="48" max="-2" attributes="0"/>
+>>>>>>> fd4965cc66a5bac0192e336c6a5b2bffaa0e04ed:src/main/java/com/mycompany/CustomerLayout/CustomerNavbar.form
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -118,7 +142,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jRole" pref="21" max="32767" attributes="0"/>
                   </Group>
+<<<<<<< HEAD:src/main/java/com/CustomerLayout/CustomerNavbar.form
+                  <Component id="user" alignment="0" max="32767" attributes="0"/>
+=======
                   <Component id="jAvatar" alignment="0" max="32767" attributes="0"/>
+>>>>>>> fd4965cc66a5bac0192e336c6a5b2bffaa0e04ed:src/main/java/com/mycompany/CustomerLayout/CustomerNavbar.form
               </Group>
             </DimensionLayout>
           </Layout>
@@ -147,7 +175,11 @@
                 <Property name="text" type="java.lang.String" value="role"/>
               </Properties>
             </Component>
+<<<<<<< HEAD:src/main/java/com/CustomerLayout/CustomerNavbar.form
+            <Component class="javax.swing.JLabel" name="user">
+=======
             <Component class="javax.swing.JLabel" name="jAvatar">
+>>>>>>> fd4965cc66a5bac0192e336c6a5b2bffaa0e04ed:src/main/java/com/mycompany/CustomerLayout/CustomerNavbar.form
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -163,6 +195,8 @@
         <Component class="com.mycompany.CustomerLayout.CustomerToggleRouter" name="customerToggleRouter1">
         </Component>
         <Component class="com.mycompany.CustomerLayout.CustomerToggleRouter" name="customerToggleRouter2">
+        </Component>
+        <Component class="com.mycompany.CustomerLayout.CustomerToggleRouter" name="customerToggleRouter3">
         </Component>
       </SubComponents>
     </Container>

@@ -4,7 +4,11 @@
  */
 package com.mycompany.vietpro;
 
+<<<<<<< HEAD
+import com.CustomerLayout.CustomerOrder;
+=======
 import Process.user;
+>>>>>>> fd4965cc66a5bac0192e336c6a5b2bffaa0e04ed
 import com.mycompany.CustomerLayout.CustomeCart;
 import com.mycompany.CustomerLayout.CustomerProducts;
 import java.awt.CardLayout;
@@ -91,9 +95,16 @@ public class CustomerLayout extends javax.swing.JFrame {
         jmianPanel.setLayout(cardlayout);
         jmianPanel.add(new CustomerProducts(),"Trang chủ");
         jmianPanel.add(new CustomeCart(),"Giỏ hàng");
+        jmianPanel.add(new CustomerOrder(),"Đơn hàng");
         cardlayout.show(jmianPanel,"Trang chủ");
+<<<<<<< HEAD
+        customerNavbar1.Router1(jmianPanel, "Trang chủ");
+        customerNavbar1.Router2(jmianPanel, "Giỏ hàng");
+        customerNavbar1.Router3(jmianPanel, "Đơn hàng");
+=======
         customerNavbar1.Router1("Trang chủ", jmianPanel );
         customerNavbar1.Router2( "Giỏ hàng", jmianPanel);
+>>>>>>> fd4965cc66a5bac0192e336c6a5b2bffaa0e04ed
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
