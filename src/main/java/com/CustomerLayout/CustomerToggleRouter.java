@@ -50,9 +50,11 @@ public class CustomerToggleRouter extends javax.swing.JPanel {
         setOpaque(false);
 
         jLabel1.setBackground(new java.awt.Color(51, 0, 51));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("ROuter");
+        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

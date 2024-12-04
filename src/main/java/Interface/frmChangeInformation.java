@@ -6,6 +6,7 @@ package Interface;
 
 import Process.customers;
 import Process.user;
+import com.mycompany.vietpro.CustomerLayout;
 import com.mycompany.vietpro.Homepage;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
  * @author Nguyen Gia Huy
  */
 public class frmChangeInformation extends javax.swing.JFrame {
+
     customers cs = new customers();
     private user us;
 
@@ -24,7 +26,11 @@ public class frmChangeInformation extends javax.swing.JFrame {
      * Creates new form frmChangeInformation
      */
     public frmChangeInformation() {
-        us = Homepage.getUser();
+         us = Homepage.getUser(); // Get the user from Homepage
+    if (us == null) {
+        us = CustomerLayout.getUser(); // If not, try getting from CustomerLayout
+    }
+
         System.out.println("Interface.frmChangeInformation.<init>()" + us.getAddress());
         if (us == null) {
             JOptionPane.showMessageDialog(this, "Không có thông tin người dùng. Vui lòng đăng nhập.");
@@ -205,61 +211,95 @@ public class frmChangeInformation extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLReturnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLReturnMouseClicked
-        try {
-            // TODO add your handling code here:
+       try {
+        if (us.getRole().equals("admin")) {
             Homepage frHomePage = new Homepage(us);
             frHomePage.setVisible(true);
-            
-            this.dispose();
-        } catch (SQLException ex) {
-            Logger.getLogger(frmChangeInformation.class.getName()).log(Level.SEVERE, null, ex);
+        } else if (us.getRole().equals("customer")) {
+            CustomerLayout frCustomer = new CustomerLayout(us);
+            frCustomer.setVisible(true);
         }
+        
+        this.dispose(); // Close the current frame
+        us = null;
+    } catch (SQLException ex) {
+        Logger.getLogger(frmChangeInformation.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }//GEN-LAST:event_jLReturnMouseClicked
 
     private void jbtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUpdateActionPerformed
-          // Validate the input fields before updating
-    String fullName = jtxtFullName.getText().trim();
-    String address = jtxtAddress.getText().trim();
-    String phone = jtxtPhone.getText().trim();
-    String password = String.valueOf(jP.getPassword()).trim();  // Getting the password entered
-    
-    // Simple validation: ensure that all fields are filled
-    if (fullName.isEmpty() || address.isEmpty() || phone.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin.");
-        return;
-    }
-    // Check if the phone number already exists in the database    
-    boolean isPhoneUnique = cs.isPhoneUnique(phone, us.getEmail());
-    if (!isPhoneUnique) {
-        JOptionPane.showMessageDialog(this, "Số điện thoại này đã được sử dụng.");
-        return;
-    }
+        // Validate the input fields before updating
+        String fullName = jtxtFullName.getText().trim();
+        String address = jtxtAddress.getText().trim();
+        String phone = jtxtPhone.getText().trim();
+        String password = String.valueOf(jP.getPassword()).trim();  // Getting the password entered
 
-    
-    // Update user info
-    us.setFullName(fullName);
-    us.setAddress(address);
-    us.setNumberOfPhone(phone);
-    
-    // Only update the password if it is not empty
-    if (!password.isEmpty()) {
-        us.setPassword(password);  // Assuming a setter for password is available in the user class
-    }
-    
-    // Call the method from the customers class to update user information in the database
-    boolean isUpdated = cs.updateUserInfo(us.getEmail(), fullName, address, phone, password);
-    if (isUpdated) {
-        try {
-            JOptionPane.showMessageDialog(this, "Cập nhật thông tin thành công!");
-            this.dispose();
-            Homepage frHomePage = new Homepage(us);
-            frHomePage.setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(frmChangeInformation.class.getName()).log(Level.SEVERE, null, ex);
+        // Simple validation: ensure that all fields are filled
+        if (fullName.isEmpty() || address.isEmpty() || phone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin.");
+            return;
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Cập nhật thông tin thất bại.");
+        // Check if the phone number already exists in the database    
+        boolean isPhoneUnique = cs.isPhoneUnique(phone, us.getEmail());
+        if (!isPhoneUnique) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại này đã được sử dụng.");
+            return;
+        }
+
+        // Update user info
+        us.setFullName(fullName);
+        us.setAddress(address);
+        us.setNumberOfPhone(phone);
+
+        // Only update the password if it is not empty
+        if (!password.isEmpty()) {
+            us.setPassword(password);  // Assuming a setter for password is available in the user class
+        }
+
+        // Call the method from the customers class to update user information in the database
+        boolean isUpdated = cs.updateUserInfo(us.getEmail(), fullName, address, phone, password);
+if (isUpdated) {
+    try {
+        // Hiển thị thông báo cập nhật thành công
+        JOptionPane.showMessageDialog(this, "Cập nhật thông tin thành công!");
+
+        // Đóng cửa sổ hiện tại trước khi mở cửa sổ mới
+        this.dispose();
+
+        // Kiểm tra vai trò của người dùng
+        String role = us.getRole();  // Lấy vai trò người dùng từ đối tượng 'us'
+
+        if (role != null) {
+            // Nếu là admin, mở trang Homepage
+            if (role.equalsIgnoreCase("admin")) {
+                Homepage frHomePage = new Homepage(us);
+                frHomePage.setVisible(true);
+            } 
+            // Nếu là customer, mở trang CustomerLayout
+            else if (role.equalsIgnoreCase("customer")) {
+                CustomerLayout frCustomer = new CustomerLayout(us);
+                frCustomer.setVisible(true);
+            } 
+            // Nếu vai trò không hợp lệ
+            else {
+                JOptionPane.showMessageDialog(this, "Vai trò không hợp lệ.");
+            }
+
+            // Sau khi chuyển sang trang mới, "clear" us
+        } else {
+            // Nếu đối tượng người dùng không có vai trò hợp lệ
+            JOptionPane.showMessageDialog(this, "Thông tin người dùng không hợp lệ.");
+        }
+
+    } catch (SQLException ex) {
+        // Xử lý ngoại lệ nếu có lỗi trong việc cập nhật hoặc tạo Homepage
+        Logger.getLogger(frmChangeInformation.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(this, "Có lỗi trong quá trình cập nhật thông tin.");
     }
+} else {
+    // Hiển thị thông báo nếu việc cập nhật thất bại
+    JOptionPane.showMessageDialog(this, "Cập nhật thông tin thất bại.");
+}
     }//GEN-LAST:event_jbtnUpdateActionPerformed
 
     /**
