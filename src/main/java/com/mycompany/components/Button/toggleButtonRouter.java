@@ -19,9 +19,6 @@ public class toggleButtonRouter extends javax.swing.JPanel {
      * Creates new form toggleButtonRouter
      */
 
-
-  
-
     public toggleButtonRouter() {
         initComponents();
     }
@@ -68,6 +65,7 @@ public class toggleButtonRouter extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
 
         setForeground(new java.awt.Color(255, 102, 51));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(200, 100));
 
@@ -75,10 +73,11 @@ public class toggleButtonRouter extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(140, 50));
 
         jLabel1.setBackground(new java.awt.Color(55, 65, 92));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8-menu-24.png"))); // NOI18N
         jLabel1.setText("jLabel1");
+        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

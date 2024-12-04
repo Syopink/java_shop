@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import Library.Capcha;
 import Process.user;
+import com.mycompany.vietpro.CustomerLayout;
 import com.mycompany.vietpro.Homepage;
 import javax.swing.JTextField;
 
@@ -233,8 +234,9 @@ public class login extends javax.swing.JFrame {
                 case "customer" -> {
                     JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
                     us = cs.findUserByEmail(user.getEmail());
-                    Homepage homepageFrame = new Homepage(us);
-                    homepageFrame.setVisible(true);
+                                        System.out.println("us: " + us.getAddress());
+                    CustomerLayout customerFrame = new CustomerLayout(us);
+                    customerFrame.setVisible(true);
                     this.dispose(); // Close the login frame
                 }
                 default -> {

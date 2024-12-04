@@ -4,7 +4,11 @@
  */
 package com.mycompany.vietpro;
 
+<<<<<<< HEAD
 import com.CustomerLayout.CustomerOrder;
+=======
+import Process.user;
+>>>>>>> fd4965cc66a5bac0192e336c6a5b2bffaa0e04ed
 import com.mycompany.CustomerLayout.CustomeCart;
 import com.mycompany.CustomerLayout.CustomerProducts;
 import java.awt.CardLayout;
@@ -16,13 +20,15 @@ import java.awt.event.MouseEvent;
  * @author An Ninh
  */
 public class CustomerLayout extends javax.swing.JFrame {
+    private static user us;
 
     /**
      * Creates new form CustomerLayout
      */
     private int posX = 0, posY = 0;
     
-    public CustomerLayout() {
+    public CustomerLayout(user us) {
+        this.us = us;
          setUndecorated(true);
         initComponents();
         setUpPanel();
@@ -45,7 +51,9 @@ public class CustomerLayout extends javax.swing.JFrame {
         });
         this.setLocationRelativeTo(null);
     }
-
+    public static user getUser() {
+        return CustomerLayout.us;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,9 +97,14 @@ public class CustomerLayout extends javax.swing.JFrame {
         jmianPanel.add(new CustomeCart(),"Giỏ hàng");
         jmianPanel.add(new CustomerOrder(),"Đơn hàng");
         cardlayout.show(jmianPanel,"Trang chủ");
+<<<<<<< HEAD
         customerNavbar1.Router1(jmianPanel, "Trang chủ");
         customerNavbar1.Router2(jmianPanel, "Giỏ hàng");
         customerNavbar1.Router3(jmianPanel, "Đơn hàng");
+=======
+        customerNavbar1.Router1("Trang chủ", jmianPanel );
+        customerNavbar1.Router2( "Giỏ hàng", jmianPanel);
+>>>>>>> fd4965cc66a5bac0192e336c6a5b2bffaa0e04ed
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -120,7 +133,7 @@ public class CustomerLayout extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CustomerLayout().setVisible(true);
+                new CustomerLayout(us).setVisible(true);
             }
         });
     }

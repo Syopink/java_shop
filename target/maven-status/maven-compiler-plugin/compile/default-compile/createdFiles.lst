@@ -21,6 +21,7 @@ com\mycompany\components\util\rowProducts$2.class
 com\mycompany\components\util\rowProducts.class
 com\mycompany\components\ManagerProducts$6.class
 Interface\register$1.class
+Pojo\Product.class
 com\mycompany\components\util\rowProducts$6.class
 com\CustomerLayout\CustomerOrder.class
 com\mycompany\components\util\rowProducts$1.class
@@ -62,12 +63,14 @@ com\mycompany\CustomerLayout\CustomeCart.class
 Interface\forgetPassword$7.class
 com\mycompany\vietpro\Homepage.class
 com\mycompany\components\util\rowProducts$4.class
+Process\product.class
 com\raven\component\Profile.class
 Interface\forgetPassword$6.class
 Interface\frmChangeInformation$2.class
 Interface\register$3.class
 com\mycompany\components\util\rowComment$2.class
 com\mycompany\components\ManagerCustomer.class
+com\mycompany\CustomerLayout\CustomerNavbar$2.class
 com\mycompany\components\ManagerCategory.class
 utils\PasswordUtils.class
 Interface\forgetPassword$12.class
@@ -104,8 +107,10 @@ Interface\register$2.class
 Interface\frmChangeInformation$3.class
 Interface\login$3.class
 Database\ActionCustomers.class
+com\mycompany\CustomerLayout\CustomerProductCard$2.class
 com\mycompany\components\util\Option.class
 com\mycompany\components\ManagerCustomer$4.class
+com\mycompany\CustomerLayout\CustomerNavbar$3.class
 com\mycompany\components\ManagerProducts$1.class
 com\mycompany\components\Navbar$3.class
 Library\hashPassword.class

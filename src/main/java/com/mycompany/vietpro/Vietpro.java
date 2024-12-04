@@ -4,6 +4,8 @@
 
 package com.mycompany.vietpro;
 
+import Interface.login;
+
 /**
  *
  * @author An Ninh
@@ -11,6 +13,7 @@ package com.mycompany.vietpro;
 public class Vietpro {
 
     public static void main(String[] args) {
-
+        login lg = new login();
+        lg.setVisible(true);
     }
 }
