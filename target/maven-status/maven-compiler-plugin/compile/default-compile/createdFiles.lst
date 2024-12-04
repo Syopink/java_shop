@@ -22,6 +22,7 @@ com\mycompany\components\util\rowProducts.class
 com\mycompany\components\ManagerProducts$6.class
 Interface\register$1.class
 com\mycompany\components\util\rowProducts$6.class
+com\CustomerLayout\CustomerOrder.class
 com\mycompany\components\util\rowProducts$1.class
 com\mycompany\vietpro\CustomerLayout$2.class
 com\mycompany\components\util\rowComment.class
@@ -32,6 +33,7 @@ com\mycompany\CustomerLayout\CustomerProducts.class
 com\mycompany\vietpro\Vietpro.class
 Interface\forgetPassword$4.class
 Interface\forgetPassword.class
+com\CustomerLayout\CustomerOrderCard$1.class
 com\mycompany\CustomerLayout\CustomerToggleRouter$1.class
 Process\sendMail.class
 com\mycompany\components\Card\CardDashBoard.class
@@ -114,6 +116,7 @@ com\mycompany\components\util\rowsCustomer.class
 com\mycompany\components\Header.class
 Validate\UserDTO.class
 com\mycompany\components\Button\Search.class
+com\mycompany\components\Header$2.class
 com\mycompany\CustomerLayout\CustomerProductCard$1.class
 com\mycompany\components\ManagerCustomer$5.class
 com\mycompany\components\util\rows.class
@@ -122,9 +125,11 @@ com\mycompany\components\util\rowComment$1.class
 Interface\forgetPassword$2.class
 Interface\forgetPassword$14.class
 Interface\login$7.class
+com\CustomerLayout\CustomerOrderCard.class
 Interface\login$4.class
 com\mycompany\components\util\rowCate$2.class
 Interface\forgetPassword$1.class
+com\mycompany\CustomerLayout\CustomerNavbar$1.class
 com\mycompany\components\Navbar.class
 com\mycompany\components\ManagerOrders.class
 com\mycompany\components\ManagerUser$5.class
