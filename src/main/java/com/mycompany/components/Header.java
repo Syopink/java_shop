@@ -107,11 +107,6 @@ public class Header extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 0, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(255, 102, 51)));
         jPanel1.setOpaque(false);
-        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel1MouseClicked(evt);
-            }
-        });
 
         jLabel1.setBackground(new java.awt.Color(255, 102, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -195,10 +190,6 @@ public class Header extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
