@@ -29,7 +29,7 @@ public class CustomerNavbar extends javax.swing.JPanel {
     private Color selectedBackgroundColor = new Color(24, 26, 47); // Màu nền khi chọn
    private boolean isRouter1Selected = false; // Trạng thái router 1
     private boolean isRouter2Selected = false; // Trạng thái router 2
-
+    private boolean isRouter3selected=false;
     /**
      * Creates new form CustomerNavbar
      */
@@ -49,6 +49,7 @@ public class CustomerNavbar extends javax.swing.JPanel {
         customerToggleRouter1.set(text, mainPanel);
         isRouter1Selected = true;
         isRouter2Selected = false;
+        isRouter3selected =false;
         updateRouterBackground();
     }
 
@@ -56,6 +57,14 @@ public class CustomerNavbar extends javax.swing.JPanel {
         customerToggleRouter2.set(text, mainPanel);
         isRouter1Selected = false;
         isRouter2Selected = true;
+        isRouter3selected=false;
+        updateRouterBackground();
+    }
+    public void Router3(String text, JPanel mainPanel) {
+        customerToggleRouter3.set(text, mainPanel);
+        isRouter1Selected = false;
+        isRouter2Selected = false;
+        isRouter3selected=true;
         updateRouterBackground();
     }
     public void updateUserInfo(user us) {
@@ -151,11 +160,34 @@ public class CustomerNavbar extends javax.swing.JPanel {
                 updateRouterBackground();
             }
         });
+        customerToggleRouter3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                customerToggleRouter3.setBackground(selectedBackgroundColor);
+                customerToggleRouter3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (!isRouter3selected) {
+                    customerToggleRouter2.setBackground(defaultBackgroundColor);
+                }
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                isRouter1Selected = false;
+                isRouter2Selected = false;
+                isRouter3selected=true;
+                updateRouterBackground();
+            }
+        });
     }
 
     private void updateRouterBackground() {
         customerToggleRouter1.setBackground(isRouter1Selected ? selectedBackgroundColor : defaultBackgroundColor);
         customerToggleRouter2.setBackground(isRouter2Selected ? selectedBackgroundColor : defaultBackgroundColor);
+        customerToggleRouter3.setBackground(isRouter3selected ? selectedBackgroundColor : defaultBackgroundColor);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -176,6 +208,7 @@ public class CustomerNavbar extends javax.swing.JPanel {
         jAvatar = new javax.swing.JLabel();
         customerToggleRouter1 = new com.mycompany.CustomerLayout.CustomerToggleRouter();
         customerToggleRouter2 = new com.mycompany.CustomerLayout.CustomerToggleRouter();
+        customerToggleRouter3 = new com.mycompany.CustomerLayout.CustomerToggleRouter();
 
         jPanel1.setBackground(new java.awt.Color(253, 164, 129));
 
@@ -237,18 +270,21 @@ public class CustomerNavbar extends javax.swing.JPanel {
                 .addComponent(customerToggleRouter2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(customerToggleRouter1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(customerToggleRouter3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(customerToggleRouter1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(customerToggleRouter1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(customerToggleRouter2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(customerToggleRouter3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -267,6 +303,7 @@ public class CustomerNavbar extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.mycompany.CustomerLayout.CustomerToggleRouter customerToggleRouter1;
     private com.mycompany.CustomerLayout.CustomerToggleRouter customerToggleRouter2;
+    private com.mycompany.CustomerLayout.CustomerToggleRouter customerToggleRouter3;
     private javax.swing.JLabel jAvatar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
