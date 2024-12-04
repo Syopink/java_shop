@@ -100,7 +100,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="com.CustomerLayout.CustomerOrderCard" name="customerOrderCard1">
+            <Component class="com.mycompany.CustomerLayout.CustomerOrderCard" name="customerOrderCard1">
             </Component>
           </SubComponents>
         </Container>

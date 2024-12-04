@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.CustomerLayout;
+package com.mycompany.CustomerLayout;
 
 /**
  *
@@ -29,7 +29,7 @@ public class CustomerOrder extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        customerOrderCard1 = new com.CustomerLayout.CustomerOrderCard();
+        customerOrderCard1 = new com.mycompany.CustomerLayout.CustomerOrderCard();
         jPanel2 = new javax.swing.JPanel();
         idOrder = new javax.swing.JLabel();
         nameProduct = new javax.swing.JLabel();
@@ -162,7 +162,7 @@ public class CustomerOrder extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.CustomerLayout.CustomerOrderCard customerOrderCard1;
+    private com.mycompany.CustomerLayout.CustomerOrderCard customerOrderCard1;
     private javax.swing.JLabel idOrder;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -129,7 +129,6 @@ listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); 
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        customerProductCard1 = new com.mycompany.CustomerLayout.CustomerProductCard();
         jBoxCate = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -140,9 +139,6 @@ listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); 
         jFilterProduct = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-
-        customerProductCard1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jScrollPane1.setViewportView(customerProductCard1);
 
         jBoxCate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -250,7 +246,6 @@ listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.mycompany.CustomerLayout.CustomerProductCard customerProductCard1;
     private javax.swing.JComboBox<String> jBoxCate;
     private javax.swing.JComboBox<String> jBoxRangePrice;
     private javax.swing.JComboBox<String> jBoxStatus;
