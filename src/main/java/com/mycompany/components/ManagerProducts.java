@@ -6,12 +6,14 @@ package com.mycompany.components;
 
 import Database.ActionCate;
 import Database.ActionProduct;
+import Pojo.Product;
 import com.mycompany.components.util.Option;
 import com.mycompany.components.util.rowProducts;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +39,8 @@ public class ManagerProducts extends javax.swing.JPanel {
     private ActionProduct acp=new ActionProduct();
     private List<Object[]> categories = ac.getCate() ;
     private Option ops=new Option();
-    private float priceMin;
-    private float priceMax;
+    private BigDecimal priceMin;
+    private BigDecimal priceMax;
     private String selectCate="Chọn danh mục";
     private String selectRanges="Chọn khoảng giá";
     private String selectStatus="Chọn trạng thái";
@@ -105,11 +107,11 @@ void SelectItemBox() {
             if (selectRanges != null && !selectRanges.trim().isEmpty()) {
                 String[] parts = selectRanges.split("-");
                 if (parts.length == 2) {
-                    priceMin = Float.parseFloat(parts[0].trim());  // Giá trị min
-                    priceMax = Float.parseFloat(parts[1].trim());  // Giá trị max
+                    priceMin = new BigDecimal(parts[0].trim());  // Giá trị min
+                    priceMax = new BigDecimal(parts[1].trim());  // Giá trị max
                 } else {
-                    priceMin = Float.parseFloat(parts[0].trim());  // Chỉ có min
-                    priceMax = Float.MAX_VALUE;  // Đặt max là giá trị lớn nhất
+                    priceMin = new BigDecimal(parts[0].trim());  // Chỉ có min
+                    priceMax = new BigDecimal(Float.MAX_VALUE);  // Đặt max là giá trị lớn nhất
                 }
             }
         } 
@@ -117,13 +119,13 @@ void SelectItemBox() {
         addRows();  // Gọi hàm để hiển thị lại các hàng
     });
 }
-
 public void setPopUp(JFrame JP) {
-    jDialog1.setSize(560, 500);  
-    jDialog1.setResizable(false);
+    jDialog1.setResizable(true);
     jDialog1.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
     jDialog1.setLocationRelativeTo(JP); 
+    jDialog1.pack();  // Thay vì setSize, sử dụng pack để tự động điều chỉnh kích thước
     jDialog1.setVisible(isShowed);
+        jDialog1.setLocationRelativeTo(null); // Hiển thị giữa màn hình
 }
 
 void ImgUpLoad(){
@@ -143,7 +145,7 @@ void ImgUpLoad(){
         if (result == jFileChooser1.APPROVE_OPTION) {
             File selectedFile = jFileChooser1.getSelectedFile();
             ImageIcon imageIcon = new ImageIcon(selectedFile.getAbsolutePath());
-            Image image = imageIcon.getImage().getScaledInstance(260, 260, Image.SCALE_SMOOTH);
+            Image image = imageIcon.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
             ImageIcon resizedIcon = new ImageIcon(image);
             jLabel12.setIcon(resizedIcon);
             jLabel12.setText("");
@@ -151,54 +153,69 @@ void ImgUpLoad(){
     }
 
  
-    void addComponents(JPanel panelRows,int idProduct,String nameCate,String name,float price,String thumbnail,String status,Runnable callback){
-        rowProducts rowComponent = new rowProducts();
-        rowComponent.set(idProduct, nameCate, name, price, thumbnail, status);
-        panelRows.add(rowComponent,0);
-        rowComponent.updateProduct(callback);
-        rowComponent.deleteProduct(callback);
-    }
+void addComponents(JPanel panelRows, Product product, Runnable callback){
+    // Tạo một rowProducts mới
+    rowProducts rowComponent = new rowProducts();
     
- 
+    // Sử dụng đối tượng Product để thiết lập thông tin cho rowComponent
+    rowComponent.set(product);
     
-    void filter(int idProduct, String name, float price, String thumbnail, String status, String nameCate, JPanel panelRows) {
+    // Thêm rowComponent vào panelRows
+    panelRows.add(rowComponent, 0);
     
-        boolean isInPriceRange = selectRanges.equals("Chọn khoảng giá") || (price >= this.priceMin && price <= this.priceMax);
-        boolean isInCategory = selectCate.equals("Chọn danh mục") || selectCate.equals(nameCate);
-        boolean isInStatus = selectStatus.equals("Chọn trạng thái") || selectStatus.equals(status);
-
-        if (isInPriceRange && isInCategory && isInStatus) {
-            addComponents(panelRows, idProduct, nameCate, name, price, thumbnail, status, this::addRows);
-        }
-   
+    // Gọi các phương thức update và delete với callback
+    rowComponent.updateProduct(callback);
+    rowComponent.deleteProduct(callback);
 }
-
-
-
-
-
  
- 
-    public void addRows(){
+    
+void filter(Product product, JPanel panelRows) {
+    boolean isInPriceRange = selectRanges.equals("Chọn khoảng giá") || (product.getPrice().compareTo(priceMin) >= 0 && product.getPrice().compareTo(priceMax) <= 0);
+    boolean isInCategory = selectCate.equals("Chọn danh mục") || selectCate.equals(product.getCategoryTitle());
+    boolean isInStatus = selectStatus.equals("Chọn trạng thái") || selectStatus.equals(product.getStatus());
+
+    if (isInPriceRange && isInCategory && isInStatus) {
+        addComponents(panelRows, product, this::addRows);
+    }
+}
+public void addRows(){
     // Lấy dữ liệu từ cơ sở dữ liệu
-     List<Object[]> products = acp.getProducts();
+    List<Object[]> products = acp.getProducts();
+    
+    // Tạo một JPanel cho các sản phẩm
     JPanel panelRows = new JPanel();
-    panelRows.setLayout(new BoxLayout(panelRows,BoxLayout.Y_AXIS));
+    panelRows.setLayout(new BoxLayout(panelRows, BoxLayout.Y_AXIS));
     panelRows.removeAll();
-    // Duyệt qua danh sách categories và thêm các dòng vào giao diện
+    
+    // Duyệt qua danh sách sản phẩm và thêm các dòng vào giao diện
     for (Object[] row : products) {
+        // Chuyển đổi các giá trị trong mảng Object[] thành một đối tượng Product
         int idProduct = (int) row[0]; 
         String name = (String) row[1];
-        float price =(float) row[3];
-        String thumbnail = (String)row[4] ;
-        String status = (String) row[5] ;
-        String nameCate  = (String) row[6]  ;
-        filter(idProduct, name, price, thumbnail, status, nameCate, panelRows);
+        BigDecimal price = (BigDecimal) row[3];
+        String thumbnail = (String) row[4];
+        String status = (String) row[5];
+        String nameCate = (String) row[6];
+        
+        // Tạo đối tượng Product
+        Product product = new Product();
+        product.setIdProduct(idProduct);
+        product.setName(name);
+        product.setPrice(price);
+        product.setThumbnail(thumbnail);
+        product.setStatus(status);
+        product.setCategoryTitle(nameCate);
+        
+        // Gọi phương thức filter với đối tượng Product
+        filter(product, panelRows);
     }
+    
+    // Cập nhật giao diện
     jScrollPane2.setViewportView(panelRows);
     jScrollPane2.revalidate();
     jScrollPane2.repaint();
 }
+
     List<String> cateList(){
         List<String> catelist = new ArrayList<>();
         for (Object[] row : categories) {
@@ -208,29 +225,35 @@ void ImgUpLoad(){
         return catelist;
     }
  
-   void addProduct() {
+  void addProduct() {
     AddNewProduct.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
             // Directly get the text from the nameProduct field
             String names = jTextField2.getText();  
             if (names.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Product name cannot be empty.");
+                javax.swing.JOptionPane.showMessageDialog(null, "Tên không được bỏ trống.");
                 return;  // Exit if the product name is empty
             }
-            float price = Float.valueOf(pricePro.getText());
+
+            // Use BigDecimal for price
+            BigDecimal price = new BigDecimal(pricePro.getText());
+
             File selectedFile = jFileChooser1.getSelectedFile();
-            String thumbnail = selectedFile.getAbsolutePath();
+            String thumbnail = selectedFile != null ? selectedFile.getAbsolutePath() : "";
             String selectedStatus = (String) statusBox.getSelectedItem();
             String selectedCate = (String) CateBox.getSelectedItem();
-            String result = acp.addProduct(names, selectedCate, thumbnail, selectedStatus, price);
+            String description = jtdescription.getText();
+            String promotion = jtPromotion.getText();
+            String warranty = jtWarranty.getText();
+            String accessories = jtAccessories.getText();
+            String result = acp.addProduct(names, selectedCate, thumbnail, selectedStatus, price, description,promotion,warranty,accessories);
             javax.swing.JOptionPane.showMessageDialog(null, result);
-            
+
             addRows();
         }
     });
 }
-   
 
  
 
@@ -250,7 +273,6 @@ void ImgUpLoad(){
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         CateBox = new javax.swing.JComboBox<>();
         status = new javax.swing.JLabel();
@@ -262,6 +284,15 @@ void ImgUpLoad(){
         statusBox = new javax.swing.JComboBox<>();
         pricePro = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtdescription = new javax.swing.JTextArea();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jtWarranty = new javax.swing.JTextField();
+        jtAccessories = new javax.swing.JTextField();
+        jtPromotion = new javax.swing.JTextField();
         jDialog2 = new javax.swing.JDialog();
         jFileChooser1 = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
@@ -291,26 +322,22 @@ void ImgUpLoad(){
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel7.setText("Tên :");
+        jLabel7.setText("Tên:");
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, 49, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel8.setText("Giá :");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, 67, -1));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel9.setText("Ảnh :");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 70, -1));
+        jLabel8.setText("Giá:");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 67, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel10.setText("Danh mục");
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 90, -1));
+        jLabel10.setText("Danh mục:");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 90, 90, -1));
 
-        jPanel2.add(CateBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 90, 90, -1));
+        jPanel2.add(CateBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 90, 90, -1));
 
         status.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        status.setText("Trạng thái ");
-        jPanel2.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 180, 90, -1));
+        status.setText("Trạng thái:");
+        jPanel2.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 150, 90, -1));
 
         AddNewProduct.setBackground(new java.awt.Color(55, 65, 92));
         AddNewProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -322,7 +349,7 @@ void ImgUpLoad(){
                 AddNewProductActionPerformed(evt);
             }
         });
-        jPanel2.add(AddNewProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 470, -1));
+        jPanel2.add(AddNewProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 430, 470, -1));
 
         jLabel12.setBackground(new java.awt.Color(153, 153, 153));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -330,15 +357,10 @@ void ImgUpLoad(){
         jLabel12.setToolTipText("");
         jLabel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel12.setOpaque(true);
-        jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 130, 160));
+        jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 130, 160));
 
         jToggleButton2.setText("Choose File");
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jToggleButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 100, 43));
+        jPanel2.add(jToggleButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 130, 43));
 
         jPanel4.setBackground(new java.awt.Color(55, 65, 92));
 
@@ -353,29 +375,57 @@ void ImgUpLoad(){
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(495, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 60));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 60));
 
-        jPanel2.add(statusBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 190, 90, -1));
+        jPanel2.add(statusBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 150, 90, -1));
 
         pricePro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         pricePro.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        pricePro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                priceProActionPerformed(evt);
-            }
-        });
-        jPanel2.add(pricePro, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 150, 30));
+        jPanel2.add(pricePro, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 142, 160, 30));
 
-        jTextField2.setText("jTextField2");
         jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 160, 40));
+        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 76, 160, 40));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setText("Thông tin:");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, -1, -1));
+
+        jtdescription.setColumns(20);
+        jtdescription.setRows(5);
+        jScrollPane1.setViewportView(jtdescription);
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 330, 340, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel4.setText("Bảo hành:");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, -1, -1));
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel16.setText("Khuyến mãi:");
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, -1, -1));
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel18.setText("Phụ kiện đi kèm:");
+        jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 246, -1, -1));
+
+        jtWarranty.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtWarranty.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanel2.add(jtWarranty, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 192, 160, 30));
+
+        jtAccessories.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtAccessories.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanel2.add(jtAccessories, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 160, 30));
+
+        jtPromotion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtPromotion.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanel2.add(jtPromotion, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 283, 160, 30));
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -385,7 +435,9 @@ void ImgUpLoad(){
         );
         jDialog1Layout.setVerticalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
@@ -422,11 +474,6 @@ void ImgUpLoad(){
         AddProduct.setForeground(new java.awt.Color(255, 255, 255));
         AddProduct.setText("Thêm");
         AddProduct.setBorder(null);
-        AddProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddProductActionPerformed(evt);
-            }
-        });
         jPanel1.add(AddProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 200, 100, 30));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -497,11 +544,6 @@ void ImgUpLoad(){
         Filter.setForeground(new java.awt.Color(255, 255, 255));
         Filter.setSelected(true);
         Filter.setText("Tìm kiếm");
-        Filter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FilterActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -520,6 +562,7 @@ void ImgUpLoad(){
                         .addComponent(jCateBoxProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
                         .addComponent(jStatusBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(Filter, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -550,30 +593,14 @@ void ImgUpLoad(){
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 600));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProductActionPerformed
-      
-    }//GEN-LAST:event_AddProductActionPerformed
-
     private void AddNewProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewProductActionPerformed
         // TODO add your handling code here:
         
     }//GEN-LAST:event_AddNewProductActionPerformed
 
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
-
-    private void priceProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceProActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_priceProActionPerformed
-
     private void jCateBoxProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCateBoxProductsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCateBoxProductsActionPerformed
-
-    private void FilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FilterActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FilterActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -592,27 +619,35 @@ void ImgUpLoad(){
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JComboBox<String> jRangesPrice;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<String> jStatusBox;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JTextField jtAccessories;
+    private javax.swing.JTextField jtPromotion;
+    private javax.swing.JTextField jtWarranty;
+    private javax.swing.JTextArea jtdescription;
     private javax.swing.JTextField pricePro;
     private com.mycompany.components.util.rowProducts rowProducts2;
     private javax.swing.JLabel status;

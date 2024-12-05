@@ -1,5 +1,6 @@
 package Pojo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Product {
@@ -9,7 +10,7 @@ public class Product {
     private String name;
     private String thumbnail;
     private String descriptions;
-    private double price;
+    private BigDecimal price;
     private String status;
     private boolean featured;
     private String promotion;
@@ -23,7 +24,7 @@ public class Product {
     }
 
     // Constructor không có categoryTitle
-    public Product(String idCate, String name, String thumbnail, String descriptions, double price, String status) {
+    public Product(String idCate, String name, String thumbnail, String descriptions, BigDecimal price, String status) {
         this.idCate = idCate;
         this.name = name;
         this.thumbnail = thumbnail;
@@ -34,7 +35,7 @@ public class Product {
 
     // Constructor đầy đủ
     public Product(int idProduct, String idCate, String categoryTitle, String name, String thumbnail, String descriptions,
-                   double price, String status, boolean featured, String promotion, String warranty,
+                   BigDecimal price, String status, boolean featured, String promotion, String warranty,
                    String accessories, Date createdAt, Date updatedAt) {
         this.idProduct = idProduct;
         this.idCate = idCate;
@@ -101,11 +102,11 @@ public class Product {
         this.descriptions = descriptions;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

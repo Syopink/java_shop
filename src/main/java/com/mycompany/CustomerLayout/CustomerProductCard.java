@@ -6,9 +6,11 @@ package com.mycompany.CustomerLayout;
 
 import Pojo.Product;
 import java.awt.Color;
+import java.awt.Image;
 import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  *
@@ -36,7 +38,7 @@ public class CustomerProductCard extends javax.swing.JPanel {
 
         jDialog1 = new javax.swing.JDialog();
         jLExit = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jImageDetail = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -68,11 +70,11 @@ public class CustomerProductCard extends javax.swing.JPanel {
         });
         jDialog1.getContentPane().add(jLExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 5, 20, 30));
 
-        jLabel2.setBackground(new java.awt.Color(153, 153, 153));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoVietpro.jpg"))); // NOI18N
-        jLabel2.setOpaque(true);
-        jDialog1.getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 59, 123, 146));
+        jImageDetail.setBackground(new java.awt.Color(255, 255, 255));
+        jImageDetail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jImageDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoVietpro.jpg"))); // NOI18N
+        jImageDetail.setOpaque(true);
+        jDialog1.getContentPane().add(jImageDetail, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 59, 135, 155));
 
         jLabel3.setBackground(new java.awt.Color(180, 24, 37));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -83,21 +85,21 @@ public class CustomerProductCard extends javax.swing.JPanel {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Tên sản phẩm: ");
-        jDialog1.getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(142, 59, 90, 30));
+        jDialog1.getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 59, 90, 30));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Mô tả:");
-        jDialog1.getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, 40, 30));
+        jDialog1.getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 40, 30));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Trạng thái:");
-        jDialog1.getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 140, 60, 30));
+        jDialog1.getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 60, 30));
 
         nameProduct.setText("???");
-        jDialog1.getContentPane().add(nameProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 65, 82, -1));
+        jDialog1.getContentPane().add(nameProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 65, 82, -1));
 
         status.setText("???");
-        jDialog1.getContentPane().add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 146, 82, -1));
+        jDialog1.getContentPane().add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 146, 82, -1));
 
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -107,7 +109,7 @@ public class CustomerProductCard extends javax.swing.JPanel {
         Descripiton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(Descripiton);
 
-        jDialog1.getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 183, 240, 110));
+        jDialog1.getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 183, 240, 110));
 
         addCart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         addCart.setText("Thêm vào giỏ ");
@@ -123,16 +125,16 @@ public class CustomerProductCard extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Danh mục:");
-        jDialog1.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 96, 70, 30));
+        jDialog1.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 96, 70, 30));
 
         nameCate1.setText("???");
-        jDialog1.getContentPane().add(nameCate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 102, 82, -1));
+        jDialog1.getContentPane().add(nameCate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 102, 82, -1));
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        image.setBackground(new java.awt.Color(153, 153, 153));
+        image.setBackground(new java.awt.Color(255, 255, 255));
         image.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoVietpro.jpg"))); // NOI18N
         image.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -189,9 +191,9 @@ public class CustomerProductCard extends javax.swing.JPanel {
 
     private void buyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buyMouseClicked
         // TODO add your handling code here:
-if (!jDialog1.isDisplayable()) { // Kiểm tra nếu dialog chưa hiển thị
-    jDialog1.setUndecorated(true); // Đặt chế độ không viền
-}
+        if (!jDialog1.isDisplayable()) { // Kiểm tra nếu dialog chưa hiển thị
+            jDialog1.setUndecorated(true); // Đặt chế độ không viền
+        }
         jDialog1.revalidate();
         jDialog1.repaint();
         isSelect = true;
@@ -213,27 +215,60 @@ if (!jDialog1.isDisplayable()) { // Kiểm tra nếu dialog chưa hiển thị
         jDialog1.dispose(); // dialog1 là đối tượng JDialog mà bạn muốn đóng
     }//GEN-LAST:event_jLExitMouseClicked
     public void setProductData(Product product) {
+        String basePath = "D:\\Onedrive\\Documents\\NetBeansProjects\\VietPro3\\java_shop\\src\\main\\resources\\images";
+
+// Gán thông tin sản phẩm vào các thành phần
         nameProduct.setText(product.getName());
         name.setText(product.getName());
-        // Đảm bảo rằng mô tả (description) và trạng thái (status) được gán đúng
         Descripiton.setText(product.getDescriptions()); // Mô tả sản phẩm
         status.setText(product.getStatus()); // Trạng thái sản phẩm
         price1.setText(String.format("%.2f", product.getPrice()) + " VND");
         nameCate1.setText(String.valueOf(product.getCategoryTitle()));
-        String thumbnailPath = product.getThumbnail();
-        if (thumbnailPath != null && !thumbnailPath.isEmpty()) {
-            // Nếu đường dẫn hợp lệ, tạo ImageIcon
+
+// Lấy tên file ảnh
+        String imageName = product.getThumbnail();
+        if (imageName != null && !imageName.isEmpty()) {
+            // Tạo đường dẫn đầy đủ đến file ảnh
+            String thumbnailPath = basePath + File.separator + imageName;
             File imageFile = new File(thumbnailPath);
+            System.out.println("thumbnailPath: " + thumbnailPath);
             if (imageFile.exists()) {
-                ImageIcon imageIcon = new ImageIcon(imageFile.getAbsolutePath());
-                // Hiển thị hình ảnh hoặc thực hiện các hành động khác
+                image.setIcon(resizeImage(imageFile.getAbsolutePath(), 100, 150));
+                jImageDetail.setIcon(resizeImage(imageFile.getAbsolutePath(), 100, 150));
             } else {
-                // Nếu không tìm thấy hình ảnh, hiển thị hình ảnh mặc định
-                ImageIcon imageIcon = new ImageIcon("path/to/default/image.jpg");
+                image.setIcon(resizeImage(basePath + File.separator + "logoVietpro.jpg", 100, 150));
+                jImageDetail.setIcon(resizeImage(basePath + File.separator + "logoVietpro.jpg", 100, 150));
+
             }
         } else {
-            // Nếu thumbnail là null hoặc rỗng, sử dụng hình ảnh mặc định
-            ImageIcon imageIcon = new ImageIcon("path/to/default/image.jpg");
+            // Nếu `thumbnail` là null hoặc rỗng, sử dụng ảnh mặc định
+            ImageIcon defaultIcon = new ImageIcon(basePath + File.separator + "logoVietpro.jpg");
+            image.setIcon(defaultIcon);
+            jImageDetail.setIcon(resizeImage(basePath + File.separator + "logoVietpro.jpg", 100, 150));
+
+        }
+    }
+
+    private ImageIcon resizeImage(String imagePath, int width, int height) {
+        ImageIcon icon = new ImageIcon(imagePath);
+        Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
+    }
+
+    public void setImageForLabel(JLabel label, String basePath, String imageName) {
+        // Tạo đường dẫn đầy đủ
+        String fullPath = basePath + File.separator + imageName;
+
+        // Kiểm tra xem file ảnh có tồn tại hay không
+        File imageFile = new File(fullPath);
+        if (imageFile.exists()) {
+            // Nếu ảnh tồn tại, tạo ImageIcon và gắn vào JLabel
+            ImageIcon imageIcon = new ImageIcon(fullPath);
+            label.setIcon(imageIcon);
+        } else {
+            // Nếu ảnh không tồn tại, gắn ảnh mặc định
+            ImageIcon defaultIcon = new ImageIcon(basePath + File.separator + "logoVietpro.jpg");
+            label.setIcon(defaultIcon);
         }
     }
 
@@ -243,8 +278,8 @@ if (!jDialog1.isDisplayable()) { // Kiểm tra nếu dialog chưa hiển thị
     private javax.swing.JLabel buy;
     private javax.swing.JLabel image;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jImageDetail;
     private javax.swing.JLabel jLExit;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

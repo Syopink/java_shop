@@ -4,6 +4,8 @@
  */
 package Database;
 
+import Pojo.Product;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,7 +49,7 @@ public class ActionProduct {
                 nameCate = resultFind.getString("title");
             }
             String name = resultSet.getString("name");
-            Float price = resultSet.getFloat("price");
+                BigDecimal price = resultSet.getBigDecimal("price");  // Change to BigDecimal
             String thumbnail = resultSet.getString("thumbnail");
             String status = resultSet.getString("status");
             String createdAt = resultSet.getString("createdAt");
@@ -69,8 +71,8 @@ public class ActionProduct {
 
     return resultList;
 }
-     public String addProduct(String name,String nameCate,String thumbnail,String status,float price){
-        String query = "INSERT INTO products (name,idCate,thumbnail,status,price) VALUES (?,?,?,?,?)";
+     public String addProduct(String name,String nameCate,String thumbnail,String status,BigDecimal price, String descriptions,String promotion, String warranty, String accessories ){
+        String query = "INSERT INTO products (name,idCate,thumbnail,status,price, descriptions, promotion, warranty, accessories) VALUES (?,?,?,?,?,?,?,?,?)";
         String queryIdCate="SELECT idCate FROM categories WHERE title = ?";
         try (
         PreparedStatement statement = connection.prepareStatement(query);
@@ -89,8 +91,11 @@ public class ActionProduct {
         statement.setInt(2, idCate); 
         statement.setString(3, thumbnail); 
         statement.setString(4, status); 
-        statement.setFloat(5, price); 
-
+        statement.setBigDecimal(5, price);  
+        statement.setString(6, descriptions);
+        statement.setString(7, promotion);
+        statement.setString(8, warranty);
+        statement.setString(9, accessories);
                 
         int rowsUpdated = statement.executeUpdate(); // Thực thi lệnh UPDATE
         return rowsUpdated > 0 ? "Thêm mới thành công" : "Thêm mới thất bại";
@@ -115,36 +120,39 @@ public class ActionProduct {
     }
        } 
     
-    
-    public String updateProduct(String names, float price, String thumbnail, String selectedStatus, String selectedCate, int idProduct) {
-    // Corrected SQL query
-    String query = "UPDATE products SET name = ?, thumbnail = ?, price = ?, status = ?, idCate = ? WHERE idProduct = ?";
+  public String updateProduct(Product product) {
+    String query = "UPDATE products SET name = ?, thumbnail = ?, price = ?, status = ?, idCate = ?, descriptions = ?, promotion = ?, warranty = ?, accessories = ? WHERE idProduct = ?";
     String queryIdCate = "SELECT idCate FROM categories WHERE title = ?";
 
     try (
         PreparedStatement statement = connection.prepareStatement(query);
         PreparedStatement findIdCate = connection.prepareStatement(queryIdCate);
     ) {
-        // Find idCate by category title
-        findIdCate.setString(1, selectedCate);  // Set selected category title
+        // Tìm idCate theo tên danh mục từ đối tượng Product
+        findIdCate.setString(1, product.getCategoryTitle());  // Lấy tên danh mục từ Product
         ResultSet rs = findIdCate.executeQuery();
         int idCate = 0;
-        
+
         if (rs.next()) {
             idCate = rs.getInt("idCate");
         } else {
             return "Category not found!";
         }
 
-        // Set parameters for the update query
-        statement.setString(1, names);  // Set product name
-        statement.setString(2, thumbnail);  // Set thumbnail
-        statement.setFloat(3, price);  // Set price
-        statement.setString(4, selectedStatus);  // Set status
-        statement.setInt(5, idCate);  // Set category ID
-        statement.setInt(6, idProduct);  // Set product ID
+        // Thiết lập các tham số cho câu lệnh UPDATE từ đối tượng Product
+        statement.setString(1, product.getName());  // Tên sản phẩm
+        statement.setString(2, product.getThumbnail());  // Hình ảnh sản phẩm
+        statement.setBigDecimal(3, product.getPrice());  // Giá sản phẩm
+        statement.setString(4, product.getStatus());  // Trạng thái sản phẩm
+        statement.setInt(5, idCate);  // ID danh mục
+        statement.setString(6, product.getDescriptions());  // Mô tả sản phẩm
+        statement.setString(7, product.getPromotion());  // Khuyến mãi
+        statement.setString(8, product.getWarranty());  // Bảo hành
+        statement.setString(9, product.getAccessories());  // Phụ kiện
+        statement.setInt(10, product.getIdProduct());  // ID sản phẩm
 
-        int rowsUpdated = statement.executeUpdate(); // Execute update query
+        // Thực thi câu lệnh UPDATE
+        int rowsUpdated = statement.executeUpdate();
 
         return rowsUpdated > 0 ? "CẬP NHẬT THÀNH CÔNG" : "CẬP NHẬT THẤT BẠI";
     } catch (Exception e) {
@@ -153,3 +161,4 @@ public class ActionProduct {
     }
 }
 }
+

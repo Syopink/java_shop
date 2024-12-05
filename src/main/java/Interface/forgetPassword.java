@@ -151,6 +151,7 @@ public class forgetPassword extends javax.swing.JFrame {
         jbtnContinue.setForeground(new java.awt.Color(255, 255, 255));
         jbtnContinue.setText("Tiếp tục");
         jbtnContinue.setToolTipText("");
+        jbtnContinue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jbtnContinue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnContinueActionPerformed(evt);
@@ -231,6 +232,7 @@ public class forgetPassword extends javax.swing.JFrame {
         jbtnContinueStepTwo.setForeground(new java.awt.Color(255, 255, 255));
         jbtnContinueStepTwo.setText("Tiếp tục");
         jbtnContinueStepTwo.setToolTipText("");
+        jbtnContinueStepTwo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jbtnContinueStepTwo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnContinueStepTwoActionPerformed(evt);
@@ -262,6 +264,7 @@ public class forgetPassword extends javax.swing.JFrame {
         B3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLHideNewPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/view.png"))); // NOI18N
+        jLHideNewPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLHideNewPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLHideNewPasswordMousePressed(evt);
@@ -270,6 +273,7 @@ public class forgetPassword extends javax.swing.JFrame {
         B3.add(jLHideNewPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 140, -1, -1));
 
         jLShowNewPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/eye.png"))); // NOI18N
+        jLShowNewPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLShowNewPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLShowNewPasswordMousePressed(evt);
@@ -278,6 +282,7 @@ public class forgetPassword extends javax.swing.JFrame {
         B3.add(jLShowNewPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 140, -1, -1));
 
         jLHideConfirmPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/view.png"))); // NOI18N
+        jLHideConfirmPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLHideConfirmPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLHideConfirmPasswordMousePressed(evt);
@@ -286,6 +291,7 @@ public class forgetPassword extends javax.swing.JFrame {
         B3.add(jLHideConfirmPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 200, -1, -1));
 
         jLShowConfirmPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/eye.png"))); // NOI18N
+        jLShowConfirmPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLShowConfirmPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLShowConfirmPasswordMousePressed(evt);
@@ -326,6 +332,7 @@ public class forgetPassword extends javax.swing.JFrame {
         jbtnUpdateNewPassword.setForeground(new java.awt.Color(255, 255, 255));
         jbtnUpdateNewPassword.setText("Cập nhật ");
         jbtnUpdateNewPassword.setToolTipText("");
+        jbtnUpdateNewPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jbtnUpdateNewPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnUpdateNewPasswordActionPerformed(evt);
@@ -363,6 +370,7 @@ public class forgetPassword extends javax.swing.JFrame {
         jbtnUpdateSuccess.setForeground(new java.awt.Color(255, 255, 255));
         jbtnUpdateSuccess.setText("Xác nhận");
         jbtnUpdateSuccess.setToolTipText("");
+        jbtnUpdateSuccess.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jbtnUpdateSuccess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnUpdateSuccessActionPerformed(evt);

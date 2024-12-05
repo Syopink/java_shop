@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;  // Thêm BigDecimal
+
 
 /**
  *
@@ -43,7 +45,7 @@ public List<Product> getAllProducts() {
                 product.setName(rs.getString("name"));
                 product.setThumbnail(rs.getString("thumbnail"));
                 product.setDescriptions(rs.getString("descriptions"));
-                product.setPrice(rs.getFloat("price"));  
+                product.setPrice(rs.getBigDecimal("price"));  
                 product.setStatus(rs.getString("status"));
                 product.setFeatured(rs.getBoolean("featured"));
                 product.setPromotion(rs.getString("promotion"));

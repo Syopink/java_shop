@@ -6,10 +6,13 @@ package com.mycompany.components.util;
 
 import Database.ActionCate;
 import Database.ActionProduct;
+import Pojo.Product;
+import Process.product;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -39,9 +42,13 @@ public class rowProducts extends javax.swing.JPanel {
     private String the_category_product;
     private String the_status_product;
     private String the_thumbnail_product;
-    private float the_price_product;
+    private BigDecimal the_price_product;
     private boolean choose_file=false;
-    
+    private String the_description_product;
+    private String the_promotion_product;
+    private String the_warranty_product;
+    private String the_accessories_product;
+private Product currentProduct;
 
     public rowProducts() {
         initComponents();
@@ -65,21 +72,30 @@ public class rowProducts extends javax.swing.JPanel {
         });
 }
     
- private void uploadImage() {
-        // Tạo JFileChooser để chọn ảnh
-        jFileChooser1.setDialogTitle("Chọn hình ảnh");
-            jFileChooser1.setAcceptAllFileFilterUsed(false);
-            jFileChooser1.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png", "gif"));
-        int result = jFileChooser1.showOpenDialog(this);
-        if (result == jFileChooser1.APPROVE_OPTION) {
-            File selectedFile = jFileChooser1.getSelectedFile();
-            ImageIcon imageIcon = new ImageIcon(selectedFile.getAbsolutePath());
-            Image image = imageIcon.getImage().getScaledInstance(260, 260, Image.SCALE_SMOOTH);
-            ImageIcon resizedIcon = new ImageIcon(image);
-            update_thumbnail.setIcon(resizedIcon);
-            update_thumbnail.setText("");
-        }
+private void uploadImage() {
+    jFileChooser1.setDialogTitle("Chọn hình ảnh");
+    jFileChooser1.setAcceptAllFileFilterUsed(false);
+    jFileChooser1.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png", "gif"));
+    int result = jFileChooser1.showOpenDialog(this);
+    if (result == jFileChooser1.APPROVE_OPTION) {
+        File selectedFile = jFileChooser1.getSelectedFile();
+        String imageName = selectedFile.getName(); // Lấy tên tệp ảnh, không phải đường dẫn đầy đủ
+        
+        // Resize ảnh trước khi hiển thị
+        ImageIcon resizedIcon = resizeImage(selectedFile.getAbsolutePath(), 100, 150);
+        update_thumbnail.setIcon(resizedIcon); // Hiển thị hình ảnh đã resize vào JLabel update_thumbnail
+        update_thumbnail.setText(""); // Xóa văn bản nếu có
+        choose_file = true; // Đánh dấu là đã chọn file
+        
+        // Lưu tên ảnh vào cơ sở dữ liệu hoặc biến tương ứng
+        the_thumbnail_product = imageName; // Lưu tên tệp ảnh
     }
+}
+ private ImageIcon resizeImage(String imagePath, int width, int height) {
+    ImageIcon icon = new ImageIcon(imagePath);
+    Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    return new ImageIcon(scaledImage);
+}
     
 
 public JToggleButton getDeleteToggle(){
@@ -92,100 +108,142 @@ public Integer getIdProduct(){
 
     
 
-public void setPopUp(JFrame JP) {
-    jDialog1.setSize(560, 500);  
-    jDialog1.setResizable(false);
-    jDialog1.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
-    // Đặt vị trí của jDialog1 ở giữa parent frame
-    jDialog1.setLocationRelativeTo(JP); 
-    // Hiển thị hoặc ẩn jDialog1 dựa trên giá trị của isShowed
-    jDialog1.setVisible(isShowed);
-}
+public void setPopUp(JFrame parentFrame) {
+        jDialog1.setResizable(true);
+        jDialog1.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        jDialog1.setLocationRelativeTo(parentFrame);
+        jDialog1.pack();  // Thay vì setSize, sử dụng pack để tự động điều chỉnh kích thước
+        jDialog1.setVisible(isShowed);
+ }
 
 void initializeForm() {
     StatusBox.setModel(new DefaultComboBoxModel<>(ops.StatusOptions()));
     CateBox.setModel(new DefaultComboBoxModel<>(cateList().toArray(new String[0])));
 }
 
-List<String> cateList(){
+  List<String> cateList() {
         List<String> catelist = new ArrayList<>();
         for (Object[] row : categories) {
-             String nameCate = (String) row[1];
-             catelist.add(nameCate);
-            }
+            String nameCate = (String) row[1];
+            catelist.add(nameCate);
+        }
         return catelist;
     }
 
 
-public void set(int id, String cate, String name, float price, String thumbnail, String status) {
-    jPanel2.setSize(707, 44);
-    this.id = id;
+public void set(Product product) {
+    this.currentProduct = product;
 
-    if (thumbnail != null && !thumbnail.isEmpty()) {
-        image.setIcon(new javax.swing.ImageIcon(thumbnail));  // Tạo ImageIcon từ đường dẫn hợp lệ
-    } 
+    // Update the UI with product details
+    jLabel1.setText(String.valueOf(product.getIdProduct()));
+    name_product.setText(product.getName());
+    jLabel3.setText(String.valueOf(product.getPrice()));
+    status_product.setText(product.getStatus());
+    category_product.setText(product.getCategoryTitle());
 
-    // Cập nhật các label
-    this.the_name_product=name;
-    this.the_category_product=cate;
-    this.the_price_product=price;
-    this.the_thumbnail_product=thumbnail;
-    this.the_status_product=status;
-    jLabel1.setText(String.valueOf(id));
-    name_product.setText(name);
-    jLabel3.setText(String.valueOf(price));
-    status_product.setText(status);
-    category_product.setText(cate);
+    // Set the thumbnail
+    if (product.getThumbnail() != null && !product.getThumbnail().isEmpty()) {
+        ImageIcon resizedIcon = resizeImage(product.getThumbnail(), 100, 150);
+        image.setIcon(resizedIcon);
+    } else {
+        // Use default image if thumbnail is empty
+        String defaultThumbnailPath = "path/to/default/thumbnail.jpg";
+        ImageIcon defaultIcon = resizeImage(defaultThumbnailPath, 100, 150);
+        image.setIcon(defaultIcon);
+    }
 }
 
 void buttonShowDialog() {
     UpdateToggle.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            namechange.setText(the_name_product);
-            CateBox.setSelectedItem(the_category_product);
-            update_thumbnail.setIcon(new javax.swing.ImageIcon(the_thumbnail_product));
-            StatusBox.setSelectedItem(the_status_product);
-            pricePro.setText(String.valueOf(Float.valueOf(the_price_product)));
-            System.out.println(".actionPerformed() : "+the_name_product );
-            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(UpdateToggle);
-            isShowed = true;
-            setPopUp(parentFrame);
-            
+            System.out.println("Update button clicked");
+
+            // Lấy sản phẩm hiện tại từ phương thức getSelectedProduct()
+            Product product = getSelectedProduct();
+            System.out.println("Selected Product: " + getSelectedProduct());
+
+            if (product != null) {
+                // Cập nhật các trường dữ liệu vào JTextField
+                namechange.setText(product.getName()); // Cập nhật tên sản phẩm
+                pricePro.setText(product.getPrice().toString()); // Cập nhật giá
+                jtdescription.setText(product.getDescriptions()); // Cập nhật mô tả
+                jtPromotion.setText(product.getPromotion()); // Cập nhật khuyến mãi
+                jtWarranty.setText(product.getWarranty()); // Cập nhật bảo hành
+                jtAccessories.setText(product.getAccessories()); // Cập nhật phụ kiện
+                
+                // Cập nhật trạng thái và danh mục
+                StatusBox.setSelectedItem(product.getStatus()); // Cập nhật trạng thái
+                CateBox.setSelectedItem(product.getCategoryTitle()); // Cập nhật danh mục
+                
+                // Cập nhật hình ảnh (nếu có)
+                if (product.getThumbnail() != null && !product.getThumbnail().isEmpty()) {
+                    File imgFile = new File(product.getThumbnail());
+                    if (imgFile.exists()) {
+                        ImageIcon imageIcon = new ImageIcon(imgFile.getAbsolutePath());
+                        Image image = imageIcon.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+                        ImageIcon resizedIcon = new ImageIcon(image);
+                        jLabel12.setIcon(resizedIcon); // Cập nhật hình ảnh
+                        jLabel12.setText(""); // Xóa văn bản nếu có
+                    }
+                }
+                // Hiển thị JDialog và đánh dấu isShowed = true
+                isShowed = true;
+                setPopUp(null); // Hiển thị dialog với JFrame cha (nếu có)
+            } else {
+                // Thông báo lỗi nếu không có sản phẩm được chọn
+                javax.swing.JOptionPane.showMessageDialog(null, "Chưa chọn sản phẩm.");
+            }
         }
     });
 }
 
-public void updateProduct(Runnable onSuccessCallbac){
+public Product getSelectedProduct() {
+    return currentProduct;
+}
+public void updateProduct(Runnable onSuccessCallback) {
     updateToggleRp.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override 
         public void mouseClicked(java.awt.event.MouseEvent e) {
-            // Directly get the text from the nameProduct field
-            String names = namechange.getText();
-            float price = Float.parseFloat(pricePro.getText());
-            if (names.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để trống");
-                return;  
-            }
-            String thumbnail;
+            String name = namechange.getText();
+            String priceText = pricePro.getText();
             
-            if(choose_file==true){
-                File selectedFile = jFileChooser1.getSelectedFile();
-                if (selectedFile == null) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Vui lòng chọn một ảnh đại diện");
-                    return;
-                }
-            thumbnail = selectedFile.getAbsolutePath();
-            }else{
-                thumbnail=the_thumbnail_product;
+            // Kiểm tra giá trị tên sản phẩm
+            if (name.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để trống");
+                return;
             }
-            int idProduct = Integer.valueOf(jLabel1.getText());
 
-            String selectedStatus = (String) StatusBox.getSelectedItem();
-            String selectedCate = (String) CateBox.getSelectedItem();
-            String result = acp.updateProduct(names, price, thumbnail, selectedStatus, selectedCate, idProduct);
+            BigDecimal price = new BigDecimal(priceText);
+
+            // Kiểm tra và lưu ảnh nếu có
+            String thumbnail = choose_file ? jFileChooser1.getSelectedFile().getAbsolutePath() : currentProduct.getThumbnail();
+
+            // Lấy các chi tiết khác
+            String status = (String) StatusBox.getSelectedItem();
+            String category = (String) CateBox.getSelectedItem();
+            String description = jtdescription.getText();
+            String promotion = jtPromotion.getText();
+            String warranty = jtWarranty.getText();
+            String accessories = jtAccessories.getText();
+
+            // Cập nhật đối tượng currentProduct
+            currentProduct.setName(name);
+            currentProduct.setPrice(price);
+            currentProduct.setThumbnail(thumbnail);
+            currentProduct.setStatus(status);
+            currentProduct.setCategoryTitle(category);
+            currentProduct.setDescriptions(description);
+            currentProduct.setPromotion(promotion);
+            currentProduct.setWarranty(warranty);
+            currentProduct.setAccessories(accessories);
+
+            // Gọi phương thức update trong ActionProduct
+            String result = acp.updateProduct(currentProduct);
             javax.swing.JOptionPane.showMessageDialog(null, result);
-            onSuccessCallbac.run();
+
+            // Thực hiện callback sau khi thành công
+            onSuccessCallback.run();
         }
     });
 }
@@ -207,7 +265,6 @@ public void updateProduct(Runnable onSuccessCallbac){
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         namechange = new javax.swing.JTextField();
         pricePro = new javax.swing.JTextField();
@@ -219,6 +276,15 @@ public void updateProduct(Runnable onSuccessCallbac){
         jLabel15 = new javax.swing.JLabel();
         CateBox = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtdescription = new javax.swing.JTextArea();
+        jLabel4 = new javax.swing.JLabel();
+        jtWarranty = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jtAccessories = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jtPromotion = new javax.swing.JTextField();
         jDialog2 = new javax.swing.JDialog();
         jFileChooser1 = new javax.swing.JFileChooser();
         jPanel2 = new javax.swing.JPanel();
@@ -236,29 +302,24 @@ public void updateProduct(Runnable onSuccessCallbac){
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Tên :");
-        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 49, -1));
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 49, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel9.setText("Giá :");
-        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, 67, -1));
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel10.setText("Ảnh :");
-        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 70, -1));
+        jLabel9.setText("Giá:");
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 67, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel11.setText("Trạng thái: ");
-        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 100, -1));
+        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 100, -1));
 
-        namechange.setActionCommand(null);
+        namechange.setActionCommand("null");
         namechange.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jPanel3.add(namechange, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 120, 36));
+        jPanel3.add(namechange, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, 160, 36));
 
         pricePro.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jPanel3.add(pricePro, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 170, 150, 24));
+        jPanel3.add(pricePro, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 130, 160, 30));
 
-        StatusBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(StatusBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 120, 90, -1));
+        jPanel3.add(StatusBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 132, 90, -1));
 
         updateToggleRp.setBackground(new java.awt.Color(55, 65, 92));
         updateToggleRp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -270,7 +331,7 @@ public void updateProduct(Runnable onSuccessCallbac){
                 updateToggleRpActionPerformed(evt);
             }
         });
-        jPanel3.add(updateToggleRp, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 510, -1));
+        jPanel3.add(updateToggleRp, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 490, 510, -1));
 
         update_thumbnail.setBackground(new java.awt.Color(153, 153, 153));
         update_thumbnail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -278,7 +339,7 @@ public void updateProduct(Runnable onSuccessCallbac){
         update_thumbnail.setToolTipText("");
         update_thumbnail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         update_thumbnail.setOpaque(true);
-        jPanel3.add(update_thumbnail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 169, 130, 130));
+        jPanel3.add(update_thumbnail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 140, 180));
 
         jToggleButton5.setText("Choose File");
         jToggleButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -286,7 +347,7 @@ public void updateProduct(Runnable onSuccessCallbac){
                 jToggleButton5ActionPerformed(evt);
             }
         });
-        jPanel3.add(jToggleButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, 120, 43));
+        jPanel3.add(jToggleButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 140, 43));
 
         jPanel4.setBackground(new java.awt.Color(55, 65, 92));
 
@@ -301,32 +362,65 @@ public void updateProduct(Runnable onSuccessCallbac){
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(329, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
-        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 60));
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 60));
 
-        CateBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(CateBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 80, 90, -1));
+        jPanel3.add(CateBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 82, 90, -1));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel12.setText("Loại :");
-        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 70, -1));
+        jLabel12.setText("Danh mục:");
+        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, 90, -1));
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel13.setText("Thông tin:");
+        jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 90, -1));
+
+        jtdescription.setColumns(20);
+        jtdescription.setRows(5);
+        jScrollPane1.setViewportView(jtdescription);
+
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, 290, 90));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel4.setText("Bảo hành:");
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, -1, 30));
+
+        jtWarranty.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtWarranty.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanel3.add(jtWarranty, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, 160, 30));
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel18.setText("Phụ kiện đi kèm:");
+        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, -1, 30));
+
+        jtAccessories.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtAccessories.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanel3.add(jtAccessories, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 226, 160, 30));
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel16.setText("Khuyến mãi:");
+        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, -1, 30));
+
+        jtPromotion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtPromotion.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanel3.add(jtPromotion, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, 160, 30));
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
         jDialog1Layout.setHorizontalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jDialog1Layout.setVerticalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialog1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -452,17 +546,25 @@ public void updateProduct(Runnable onSuccessCallbac){
     private javax.swing.JDialog jDialog2;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToggleButton jToggleButton5;
+    private javax.swing.JTextField jtAccessories;
+    private javax.swing.JTextField jtPromotion;
+    private javax.swing.JTextField jtWarranty;
+    private javax.swing.JTextArea jtdescription;
     private javax.swing.JLabel name_product;
     private javax.swing.JTextField namechange;
     private javax.swing.JTextField pricePro;

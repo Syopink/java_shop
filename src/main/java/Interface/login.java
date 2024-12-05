@@ -123,6 +123,7 @@ public class login extends javax.swing.JFrame {
         jbtnLogin.setForeground(new java.awt.Color(255, 255, 255));
         jbtnLogin.setText("Đăng nhập");
         jbtnLogin.setToolTipText("");
+        jbtnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jbtnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnLoginActionPerformed(evt);
@@ -136,6 +137,7 @@ public class login extends javax.swing.JFrame {
         jtxtRegister.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtxtRegister.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/register_button.png"))); // NOI18N
         jtxtRegister.setText("Đăng ký");
+        jtxtRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jtxtRegister.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtxtRegisterMouseClicked(evt);
@@ -144,6 +146,7 @@ public class login extends javax.swing.JFrame {
         bg.add(jtxtRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 325, 90, 30));
 
         jLShow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/eye.png"))); // NOI18N
+        jLShow.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLShow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLShowMousePressed(evt);
@@ -152,6 +155,7 @@ public class login extends javax.swing.JFrame {
         bg.add(jLShow, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 210, -1, -1));
 
         jLHidePassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/view.png"))); // NOI18N
+        jLHidePassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLHidePassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLHidePasswordMousePressed(evt);

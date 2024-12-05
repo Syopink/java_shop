@@ -4,8 +4,10 @@
  */
 package com.mycompany.CustomerLayout;
 
+import Database.Action;
 import Pojo.Product;
 import Process.product;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -15,97 +17,35 @@ import javax.swing.JPanel;
  * @author An Ninh
  */
 public class CustomerProducts extends javax.swing.JPanel {
+
     private List<Product> productList = new ArrayList<>(); // Danh sách sản phẩm
-    private  product pr = new product();
+    private product pr = new product();
+    Action action = new Action();
+
     /**
      * Creates new form CustomerProducts
      */
     public CustomerProducts() {
         initComponents();
+            loadComboBoxData(); // Đổ dữ liệu vào các JComboBox
         loadProducts();
     }
-    
 
-   private void loadProducts() {
-    // Xóa nội dung cũ nếu có
-    jScrollPane1.getViewport().removeAll();
-
-    // Tạo JPanel để chứa các hàng sản phẩm
-    JPanel listPanel = new JPanel();
-listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); // Sắp xếp ngang, cách nhau 10px
-
-    // Tạo đối tượng product và gọi phương thức getAllProducts
-    productList = pr.getAllProducts(); // Lấy tất cả sản phẩm từ cơ sở dữ liệu
-
-    // Tạo các hàng và thêm vào giao diện
-    for (Product product : productList) {
-        System.out.println(product.toString()); // Log thông tin sản phẩm để kiểm tra
-
-        CustomerProductCard productCard = new CustomerProductCard();
-        productCard.setProductData(product); // Truyền dữ liệu sản phẩm vào card
-        listPanel.add(productCard);
-    }
-
-    // Đặt JPanel vào JScrollPane
-    jScrollPane1.setViewportView(listPanel);
-
-    // Làm mới giao diện
-    listPanel.revalidate();
-    listPanel.repaint();
-}
-     
-       private void jFilterProductMouseClicked(java.awt.event.MouseEvent evt) {
-        // Lọc sản phẩm dựa trên các bộ lọc đã chọn
-        String category = (String) jBoxCate.getSelectedItem();
-        String status = (String) jBoxStatus.getSelectedItem();
-        String priceRange = (String) jBoxRangePrice.getSelectedItem();
-        String name = jTextField1.getText();
-
-        List<Product> filteredProducts = filterProducts(category, status, priceRange, name);
-        displayFilteredProducts(filteredProducts);
-    }
-
-    private List<Product> filterProducts(String category, String status, String priceRange, String name) {
-        // Giả lập phương thức lọc sản phẩm dựa trên các tiêu chí
-        List<Product> filteredProducts = new ArrayList<>();
-        for (Product product : productList) {
-            boolean matches = true;
-
-            if (!category.equals("Tất cả") && !product.getIdCate().equals(category)) {
-                matches = false;
-            }
-            if (!status.equals("Tất cả") && !product.getStatus().equals(status)) {
-                matches = false;
-            }
-            if (!priceRange.equals("Tất cả")) {
-                // Lọc theo giá (Giả sử có một số khoảng giá cụ thể)
-                if (priceRange.equals("Dưới 200")) {
-                    if (product.getPrice() >= 200) matches = false;
-                } else if (priceRange.equals("Trên 200")) {
-                    if (product.getPrice() < 200) matches = false;
-                }
-            }
-            if (!name.isEmpty() && !product.getName().toLowerCase().contains(name.toLowerCase())) {
-                matches = false;
-            }
-
-            if (matches) {
-                filteredProducts.add(product);
-            }
-        }
-        return filteredProducts;
-    }
-
-    private void displayFilteredProducts(List<Product> filteredProducts) {
+    private void loadProducts() {
         // Xóa nội dung cũ nếu có
         jScrollPane1.getViewport().removeAll();
 
-        // Tạo JPanel để chứa các hàng sản phẩm đã lọc
+        // Tạo JPanel để chứa các hàng sản phẩm
         JPanel listPanel = new JPanel();
-        listPanel.setLayout(new javax.swing.BoxLayout(listPanel, javax.swing.BoxLayout.Y_AXIS));
+        listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); // Sắp xếp ngang, cách nhau 10px
 
-        // Tạo các thẻ sản phẩm cho các sản phẩm đã lọc và thêm vào giao diện
-        for (Product product : filteredProducts) {
+        // Tạo đối tượng product và gọi phương thức getAllProducts
+        productList = pr.getAllProducts(); // Lấy tất cả sản phẩm từ cơ sở dữ liệu
+
+        // Tạo các hàng và thêm vào giao diện
+        for (Product product : productList) {
+                                System.out.println(product.toString()); // Log thông tin sản phẩm để kiểm tra
+
             CustomerProductCard productCard = new CustomerProductCard();
             productCard.setProductData(product); // Truyền dữ liệu sản phẩm vào card
             listPanel.add(productCard);
@@ -118,6 +58,82 @@ listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); 
         listPanel.revalidate();
         listPanel.repaint();
     }
+    
+    
+    private void loadComboBoxData() {
+
+    try {
+        // Lấy danh mục sản phẩm
+        List<String> categories = action.getAllCategories();
+        jBoxCate.removeAllItems();
+        jBoxCate.addItem("Tất cả"); // Thêm mục "Tất cả" để không lọc theo danh mục
+        for (String category : categories) {
+            jBoxCate.addItem(category);
+        }
+
+        // Lấy trạng thái sản phẩm
+        List<String> statuses = action.getAllStatuses();
+        jBoxStatus.removeAllItems();
+        jBoxStatus.addItem("Tất cả"); // Thêm mục "Tất cả" để không lọc theo trạng thái
+        for (String status : statuses) {
+            jBoxStatus.addItem(status);
+        }
+
+        // Lấy danh sách giá (giá trị cố định hoặc từ cơ sở dữ liệu)
+        List<String> priceRanges = action.getPriceRanges();
+        jBoxRangePrice.removeAllItems();
+        for (String range : priceRanges) {
+            jBoxRangePrice.addItem(range);
+        }
+
+    } catch (SQLException ex) {
+        ex.printStackTrace(); // Xử lý lỗi kết nối
+    }
+}
+    
+    private List<Product> filterProducts() {
+    String selectedCategory = (String) jBoxCate.getSelectedItem();
+    String selectedStatus = (String) jBoxStatus.getSelectedItem();
+    String selectedPriceRange = (String) jBoxRangePrice.getSelectedItem();
+    String searchName = jtFindName.getText().trim();
+
+    // Lọc sản phẩm dựa trên các bộ lọc
+    Action action = new Action();
+    try {
+        return action.getFilteredProducts(selectedCategory, selectedStatus, selectedPriceRange, searchName);
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return new ArrayList<>(); // Trả về danh sách rỗng nếu lỗi
+}
+    
+
+    private void displayFilteredProducts(List<Product> filteredProducts) {
+    // Xóa nội dung cũ nếu có
+    jScrollPane1.getViewport().removeAll();
+
+    // Tạo JPanel để chứa các hàng sản phẩm đã lọc
+    JPanel listPanel = new JPanel();
+    listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); // Sắp xếp ngang, cách nhau 10px
+
+    // Tạo các thẻ sản phẩm cho các sản phẩm đã lọc và thêm vào giao diện
+    for (Product product : filteredProducts) {
+        // Kiểm tra nếu sản phẩm đã có, nếu chưa thì tạo mới
+                    System.out.println(product.toString()); // Log thông tin sản phẩm để kiểm tra
+
+        CustomerProductCard productCard = new CustomerProductCard();
+        productCard.setProductData(product); // Truyền dữ liệu sản phẩm vào card
+        listPanel.add(productCard);
+    }
+
+    // Đặt JPanel vào JScrollPane
+    jScrollPane1.setViewportView(listPanel);
+
+    // Làm mới giao diện
+    listPanel.revalidate();
+    listPanel.repaint();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -138,7 +154,7 @@ listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); 
         jSeacrhProduct = new javax.swing.JLabel();
         jFilterProduct = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jtFindName = new javax.swing.JTextField();
 
         jBoxCate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -171,6 +187,11 @@ listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); 
         jFilterProduct.setText("Lọc");
         jFilterProduct.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jFilterProduct.setOpaque(true);
+        jFilterProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jFilterProductMouseClicked(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Tên :");
@@ -189,7 +210,7 @@ listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); 
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtFindName, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jBoxRangePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -221,7 +242,7 @@ listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtFindName, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeacrhProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,6 +265,12 @@ listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); 
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jFilterProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jFilterProductMouseClicked
+        // TODO add your handling code here:
+        List<Product> filteredProducts = filterProducts();
+    displayFilteredProducts(filteredProducts); // Hiển thị sản phẩm đã lọc
+    }//GEN-LAST:event_jFilterProductMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> jBoxCate;
@@ -257,6 +284,6 @@ listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); 
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jSeacrhProduct;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jtFindName;
     // End of variables declaration//GEN-END:variables
 }
