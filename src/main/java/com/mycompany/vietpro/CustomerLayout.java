@@ -71,15 +71,15 @@ public class CustomerLayout extends javax.swing.JFrame {
         jmianPanel.setLayout(jmianPanelLayout);
         jmianPanelLayout.setHorizontalGroup(
             jmianPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 811, Short.MAX_VALUE)
+            .addGap(0, 896, Short.MAX_VALUE)
         );
         jmianPanelLayout.setVerticalGroup(
             jmianPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
+            .addGap(0, 490, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jmianPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 71, -1, 390));
-        getContentPane().add(customerNavbar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jmianPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 71, -1, 490));
+        getContentPane().add(customerNavbar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
