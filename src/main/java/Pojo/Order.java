@@ -20,9 +20,10 @@ public class Order {
     private String phone;
     private String address;
     private String item;
+    private int isApproved;
     private Timestamp createdAt;
 
-    public Order(String idOrder, String idCustomer, String idProduct, String email, String name, String phone, String address, String item, Timestamp createdAt) {
+    public Order(String idOrder, String idCustomer, String idProduct, String email, String name, String phone, String address, String item, Timestamp createdAt,int isApproved) {
         this.idCustomer = idCustomer;
         this.idProduct = idProduct;
         this.email = email;
@@ -32,6 +33,7 @@ public class Order {
         this.item = item;
         this.createdAt = createdAt;
         this.idOrder = idOrder;
+        this.isApproved=isApproved;
     }
 
     public String getIdCustomer() {
@@ -64,6 +66,10 @@ public class Order {
 
     public Timestamp getCreatedAt() {
         return createdAt;
+    }
+    
+    public int getIsApproved() {
+        return isApproved;
     }
 
     public void setIdCustomer(String idCustomer) {
@@ -110,5 +116,9 @@ public class Order {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(createdAt);
     }
+      
+      public int setIsApproved(int isApproved){
+         return this.isApproved= isApproved;
+      }
     
 }

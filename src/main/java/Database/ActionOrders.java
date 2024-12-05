@@ -37,6 +37,7 @@ public class ActionOrders {
                 String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
                 String item = resultSet.getString("item");
+                int isApproved=resultSet.getInt("isApproved");
                 String address = resultSet.getString("address");
                 String createdAt = resultSet.getString("createdAt");
 
@@ -51,7 +52,7 @@ public class ActionOrders {
                 row[6] = address;
                 row[7] = item;
                 row[8] = createdAt;
-                
+                row[9] = isApproved;
                 resultList.add(row);
             }
         } catch (Exception e) {
@@ -81,9 +82,9 @@ public class ActionOrders {
                 String phone = rs.getString("phone");
                 Timestamp  createdAt = rs.getTimestamp("createdAt");
                 String nameProduct = rs.getString("nameProduct");
-                
+                int isApproved = rs.getInt("isApproved");
                 // Tạo đối tượng Order và thêm vào danh sách
-                orders.add(new Order( idOrder,customerName, nameProduct, email, customerName, phone, address, nameProduct, createdAt));
+                orders.add(new Order( idOrder,customerName, nameProduct, email, customerName, phone, address, nameProduct, createdAt,isApproved));
             }
         }
     } catch (SQLException e) {
@@ -111,9 +112,10 @@ public List<Order> getAllOrders() throws SQLException {
             String address = rs.getString("address");
             String item = rs.getString("item");
             Timestamp createdAt = rs.getTimestamp("createdAt");
+            int isApproved = rs.getInt("isApproved");
             
             // Tạo đối tượng Order và thêm vào danh sách
-            orders.add(new Order( idOrder,idCustomer, idProduct, email, name, phone, address, item, createdAt));
+            orders.add(new Order( idOrder,idCustomer, idProduct, email, name, phone, address, item, createdAt,isApproved));
         }
     } catch (SQLException e) {
         System.err.println("Lỗi khi lấy danh sách đơn hàng: " + e.getMessage());
@@ -160,8 +162,8 @@ public List<Order> searchOrdersByNameEmailOrPhone(String name, String email, Str
                 String address = rs.getString("address");
                 String item = rs.getString("item");
                 Timestamp createdAt = rs.getTimestamp("createdAt");
-                
-                orders.add(new Order(idOrder, idCustomer, idProduct, emailAddr, customerName, phoneNumber, address, item, createdAt));
+                int isApproved = rs.getInt("isApproved");
+                orders.add(new Order(idOrder, idCustomer, idProduct, emailAddr, customerName, phoneNumber, address, item, createdAt,isApproved));
             }
         }
     } catch (SQLException e) {
@@ -170,6 +172,19 @@ public List<Order> searchOrdersByNameEmailOrPhone(String name, String email, Str
     }
 
     return orders;
+}
+
+    public void updateApprove(int isSelectedApproved,String orderId){
+        String query ="UPDATE orders SET isApproved = ? WHERE idOrder = ? ";
+            try (
+            PreparedStatement statement = conn.prepareStatement(query)
+        )   {
+            statement.setInt(1, isSelectedApproved); 
+            statement.setString(2, orderId);
+            statement.executeUpdate(); 
+        } catch (Exception e) {
+            e.printStackTrace();
+    }
 }
 }
 

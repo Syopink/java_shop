@@ -53,8 +53,11 @@ public class ActionProduct {
             String thumbnail = resultSet.getString("thumbnail");
             String status = resultSet.getString("status");
             String createdAt = resultSet.getString("createdAt");
-
-            Object[] row = new Object[7];
+            boolean featured = resultSet.getBoolean("featured");
+            String promotion = resultSet.getString("promotion");
+            String warranty = resultSet.getString("warranty");
+            String accessories = resultSet.getString("accessories");
+            Object[] row = new Object[11];
             row[0] = idProduct;
             row[1] = name;
             row[2] = createdAt;
@@ -62,7 +65,10 @@ public class ActionProduct {
             row[4] = thumbnail;
             row[5] = status;
             row[6] = nameCate;
-            
+            row[7] = featured;
+            row[8] = promotion;
+            row[9] = warranty;
+            row[10] = accessories;
             resultList.add(row);
         }
     } catch (Exception e) {

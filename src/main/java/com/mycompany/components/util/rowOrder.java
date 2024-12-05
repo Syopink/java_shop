@@ -8,8 +8,14 @@ import Database.ActionOrders;
 import Pojo.Customer;
 import Pojo.Order;
 import Process.customers;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 
 /**
  *
@@ -42,6 +48,18 @@ public class rowOrder extends javax.swing.JPanel {
         setIndex(index); // Gọi setIndex để cập nhật id
         setOrderData(order);
     }
+private String isSelectOption;
+
+int changeApprove(String isApproved) {
+    if ("Tạm dừng".equals(isApproved)) {
+        return 0;
+    } else if ("Duyệt".equals(isApproved)) {
+        return 1;
+    } else {
+        return 2;
+    }
+}
+
       
  private void setOrderData(Order order) {
         id.setText(String.valueOf(order.getIdOrder())); // Hiển thị ID đơn hàng
@@ -51,13 +69,86 @@ public class rowOrder extends javax.swing.JPanel {
         jLabel7.setText(order.getPhone()); // Hiển thị số điện thoại
         jLabel2.setText(order.getItem()); // Hiển thị sản phẩm
         jLabel8.setText(order.getFormattedCreatedAt()); // Hiển thị ngày mua (Timestamp)
+        
+        if(order.getIsApproved()==0){
+            jisApprove.setText("Chờ xét duyệt");
+            jisApprove.setBackground(Color.orange);
+        }else if (order.getIsApproved()==1){
+            jisApprove.setText("Chờ vận chuyển");
+            jisApprove.setBackground(Color.green);
+        }
+        else{
+            jisApprove.setText("Đơn hàng bị hủy");
+            jisApprove.setBackground(Color.red);
+        }
+        
+        JPopupMenu popupMenu = new JPopupMenu();
+
+        // Thêm các mục lựa chọn vào PopupMenu
+        JMenuItem option1 = new JMenuItem("Tạm dừng");
+        JMenuItem option2 = new JMenuItem("Duyệt");
+        JMenuItem option3 = new JMenuItem("Hủy đơn");
+
+        // Thêm các item vào menu
+        popupMenu.add(option1);
+        popupMenu.add(option2);
+        popupMenu.add(option3);
+
+        // Thêm ActionListener cho các item
+        option1.addActionListener(e -> handleSelection("Tạm dừng"));
+        option2.addActionListener(e -> handleSelection("Duyệt"));
+        option3.addActionListener(e -> handleSelection("Hủy đơn"));
+
+
+        jisApprove.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showPopupMenu(e);
+            }
+
+            @Override   
+            public void mouseReleased(MouseEvent e) {
+                showPopupMenu(e);
+            }
+
+            private void showPopupMenu(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
     }
        
-         public void setIndex(int index) {
+    public void setIndex(int index) {
         this.index = index;
-        // Cập nhật lại dữ liệu hiển thị số thứ tự trong giao diện
         id.setText(String.valueOf(index));
     }
+         
+    private void updateApprovalStatus(int isApproved) {
+    if (isApproved == 0) {
+        jisApprove.setText("Chờ xét duyệt");
+        jisApprove.setBackground(Color.orange);
+        
+    } else if (isApproved == 1) {
+        jisApprove.setText("Chờ vận chuyển");
+        jisApprove.setBackground(Color.green);
+    } else {
+        jisApprove.setText("Đơn hàng bị hủy");
+        jisApprove.setBackground(Color.red);
+    }
+}
+
+private void handleSelection(String selectedOption) {
+     isSelectOption = selectedOption;
+    int newApprovalStatus = changeApprove(isSelectOption);
+    
+    order.setIsApproved(newApprovalStatus);
+    ActionOrders aco=new ActionOrders();
+    aco.updateApprove( newApprovalStatus,order.getIdOrder());
+    updateApprovalStatus(newApprovalStatus);
+
+    JOptionPane.showMessageDialog(this, "Đã chọn: " + selectedOption);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,6 +167,7 @@ public class rowOrder extends javax.swing.JPanel {
         id = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jisApprove = new javax.swing.JLabel();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(952, 43));
@@ -88,29 +180,37 @@ public class rowOrder extends javax.swing.JPanel {
         jPanel6.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 100, 42));
 
         email.setText("Email");
-        jPanel6.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 90, 42));
+        jPanel6.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 90, 42));
 
         jLabel6.setText("Địa chỉ");
-        jPanel6.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, 130, 40));
+        jPanel6.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 130, 40));
 
         jLabel7.setText("Số điện thoại");
-        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, 110, 40));
+        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 110, 40));
 
         id.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         id.setText("ID");
         jPanel6.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 43));
 
         jLabel8.setText("Ngày mua");
-        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 120, 40));
+        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 120, 40));
 
         jLabel2.setText("Sản phẩm");
-        jPanel6.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 110, 40));
+        jPanel6.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 0, 80, 40));
+
+        jisApprove.setBackground(new java.awt.Color(153, 153, 153));
+        jisApprove.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jisApprove.setForeground(new java.awt.Color(255, 255, 255));
+        jisApprove.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jisApprove.setText("chờ xét");
+        jisApprove.setOpaque(true);
+        jPanel6.add(jisApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 10, 100, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,6 +227,7 @@ public class rowOrder extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JLabel jisApprove;
     private javax.swing.JLabel name;
     // End of variables declaration//GEN-END:variables
 }

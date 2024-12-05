@@ -6,7 +6,6 @@ com\mycompany\components\ManagerCustomer$1.class
 Interface\forgetPassword$3.class
 com\mycompany\components\Button\toggleButtonRouter$1.class
 com\mycompany\CustomerLayout\CustomerCardCart.class
-Process\sendMail$1.class
 Interface\login.class
 com\mycompany\vietpro\CustomerLayout$1.class
 com\mycompany\components\Navbar$2.class
@@ -22,7 +21,6 @@ com\mycompany\components\util\rowProducts.class
 com\mycompany\CustomerLayout\CustomerNavbar$4.class
 Interface\register$1.class
 Pojo\Product.class
-com\mycompany\components\util\rowProducts$6.class
 com\mycompany\components\util\rowProducts$1.class
 com\mycompany\vietpro\CustomerLayout$2.class
 com\mycompany\components\util\rowComment.class
@@ -30,6 +28,7 @@ com\mycompany\components\ManagerUser$1.class
 com\mycompany\CustomerLayout\CustomerOrderCard$1.class
 com\mycompany\components\ManagerComments.class
 com\raven\component\RoundedButton.class
+com\mycompany\components\util\rowOrder$1.class
 com\mycompany\CustomerLayout\CustomerProducts.class
 com\mycompany\vietpro\Vietpro.class
 Interface\forgetPassword$4.class
@@ -53,7 +52,6 @@ Interface\forgetPassword$11.class
 com\mycompany\components\ManagerCategory$2.class
 Database\Connect.class
 com\mycompany\components\ManagerCategory$1.class
-com\mycompany\components\util\rowProducts$5.class
 Database\ActionOrders.class
 Interface\forgetPassword$10.class
 Interface\forgetPassword$8.class
@@ -62,6 +60,7 @@ com\mycompany\CustomerLayout\CustomeCart.class
 Interface\forgetPassword$7.class
 com\mycompany\vietpro\Homepage.class
 com\mycompany\components\util\rowProducts$4.class
+com\mycompany\components\util\rowProducts$ActionProduct.class
 Process\product.class
 com\raven\component\Profile.class
 Interface\forgetPassword$6.class
@@ -83,6 +82,7 @@ com\mycompany\components\ManagerProducts$2.class
 com\mycompany\vietpro\CustomerLayout.class
 com\mycompany\components\Header$1.class
 com\mycompany\vietpro\Homepage$2.class
+com\mycompany\components\util\rowProducts$Option.class
 Library\Capcha.class
 Process\user.class
 com\mycompany\vietpro\CustomerLayout$3.class
