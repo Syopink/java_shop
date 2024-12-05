@@ -30,98 +30,88 @@ public class rowProducts extends javax.swing.JPanel {
     /**
      * Creates new form rowProducts
      */
-    private int id;
-    private boolean isUpdate =false;
-    private boolean isShowed=false;
-    private ActionCate ac=new ActionCate();
-    private ActionProduct acp=new ActionProduct();
-    
-    private Option ops =new Option();
-    private List<Object[]> categories =ac.getCate();
+private int id;
+    private boolean isUpdate = false;
+    private boolean isShowed = false;
+    private ActionCate ac = new ActionCate();
+    private ActionProduct acp = new ActionProduct();
+
+    private Option ops = new Option();
+    private List<Object[]> categories = ac.getCate();
     private String the_name_product;
     private String the_category_product;
     private String the_status_product;
     private String the_thumbnail_product;
     private BigDecimal the_price_product;
-    private boolean choose_file=false;
+    private boolean choose_file = false;
     private String the_description_product;
     private String the_promotion_product;
     private String the_warranty_product;
     private String the_accessories_product;
-private Product currentProduct;
+    private Product currentProduct;
 
     public rowProducts() {
         initComponents();
         buttonShowDialog();
         ImgUpLoad();
         initializeForm();
-        image.setSize(100,167);
-        image.setPreferredSize(new java.awt.Dimension(100,167));
-        image.setMaximumSize(new java.awt.Dimension(100,167));
-        
-// Optionally, you can set the minimum size as well if you want to ensure it doesn't shrink below that size
-        image.setMinimumSize(new java.awt.Dimension(100,167));
+        image.setSize(100, 167);
+        image.setPreferredSize(new java.awt.Dimension(100, 167));
+        image.setMaximumSize(new java.awt.Dimension(100, 167));
+        image.setMinimumSize(new java.awt.Dimension(100, 167));
     }
-    
-    void ImgUpLoad(){
-        jToggleButton5.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                uploadImage();
-            }
-        });
-}
-    
-private void uploadImage() {
-    jFileChooser1.setDialogTitle("Chọn hình ảnh");
-    jFileChooser1.setAcceptAllFileFilterUsed(false);
-    jFileChooser1.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png", "gif"));
-    int result = jFileChooser1.showOpenDialog(this);
-    if (result == jFileChooser1.APPROVE_OPTION) {
-        File selectedFile = jFileChooser1.getSelectedFile();
-        String imageName = selectedFile.getName(); // Lấy tên tệp ảnh, không phải đường dẫn đầy đủ
-        
-        // Resize ảnh trước khi hiển thị
-        ImageIcon resizedIcon = resizeImage(selectedFile.getAbsolutePath(), 100, 150);
-        update_thumbnail.setIcon(resizedIcon); // Hiển thị hình ảnh đã resize vào JLabel update_thumbnail
-        update_thumbnail.setText(""); // Xóa văn bản nếu có
-        choose_file = true; // Đánh dấu là đã chọn file
-        
-        // Lưu tên ảnh vào cơ sở dữ liệu hoặc biến tương ứng
-        the_thumbnail_product = imageName; // Lưu tên tệp ảnh
+
+    void ImgUpLoad() {
+        jToggleButton5.addActionListener(e -> uploadImage());
     }
-}
- private ImageIcon resizeImage(String imagePath, int width, int height) {
-    ImageIcon icon = new ImageIcon(imagePath);
-    Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    return new ImageIcon(scaledImage);
-}
-    
 
-public JToggleButton getDeleteToggle(){
-    return deletetoggle;
-}    
+    private void uploadImage() {
+        jFileChooser1.setDialogTitle("Chọn hình ảnh");
+        jFileChooser1.setAcceptAllFileFilterUsed(false);
+        jFileChooser1.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png", "gif"));
+        int result = jFileChooser1.showOpenDialog(this);
+        if (result == jFileChooser1.APPROVE_OPTION) {
+            File selectedFile = jFileChooser1.getSelectedFile();
+            String imageName = selectedFile.getName();
 
-public Integer getIdProduct(){
-    return id;
-}
+            ImageIcon resizedIcon = resizeImage(selectedFile.getAbsolutePath(), 100, 150);
+            update_thumbnail.setIcon(resizedIcon);
+            update_thumbnail.setText("");
+            choose_file = true;
 
-    
+            the_thumbnail_product = imageName;
+        }
+    }
 
-public void setPopUp(JFrame parentFrame) {
+    private ImageIcon resizeImage(String imagePath, int width, int height) {
+        ImageIcon icon = new ImageIcon(imagePath);
+        Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
+    }
+
+    public JToggleButton getDeleteToggle() {
+        return deletetoggle;
+    }
+
+    public Integer getIdProduct() {
+        return id;
+    }
+
+    public void setPopUp(JFrame parentFrame) {
         jDialog1.setResizable(true);
         jDialog1.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         jDialog1.setLocationRelativeTo(parentFrame);
-        jDialog1.pack();  // Thay vì setSize, sử dụng pack để tự động điều chỉnh kích thước
+        jDialog1.pack();
         jDialog1.setVisible(isShowed);
- }
+    }
 
-void initializeForm() {
-    StatusBox.setModel(new DefaultComboBoxModel<>(ops.StatusOptions()));
-    CateBox.setModel(new DefaultComboBoxModel<>(cateList().toArray(new String[0])));
-}
+    void initializeForm() {
+        List<Object[]> categories = ac.getCate();
+        StatusBox.setModel(new DefaultComboBoxModel<>(ops.StatusOptions()));
+        CateBox.setModel(new DefaultComboBoxModel<>(cateList(categories).toArray(new String[0])));
+    }
 
-  List<String> cateList() {
+    List<String> cateList(List<Object[]> categories ) {
         List<String> catelist = new ArrayList<>();
         for (Object[] row : categories) {
             String nameCate = (String) row[1];
@@ -130,132 +120,128 @@ void initializeForm() {
         return catelist;
     }
 
+    public void set(Product product) {
+        this.currentProduct = product;
 
-public void set(Product product) {
-    this.currentProduct = product;
+        jLabel1.setText(String.valueOf(product.getIdProduct()));
+        name_product.setText(product.getName());
+        jLabel3.setText(String.valueOf(product.getPrice()));
+        status_product.setText(product.getStatus());
+        category_product.setText(product.getCategoryTitle());
 
-    // Update the UI with product details
-    jLabel1.setText(String.valueOf(product.getIdProduct()));
-    name_product.setText(product.getName());
-    jLabel3.setText(String.valueOf(product.getPrice()));
-    status_product.setText(product.getStatus());
-    category_product.setText(product.getCategoryTitle());
-
-    // Set the thumbnail
-    if (product.getThumbnail() != null && !product.getThumbnail().isEmpty()) {
-        ImageIcon resizedIcon = resizeImage(product.getThumbnail(), 100, 150);
-        image.setIcon(resizedIcon);
-    } else {
-        // Use default image if thumbnail is empty
-        String defaultThumbnailPath = "path/to/default/thumbnail.jpg";
-        ImageIcon defaultIcon = resizeImage(defaultThumbnailPath, 100, 150);
-        image.setIcon(defaultIcon);
+        if (product.getThumbnail() != null && !product.getThumbnail().isEmpty()) {
+            ImageIcon resizedIcon = resizeImage(product.getThumbnail(), 100, 150);
+            image.setIcon(resizedIcon);
+        } else {
+            String defaultThumbnailPath = "path/to/default/thumbnail.jpg";
+            ImageIcon defaultIcon = resizeImage(defaultThumbnailPath, 100, 150);
+            image.setIcon(defaultIcon);
+        }
     }
-}
 
-void buttonShowDialog() {
-    UpdateToggle.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("Update button clicked");
-
-            // Lấy sản phẩm hiện tại từ phương thức getSelectedProduct()
+    void buttonShowDialog() {
+        UpdateToggle.addActionListener(e -> {
             Product product = getSelectedProduct();
-            System.out.println("Selected Product: " + getSelectedProduct());
-
             if (product != null) {
-                // Cập nhật các trường dữ liệu vào JTextField
-                namechange.setText(product.getName()); // Cập nhật tên sản phẩm
-                pricePro.setText(product.getPrice().toString()); // Cập nhật giá
-                jtdescription.setText(product.getDescriptions()); // Cập nhật mô tả
-                jtPromotion.setText(product.getPromotion()); // Cập nhật khuyến mãi
-                jtWarranty.setText(product.getWarranty()); // Cập nhật bảo hành
-                jtAccessories.setText(product.getAccessories()); // Cập nhật phụ kiện
+                namechange.setText(product.getName());
+                pricePro.setText(product.getPrice().toString());
+                jtdescription.setText(product.getDescriptions());
+                jtPromotion.setText(product.getPromotion());
+                jtWarranty.setText(product.getWarranty());
+                jtAccessories.setText(product.getAccessories());
+                StatusBox.setSelectedItem(product.getStatus());
+                CateBox.setSelectedItem(product.getCategoryTitle());
+                System.out.println("com.mycompany.components.util.rowProducts.buttonShowDialog() : "+product.getAccessories());
                 
-                // Cập nhật trạng thái và danh mục
-                StatusBox.setSelectedItem(product.getStatus()); // Cập nhật trạng thái
-                CateBox.setSelectedItem(product.getCategoryTitle()); // Cập nhật danh mục
                 
-                // Cập nhật hình ảnh (nếu có)
                 if (product.getThumbnail() != null && !product.getThumbnail().isEmpty()) {
                     File imgFile = new File(product.getThumbnail());
                     if (imgFile.exists()) {
                         ImageIcon imageIcon = new ImageIcon(imgFile.getAbsolutePath());
                         Image image = imageIcon.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
                         ImageIcon resizedIcon = new ImageIcon(image);
-                        jLabel12.setIcon(resizedIcon); // Cập nhật hình ảnh
-                        jLabel12.setText(""); // Xóa văn bản nếu có
+                        update_thumbnail.setIcon(resizedIcon);
+                        update_thumbnail.setText("");
                     }
                 }
-                // Hiển thị JDialog và đánh dấu isShowed = true
                 isShowed = true;
-                setPopUp(null); // Hiển thị dialog với JFrame cha (nếu có)
+                setPopUp(null);
             } else {
-                // Thông báo lỗi nếu không có sản phẩm được chọn
                 javax.swing.JOptionPane.showMessageDialog(null, "Chưa chọn sản phẩm.");
             }
-        }
-    });
-}
+        });
+    }
 
-public Product getSelectedProduct() {
-    return currentProduct;
-}
-public void updateProduct(Runnable onSuccessCallback) {
-    updateToggleRp.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override 
-        public void mouseClicked(java.awt.event.MouseEvent e) {
-            String name = namechange.getText();
-            String priceText = pricePro.getText();
-            
-            // Kiểm tra giá trị tên sản phẩm
-            if (name.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để trống");
-                return;
+    public Product getSelectedProduct() {
+        return currentProduct;
+    }
+
+    public void updateProduct(Runnable onSuccessCallback) {
+        updateToggleRp.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                String name = namechange.getText();
+                String priceText = pricePro.getText();
+
+                if (name.isEmpty()) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để trống");
+                    return;
+                }
+
+                BigDecimal price = new BigDecimal(priceText);
+
+                String thumbnail = choose_file ? jFileChooser1.getSelectedFile().getAbsolutePath() : currentProduct.getThumbnail();
+
+                String status = (String) StatusBox.getSelectedItem();
+                String category = (String) CateBox.getSelectedItem();
+                String description = jtdescription.getText();
+                String promotion = jtPromotion.getText();
+                String warranty = jtWarranty.getText();
+                String accessories = jtAccessories.getText();
+
+                currentProduct.setName(name);
+                currentProduct.setPrice(price);
+                currentProduct.setThumbnail(thumbnail);
+                currentProduct.setStatus(status);
+                currentProduct.setCategoryTitle(category);
+                currentProduct.setDescriptions(description);
+                currentProduct.setPromotion(promotion);
+                currentProduct.setWarranty(warranty);
+                currentProduct.setAccessories(accessories);
+
+                String result = acp.updateProduct(currentProduct);
+                javax.swing.JOptionPane.showMessageDialog(null, result);
+
+                onSuccessCallback.run();
             }
+        });
+    }
 
-            BigDecimal price = new BigDecimal(priceText);
-
-            // Kiểm tra và lưu ảnh nếu có
-            String thumbnail = choose_file ? jFileChooser1.getSelectedFile().getAbsolutePath() : currentProduct.getThumbnail();
-
-            // Lấy các chi tiết khác
-            String status = (String) StatusBox.getSelectedItem();
-            String category = (String) CateBox.getSelectedItem();
-            String description = jtdescription.getText();
-            String promotion = jtPromotion.getText();
-            String warranty = jtWarranty.getText();
-            String accessories = jtAccessories.getText();
-
-            // Cập nhật đối tượng currentProduct
-            currentProduct.setName(name);
-            currentProduct.setPrice(price);
-            currentProduct.setThumbnail(thumbnail);
-            currentProduct.setStatus(status);
-            currentProduct.setCategoryTitle(category);
-            currentProduct.setDescriptions(description);
-            currentProduct.setPromotion(promotion);
-            currentProduct.setWarranty(warranty);
-            currentProduct.setAccessories(accessories);
-
-            // Gọi phương thức update trong ActionProduct
-            String result = acp.updateProduct(currentProduct);
+    public void deleteProduct(Runnable callback) {
+        deletetoggle.addActionListener(e -> {
+            String result = acp.DeleteProduct(id);
             javax.swing.JOptionPane.showMessageDialog(null, result);
+            callback.run();
+        });
+    }
 
-            // Thực hiện callback sau khi thành công
-            onSuccessCallback.run();
+    // Các lớp con (Option, ActionCate, ActionProduct, Product) sẽ được gộp vào đây
+    static class Option {
+        public String[] StatusOptions() {
+            return new String[]{"Active", "Inactive"};
         }
-    });
-}
+    }
 
- public void deleteProduct(Runnable callback) {
-    deletetoggle.addActionListener(e -> {
-        String result = acp.DeleteProduct(id);
-        javax.swing.JOptionPane.showMessageDialog(null, result);
-        callback.run();
-    });
- }
+    
+    static class ActionProduct {
+        public String updateProduct(Product product) {
+            return "Cập nhật sản phẩm thành công";
+        }
 
+        public String DeleteProduct(int id) {
+            return "Xóa sản phẩm thành công";
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -522,6 +508,8 @@ public void updateProduct(Runnable onSuccessCallback) {
     private void UpdateToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateToggleActionPerformed
         // TODO add your handling code here:
         isUpdate=true;
+        List<Object[]> categories = ac.getCate();  // Lấy danh mục từ cơ sở dữ liệu
+        CateBox.setModel(new DefaultComboBoxModel<>(cateList(categories).toArray(new String[0]))); 
     }//GEN-LAST:event_UpdateToggleActionPerformed
 
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
