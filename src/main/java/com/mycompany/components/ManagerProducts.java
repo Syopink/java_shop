@@ -449,6 +449,12 @@ public void addRows(){
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        jFileChooser1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFileChooser1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
         jDialog2.getContentPane().setLayout(jDialog2Layout);
         jDialog2Layout.setHorizontalGroup(
@@ -610,6 +616,10 @@ public void addRows(){
     private void jCateBoxProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCateBoxProductsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCateBoxProductsActionPerformed
+
+    private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFileChooser1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -19,6 +19,7 @@ com\mycompany\components\ManagerProducts.class
 com\mycompany\components\util\rowProducts$2.class
 com\mycompany\components\util\rowProducts.class
 com\mycompany\CustomerLayout\CustomerNavbar$4.class
+com\mycompany\components\ManagerProducts$6.class
 Interface\register$1.class
 Pojo\Product.class
 com\mycompany\components\util\rowProducts$6.class

@@ -7,6 +7,7 @@ package com.mycompany.CustomerLayout;
 import Database.Action;
 import Pojo.Product;
 import Process.product;
+import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +38,12 @@ public class CustomerProducts extends javax.swing.JPanel {
 
         // Tạo JPanel để chứa các hàng sản phẩm
         JPanel listPanel = new JPanel();
-        listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); // Sắp xếp ngang, cách nhau 10px
-
+        listPanel.setLayout(new GridLayout(0, 4, 10, 10));
         // Tạo đối tượng product và gọi phương thức getAllProducts
         productList = pr.getAllProducts(); // Lấy tất cả sản phẩm từ cơ sở dữ liệu
 
         // Tạo các hàng và thêm vào giao diện
         for (Product product : productList) {
-                                System.out.println(product.toString()); // Log thông tin sản phẩm để kiểm tra
-
             CustomerProductCard productCard = new CustomerProductCard();
             productCard.setProductData(product); // Truyền dữ liệu sản phẩm vào card
             listPanel.add(productCard);
@@ -203,6 +201,7 @@ public class CustomerProducts extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -222,8 +221,7 @@ public class CustomerProducts extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jFilterProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSeacrhProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(124, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1)))
+                        .addContainerGap(257, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,23 +243,25 @@ public class CustomerProducts extends javax.swing.JPanel {
                     .addComponent(jtFindName, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeacrhProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 794, Short.MAX_VALUE)
+            .addGap(0, 932, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 423, Short.MAX_VALUE)
+            .addGap(0, 647, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
