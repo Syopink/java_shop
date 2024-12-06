@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Pojo;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
@@ -12,44 +9,47 @@ import java.text.SimpleDateFormat;
  * @author Nguyen Gia Huy
  */
 public class Order {
-    private String idOrder;
-    private String idCustomer;
-    private String idProduct;
-    private String email;
-    private String name;
-    private String phone;
-    private String address;
-    private String item;
-    private int isApproved;
-    private Timestamp createdAt;
+    private String idOrder; // ID của đơn hàng (INT)
+    private String idCustomer; // ID khách hàng (INT)
+    private String name; // Tên khách hàng (NVARCHAR)
+    private String email; // Email khách hàng (NVARCHAR)
+    private String phone; // Số điện thoại khách hàng (NVARCHAR)
+    private String address; // Địa chỉ khách hàng (NVARCHAR)
+    private BigDecimal totalPrice; // Tổng giá (DECIMAL)
+    private Timestamp createdAt; // Thời gian tạo (DATETIME)
+    private Timestamp updatedAt; // Thời gian cập nhật (DATETIME)
+    private int status; // Trạng thái đơn hàng (TINYINT)
 
-    public Order(String idOrder, String idCustomer, String idProduct, String email, String name, String phone, String address, String item, Timestamp createdAt,int isApproved) {
+    // Constructor
+    public Order(String idOrder, String idCustomer, String name, String email, String phone, String address, 
+                 BigDecimal totalPrice, Timestamp createdAt, Timestamp updatedAt, int status) {
+        this.idOrder = idOrder;
         this.idCustomer = idCustomer;
-        this.idProduct = idProduct;
-        this.email = email;
         this.name = name;
+        this.email = email;
         this.phone = phone;
         this.address = address;
-        this.item = item;
+        this.totalPrice = totalPrice;
         this.createdAt = createdAt;
-        this.idOrder = idOrder;
-        this.isApproved=isApproved;
+        this.updatedAt = updatedAt;
+        this.status = status;
+    }
+
+    // Getters
+    public String getIdOrder() {
+        return idOrder;
     }
 
     public String getIdCustomer() {
         return idCustomer;
     }
 
-    public String getIdProduct() {
-        return idProduct;
+    public String getName() {
+        return name;
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getPhone() {
@@ -60,32 +60,37 @@ public class Order {
         return address;
     }
 
-    public String getItem() {
-        return item;
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 
     public Timestamp getCreatedAt() {
         return createdAt;
     }
-    
-    public int getIsApproved() {
-        return isApproved;
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    // Setters
+    public void setIdOrder(String idOrder) {
+        this.idOrder = idOrder;
     }
 
     public void setIdCustomer(String idCustomer) {
         this.idCustomer = idCustomer;
     }
 
-    public void setIdProduct(String idProduct) {
-        this.idProduct = idProduct;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setPhone(String phone) {
@@ -96,29 +101,30 @@ public class Order {
         this.address = address;
     }
 
-    public void setItem(String item) {
-        this.item = item;
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getIdOrder() {
-        return idOrder;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public void setIdOrder(String idOrder) {
-        this.idOrder = idOrder;
+    public void setStatus(int status) {
+        this.status = status;
     }
-    
-      public String getFormattedCreatedAt() {
+
+    // Helper Methods
+    public String getFormattedCreatedAt() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(createdAt);
     }
-      
-      public int setIsApproved(int isApproved){
-         return this.isApproved= isApproved;
-      }
-    
+
+    public String getFormattedUpdatedAt() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(updatedAt);
+    }
 }
