@@ -166,7 +166,7 @@ public class CustomerProductCard extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(price1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+                    .addComponent(price1, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buy, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -183,10 +183,10 @@ public class CustomerProductCard extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(price1))
                     .addComponent(buy, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 210));
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 220));
     }// </editor-fold>//GEN-END:initComponents
 
     private void buyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buyMouseClicked
@@ -219,7 +219,11 @@ public class CustomerProductCard extends javax.swing.JPanel {
 
 // Gán thông tin sản phẩm vào các thành phần
         nameProduct.setText(product.getName());
-        name.setText(product.getName());
+        String ProductName=product.getName();
+        if(ProductName.length() > 7){
+          ProductName=ProductName.substring(0,7)+ "...";
+        }
+        name.setText(ProductName);
         Descripiton.setText(product.getDescriptions()); // Mô tả sản phẩm
         status.setText(product.getStatus()); // Trạng thái sản phẩm
         price1.setText(String.format("%.2f", product.getPrice()) + " VND");
