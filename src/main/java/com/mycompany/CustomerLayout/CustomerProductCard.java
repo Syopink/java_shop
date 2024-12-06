@@ -4,7 +4,9 @@
  */
 package com.mycompany.CustomerLayout;
 
+import Database.ActionOrders;
 import Pojo.Product;
+import Process.user;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
@@ -17,9 +19,9 @@ import javax.swing.JLabel;
  * @author An Ninh
  */
 public class CustomerProductCard extends javax.swing.JPanel {
-
+    private user us;
     private boolean isSelect = false;
-
+    ActionOrders Ao = new ActionOrders();
     /**
      * Creates new form CustomerProductCard
      */
@@ -47,8 +49,8 @@ public class CustomerProductCard extends javax.swing.JPanel {
         status = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Descripiton = new javax.swing.JTextArea();
-        addCart = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        jLaddCart = new javax.swing.JLabel();
+        jLBuy = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         nameCate1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -111,17 +113,24 @@ public class CustomerProductCard extends javax.swing.JPanel {
 
         jDialog1.getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 183, 240, 110));
 
-        addCart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        addCart.setText("Thêm vào giỏ ");
-        addCart.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jDialog1.getContentPane().add(addCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 320, 88, 30));
+        jLaddCart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLaddCart.setText("Thêm vào giỏ ");
+        jLaddCart.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLaddCart.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jDialog1.getContentPane().add(jLaddCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 320, 88, 30));
 
-        jLabel8.setBackground(new java.awt.Color(24, 26, 47));
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Mua ngay");
-        jLabel8.setOpaque(true);
-        jDialog1.getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(385, 320, 85, 30));
+        jLBuy.setBackground(new java.awt.Color(24, 26, 47));
+        jLBuy.setForeground(new java.awt.Color(255, 255, 255));
+        jLBuy.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLBuy.setText("Mua ngay");
+        jLBuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLBuy.setOpaque(true);
+        jLBuy.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLBuyMouseClicked(evt);
+            }
+        });
+        jDialog1.getContentPane().add(jLBuy, new org.netbeans.lib.awtextra.AbsoluteConstraints(385, 320, 85, 30));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Danh mục:");
@@ -214,6 +223,11 @@ public class CustomerProductCard extends javax.swing.JPanel {
         // TODO add your handling code here:
         jDialog1.dispose(); // dialog1 là đối tượng JDialog mà bạn muốn đóng
     }//GEN-LAST:event_jLExitMouseClicked
+
+    private void jLBuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLBuyMouseClicked
+
+        
+    }//GEN-LAST:event_jLBuyMouseClicked
     public void setProductData(Product product) {
         String basePath = "D:\\Onedrive\\Documents\\NetBeansProjects\\VietPro3\\java_shop\\src\\main\\resources\\images";
 
@@ -274,18 +288,18 @@ public class CustomerProductCard extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea Descripiton;
-    private javax.swing.JLabel addCart;
     private javax.swing.JLabel buy;
     private javax.swing.JLabel image;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jImageDetail;
+    private javax.swing.JLabel jLBuy;
     private javax.swing.JLabel jLExit;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLaddCart;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel name;

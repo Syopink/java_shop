@@ -12,6 +12,9 @@ import java.sql.SQLException;
 
 
 public class user {
+    private String idCustomer;
+
+
     private String email;
     private String fullName;
     private String role;
@@ -34,7 +37,9 @@ public class user {
     }
     
     
-
+    public String getIdCustomer() {
+        return idCustomer;
+    }
     public user(String email) {
         this.email = email;
     }

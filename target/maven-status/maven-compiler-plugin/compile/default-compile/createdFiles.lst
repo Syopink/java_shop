@@ -81,6 +81,7 @@ com\mycompany\components\ManagerUser$3.class
 com\mycompany\components\util\rowCate.class
 com\mycompany\components\ManagerProducts$2.class
 com\mycompany\vietpro\CustomerLayout.class
+com\mycompany\CustomerLayout\CustomerProductCard$3.class
 com\mycompany\components\Header$1.class
 com\mycompany\vietpro\Homepage$2.class
 Library\Capcha.class

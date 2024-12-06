@@ -186,5 +186,97 @@ public List<Order> searchOrdersByNameEmailOrPhone(String name, String email, Str
             e.printStackTrace();
     }
 }
+    
+    public void deleteOrder(String orderId) {
+    String query = "DELETE FROM orders WHERE idOrder = ?";
+    try (PreparedStatement statement = conn.prepareStatement(query)) {
+        statement.setString(1, orderId);
+        statement.executeUpdate();
+        System.out.println("Đã xóa đơn hàng với ID: " + orderId);
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi xóa đơn hàng: " + e.getMessage());
+    }
+}
+    
+    public void addOrder(Order order) {
+    String query = "INSERT INTO orders (idOrder, idCustomer, idProduct, name, phone, email, address, item, createdAt, isApproved) " +
+                   "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    try (PreparedStatement statement = conn.prepareStatement(query)) {
+        statement.setString(1, order.getIdOrder());
+        statement.setString(2, order.getIdCustomer());
+        statement.setString(3, order.getIdProduct());
+        statement.setString(4, order.getName());
+        statement.setString(5, order.getPhone());
+        statement.setString(6, order.getEmail());
+        statement.setString(7, order.getAddress());
+        statement.setString(8, order.getItem());
+        statement.setTimestamp(9, order.getCreatedAt());
+        statement.setInt(10, order.getIsApproved());
+        statement.executeUpdate();
+        System.out.println("Đã thêm đơn hàng mới!");
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi thêm đơn hàng: " + e.getMessage());
+    }
+}
+    
+    public void updateOrder(Order order) {
+    String query = "UPDATE orders SET idCustomer = ?, idProduct = ?, name = ?, phone = ?, email = ?, address = ?, " +
+                   "item = ?, createdAt = ?, isApproved = ? WHERE idOrder = ?";
+    try (PreparedStatement statement = conn.prepareStatement(query)) {
+        statement.setString(1, order.getIdCustomer());
+        statement.setString(2, order.getIdProduct());
+        statement.setString(3, order.getName());
+        statement.setString(4, order.getPhone());
+        statement.setString(5, order.getEmail());
+        statement.setString(6, order.getAddress());
+        statement.setString(7, order.getItem());
+        statement.setTimestamp(8, order.getCreatedAt());
+        statement.setInt(9, order.getIsApproved());
+        statement.setString(10, order.getIdOrder());
+        statement.executeUpdate();
+        System.out.println("Đã cập nhật đơn hàng với ID: " + order.getIdOrder());
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi cập nhật đơn hàng: " + e.getMessage());
+    }
+}
+public List<Order> getOrdersByApprovalStatus(int isApproved) {
+    List<Order> orders = new ArrayList<>();
+    String query = "SELECT * FROM orders WHERE isApproved = ?";
+    try (PreparedStatement statement = conn.prepareStatement(query)) {
+        statement.setInt(1, isApproved);
+        try (ResultSet rs = statement.executeQuery()) {
+            while (rs.next()) {
+                String idOrder = rs.getString("idOrder");
+                String idCustomer = rs.getString("idCustomer");
+                String idProduct = rs.getString("idProduct");
+                String name = rs.getString("name");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                String item = rs.getString("item");
+                Timestamp createdAt = rs.getTimestamp("createdAt");
+                orders.add(new Order(idOrder, idCustomer, idProduct, email, name, phone, address, item, createdAt, isApproved));
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi lấy danh sách đơn hàng theo trạng thái: " + e.getMessage());
+    }
+    return orders;
+}
+
+public int getTotalOrdersCount() {
+    String query = "SELECT COUNT(*) AS total FROM orders";
+    try (PreparedStatement statement = conn.prepareStatement(query);
+         ResultSet rs = statement.executeQuery()) {
+        if (rs.next()) {
+            return rs.getInt("total");
+        }
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi đếm tổng số đơn hàng: " + e.getMessage());
+    }
+    return 0;
+}
+
+
 }
 
