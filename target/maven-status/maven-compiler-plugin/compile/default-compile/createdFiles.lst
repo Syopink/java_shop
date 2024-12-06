@@ -21,6 +21,7 @@ com\mycompany\components\util\rowProducts.class
 com\mycompany\CustomerLayout\CustomerNavbar$4.class
 Interface\register$1.class
 Pojo\Product.class
+com\mycompany\components\util\rowProducts$6.class
 com\mycompany\components\util\rowProducts$1.class
 com\mycompany\vietpro\CustomerLayout$2.class
 com\mycompany\components\util\rowComment.class
@@ -52,6 +53,7 @@ Interface\forgetPassword$11.class
 com\mycompany\components\ManagerCategory$2.class
 Database\Connect.class
 com\mycompany\components\ManagerCategory$1.class
+com\mycompany\components\util\rowProducts$5.class
 Database\ActionOrders.class
 Interface\forgetPassword$10.class
 Interface\forgetPassword$8.class
@@ -60,7 +62,6 @@ com\mycompany\CustomerLayout\CustomeCart.class
 Interface\forgetPassword$7.class
 com\mycompany\vietpro\Homepage.class
 com\mycompany\components\util\rowProducts$4.class
-com\mycompany\components\util\rowProducts$ActionProduct.class
 Process\product.class
 com\raven\component\Profile.class
 Interface\forgetPassword$6.class
@@ -82,7 +83,6 @@ com\mycompany\components\ManagerProducts$2.class
 com\mycompany\vietpro\CustomerLayout.class
 com\mycompany\components\Header$1.class
 com\mycompany\vietpro\Homepage$2.class
-com\mycompany\components\util\rowProducts$Option.class
 Library\Capcha.class
 Process\user.class
 com\mycompany\vietpro\CustomerLayout$3.class
