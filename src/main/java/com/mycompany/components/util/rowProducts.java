@@ -48,6 +48,7 @@ private int id;
     private String the_promotion_product;
     private String the_warranty_product;
     private String the_accessories_product;
+    private  String imageName;
     private Product currentProduct;
 
     public rowProducts() {
@@ -72,14 +73,13 @@ private int id;
         int result = jFileChooser1.showOpenDialog(this);
         if (result == jFileChooser1.APPROVE_OPTION) {
             File selectedFile = jFileChooser1.getSelectedFile();
-            String imageName = selectedFile.getName();
+            this.imageName = selectedFile.getAbsolutePath();
 
             ImageIcon resizedIcon = resizeImage(selectedFile.getAbsolutePath(), 100, 150);
             update_thumbnail.setIcon(resizedIcon);
             update_thumbnail.setText("");
             choose_file = true;
-
-            the_thumbnail_product = imageName;
+            currentProduct.setThumbnail(imageName);
         }
     }
 
@@ -208,7 +208,9 @@ private int id;
                 currentProduct.setPromotion(promotion);
                 currentProduct.setWarranty(warranty);
                 currentProduct.setAccessories(accessories);
-
+                currentProduct.setThumbnail(imageName);
+                
+                System.out.println(".mouseClicked()"+imageName);
                 String result = acp.updateProduct(currentProduct);
                 javax.swing.JOptionPane.showMessageDialog(null, result);
 
@@ -226,22 +228,10 @@ private int id;
     }
 
     // Các lớp con (Option, ActionCate, ActionProduct, Product) sẽ được gộp vào đây
-    static class Option {
-        public String[] StatusOptions() {
-            return new String[]{"Active", "Inactive"};
-        }
-    }
+  
 
     
-    static class ActionProduct {
-        public String updateProduct(Product product) {
-            return "Cập nhật sản phẩm thành công";
-        }
-
-        public String DeleteProduct(int id) {
-            return "Xóa sản phẩm thành công";
-        }
-    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -305,6 +295,11 @@ private int id;
         pricePro.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel3.add(pricePro, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 130, 160, 30));
 
+        StatusBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatusBoxActionPerformed(evt);
+            }
+        });
         jPanel3.add(StatusBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 132, 90, -1));
 
         updateToggleRp.setBackground(new java.awt.Color(55, 65, 92));
@@ -357,6 +352,11 @@ private int id;
 
         jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 60));
 
+        CateBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CateBoxActionPerformed(evt);
+            }
+        });
         jPanel3.add(CateBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 82, 90, -1));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -521,6 +521,14 @@ private int id;
     private void updateToggleRpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateToggleRpActionPerformed
 
     }//GEN-LAST:event_updateToggleRpActionPerformed
+
+    private void CateBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CateBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CateBoxActionPerformed
+
+    private void StatusBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StatusBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
