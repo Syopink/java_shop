@@ -4,23 +4,30 @@
  */
 package com.mycompany.CustomerLayout;
 
+import Database.ActionOrders;
 import Pojo.Order;
+import Pojo.OrderItem;
 import java.awt.Color;
+import java.util.List;
 
 /**
  *
  * @author An Ninh
  */
 public class CustomerOrderCard extends javax.swing.JPanel {
+
     private Order order; // Dữ liệu đơn hàng
+    private int index; // Đối số số thứ tự cho đơn hàng
+    private ActionOrders Ao;
 
     /**
      * Creates new form CustomerOrderCard
      */
-    public CustomerOrderCard() {
-        initComponents();
-    }
     
+     public CustomerOrderCard() {
+        initComponents();
+
+    }
     
     public CustomerOrderCard(Order order) {
         this.order = order;
@@ -28,23 +35,60 @@ public class CustomerOrderCard extends javax.swing.JPanel {
         loadData();
     }
     
+        public CustomerOrderCard(int index, Order order, ActionOrders Ao) {
+        this.index = index;
+        this.Ao = Ao;
+        this.order = order;
+        initComponents();
+        loadData();
+    }
+        
+            public void setIndex(int index) {
+        this.index = index;
+        idOrder.setText(String.valueOf(index));
+    }
+    
      private void loadData() {
+             System.out.println("Loading data for Order ID: " + order.getIdOrder());
         setOrderData(order);
     }
      
      private void setOrderData(Order order) {
-        idOrder.setText(String.valueOf(order.getIdOrder())); // Hiển thị ID đơn hàng
-        nameProduct.setText(order.getItem()); // Tên sản phẩm
-        jAddress.setText(order.getAddress()); // Địa chỉ
-        jPhone.setText(order.getPhone()); // Số điện thoại
-        jTimeOrder.setText(order.getFormattedCreatedAt()); // Ngày đặt hàng
+    if (order != null) {
+            // Cập nhật các thông tin đơn hàng
+            idOrder.setText(String.valueOf(order.getIdOrder()));  // Hiển thị ID đơn hàng
+            nameProduct.setText(order.getName()); // Hiển thị tên người mua
+            jAddress.setText(order.getAddress()); // Hiển thị địa chỉ
+            jPhone.setText(order.getPhone()); // Hiển thị số điện thoại
+            jTimeOrder.setText(order.getFormattedCreatedAt()); // Hiển thị ngày mua (Timestamp)
+            jTimeOrder.setToolTipText(order.getAddress()); // Tooltip cho Địa chỉ
 
-        // Hiển thị trạng thái của đơn hàng do admin thay đổi
-        updateApprovalStatus(order.getIsApproved());
-    }
+            // Xử lý hiển thị sản phẩm
+            StringBuilder productNames = new StringBuilder();
+            List<OrderItem> items = order.getOrderItems();
+            if (items == null || items.isEmpty()) {
+                productNames.append("Không có sản phẩm");
+            } else {
+                for (OrderItem item : items) {
+                    productNames.append(item.getProductName()).append(", ");
+                }
+                // Loại bỏ dấu phẩy cuối cùng
+                productNames.setLength(productNames.length() - 2);
+            }
+            nameProduct.setText(productNames.toString());
+            nameProduct.setToolTipText(productNames.toString());
+
+            // Cập nhật trạng thái đơn hàng
+            updateApprovalStatus(order.getStatus());
+
+        } else {
+            // Nếu order là null, hiển thị thông báo
+            System.out.println("Order is null");
+        }
+}
      
-     private void updateApprovalStatus(int isApproved) {
-        switch (isApproved) {
+     private void updateApprovalStatus(int status) {
+        switch (status) {
             case 0:
                 jAction.setText("Chờ xét duyệt");
                 jAction.setBackground(Color.orange);
@@ -131,9 +175,7 @@ public class CustomerOrderCard extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -53,7 +53,6 @@ public class ActionProduct {
             String thumbnail = resultSet.getString("thumbnail");
             String status = resultSet.getString("status");
             String createdAt = resultSet.getString("createdAt");
-            boolean featured = resultSet.getBoolean("featured");
             String promotion = resultSet.getString("promotion");
             String warranty = resultSet.getString("warranty");
             String accessories = resultSet.getString("accessories");
@@ -65,10 +64,9 @@ public class ActionProduct {
             row[4] = thumbnail;
             row[5] = status;
             row[6] = nameCate;
-            row[7] = featured;
-            row[8] = promotion;
-            row[9] = warranty;
-            row[10] = accessories;
+            row[7] = promotion;
+            row[8] = warranty;
+            row[9] = accessories;
             resultList.add(row);
         }
     } catch (Exception e) {

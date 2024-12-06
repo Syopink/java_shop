@@ -27,6 +27,7 @@ public class CustomerLayout extends javax.swing.JFrame {
     
     public CustomerLayout(user us) {
         this.us = us;
+        int customerId = Integer.parseInt(us.getIdCustomer());  // Convert String to int
          setUndecorated(true);
         initComponents();
         setUpPanel();
@@ -103,13 +104,13 @@ public class CustomerLayout extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
+
     void setUpPanel(){
         CardLayout cardlayout = new CardLayout();
         jmianPanel.setLayout(cardlayout);
-        jmianPanel.add(new CustomerProducts(),"Trang chủ");
+        jmianPanel.add(new CustomerProducts(us),"Trang chủ");
         jmianPanel.add(new CustomeCart(),"Giỏ hàng");
-        jmianPanel.add(new CustomerOrder(),"Đơn hàng");
+        jmianPanel.add(new CustomerOrder(Integer.parseInt(us.getIdCustomer())),"Đơn hàng");
  
         customerNavbar1.Router1( "Trang chủ",jmianPanel);
         customerNavbar1.Router2( "Giỏ hàng",jmianPanel);

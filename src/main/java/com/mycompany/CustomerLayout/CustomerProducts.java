@@ -5,8 +5,10 @@
 package com.mycompany.CustomerLayout;
 
 import Database.Action;
+import Pojo.Customer;
 import Pojo.Product;
 import Process.product;
+import Process.user;
 import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,11 +24,14 @@ public class CustomerProducts extends javax.swing.JPanel {
     private List<Product> productList = new ArrayList<>(); // Danh sách sản phẩm
     private product pr = new product();
     Action action = new Action();
+    private Customer customer;
+    private user us;
 
     /**
      * Creates new form CustomerProducts
      */
-    public CustomerProducts() {
+    public CustomerProducts(user us) {
+            this.us = us;  // Lưu đối tượng user vào biến trong lớp
         initComponents();
             loadComboBoxData(); // Đổ dữ liệu vào các JComboBox
         loadProducts();
@@ -44,7 +49,7 @@ public class CustomerProducts extends javax.swing.JPanel {
 
         // Tạo các hàng và thêm vào giao diện
         for (Product product : productList) {
-            CustomerProductCard productCard = new CustomerProductCard();
+            CustomerProductCard productCard = new CustomerProductCard(us);
             productCard.setProductData(product); // Truyền dữ liệu sản phẩm vào card
             listPanel.add(productCard);
         }
@@ -112,14 +117,13 @@ public class CustomerProducts extends javax.swing.JPanel {
 
     // Tạo JPanel để chứa các hàng sản phẩm đã lọc
     JPanel listPanel = new JPanel();
-    listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10)); // Sắp xếp ngang, cách nhau 10px
+    listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 15)); // Sắp xếp ngang, cách nhau 10px
 
     // Tạo các thẻ sản phẩm cho các sản phẩm đã lọc và thêm vào giao diện
     for (Product product : filteredProducts) {
         // Kiểm tra nếu sản phẩm đã có, nếu chưa thì tạo mới
-                    System.out.println(product.toString()); // Log thông tin sản phẩm để kiểm tra
 
-        CustomerProductCard productCard = new CustomerProductCard();
+        CustomerProductCard productCard = new CustomerProductCard(us);
         productCard.setProductData(product); // Truyền dữ liệu sản phẩm vào card
         listPanel.add(productCard);
     }

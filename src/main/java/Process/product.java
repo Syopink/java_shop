@@ -30,7 +30,7 @@ public class product {
     
 public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT p.idProduct, p.idCate, c.title, p.name, p.thumbnail, p.descriptions, p.price, p.status, p.featured, p.promotion, p.warranty, p.accessories, p.createdAt, p.updatedAt "
+        String query = "SELECT p.idProduct, p.idCate, c.title, p.name, p.thumbnail, p.descriptions, p.price, p.status, p.promotion, p.warranty, p.accessories, p.createdAt, p.updatedAt "
                      + "FROM products p "
                      + "JOIN categories c ON p.idCate = c.idCate";
 
@@ -47,7 +47,6 @@ public List<Product> getAllProducts() {
                 product.setDescriptions(rs.getString("descriptions"));
                 product.setPrice(rs.getBigDecimal("price"));  
                 product.setStatus(rs.getString("status"));
-                product.setFeatured(rs.getBoolean("featured"));
                 product.setPromotion(rs.getString("promotion"));
                 product.setWarranty(rs.getString("warranty"));
                 product.setAccessories(rs.getString("accessories"));

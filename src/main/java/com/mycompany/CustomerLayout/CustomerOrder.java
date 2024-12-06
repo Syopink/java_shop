@@ -4,17 +4,95 @@
  */
 package com.mycompany.CustomerLayout;
 
+import Database.ActionOrders;
+import Pojo.Order;
+import Process.user;
+import com.mycompany.components.util.rowOrder;
+import com.mycompany.vietpro.CustomerLayout;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 /**
  *
  * @author An Ninh
  */
 public class CustomerOrder extends javax.swing.JPanel {
 
+    private List<rowOrder> rowsList = new ArrayList<>(); // Danh sách các hàng người dùng
+    private Order order;
+    ActionOrders Ao = new ActionOrders();  // Khởi tạo đối tượng customers
+    
     /**
      * Creates new form CustomerOrder
      */
-    public CustomerOrder() {
-        initComponents();
+public CustomerOrder(int idCustomer) {
+    initComponents();
+    try {
+        loadCustomerOrders(idCustomer);  // Truyền idCustomer vào phương thức loadCustomerOrders
+    } catch (SQLException ex) {
+        Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+private void loadCustomerOrders(int idCustomer) throws SQLException {
+    // Lấy danh sách đơn hàng cho khách hàng từ cơ sở dữ liệu
+    List<Order> orders = Ao.getAllOrdersByIdCustomer(idCustomer);
+    if (orders == null || orders.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Không có đơn hàng cho khách hàng này.");
+        return;
+    }
+    loadOrders(orders); // Gọi phương thức để hiển thị các đơn hàngS
+}
+    private void initOrderList() {
+        // Kiểm tra xem có ID khách hàng hay không, nếu không thì không làm gì.
+        if (order == null) {
+            JOptionPane.showMessageDialog(this, "Đơn hàng chưa được khởi tạo!");
+            return;
+        }
+
+        try {
+            List<Order> orderList = Ao.getAllOrders(); // Lấy danh sách đơn hàng từ DB
+            loadOrders(orderList); // Tải đơn hàng lên UI
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi lấy đơn hàng: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "ID khách hàng không hợp lệ!");
+        }
+    }
+    
+    
+
+    private void loadOrders(List<Order> orders) {
+        // Xóa hết các hàng cũ trong giao diện nếu có
+        jScrollPane1.getViewport().removeAll();
+        rowsList.clear();
+
+        // Tạo một JPanel mới để chứa các hàng đơn hàng
+        JPanel listPanel = new JPanel();
+        listPanel.setLayout(new javax.swing.BoxLayout(listPanel, javax.swing.BoxLayout.Y_AXIS)); // Sắp xếp các hàng theo chiều dọc
+
+        int index = 1; // Bắt đầu từ số thứ tự 1
+        for (Order order : orders) {
+            // Tạo một hàng orderRow mới để hiển thị thông tin đơn hàng
+            rowOrder row = new rowOrder(index, order, Ao); // Truyền số thứ tự vào rowOrder
+            rowsList.add(row); // Thêm vào danh sách rowsList để quản lý các hàng
+            listPanel.add(row); // Thêm hàng vào panel
+            index++; // Tăng số thứ tự cho các đơn hàng tiếp theo
+        }
+
+        // Thiết lập chiều cao cố định cho listPanel
+        listPanel.setPreferredSize(new java.awt.Dimension(listPanel.getPreferredSize().width, 400));
+
+        // Đặt listPanel vào trong JScrollPane
+        jScrollPane1.setViewportView(listPanel);
+
+        // Làm mới giao diện
+        listPanel.revalidate();
+        listPanel.repaint();
     }
 
     /**
@@ -42,11 +120,16 @@ public class CustomerOrder extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(794, 422));
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Đơn mua");
+        jLabel1.setText("ĐƠN HÀNG");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 163, 36));
 
         jScrollPane1.setBorder(null);
         jScrollPane1.setViewportView(customerOrderCard1);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 120, 790, 293));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
@@ -99,54 +182,19 @@ public class CustomerOrder extends javax.swing.JPanel {
                     .addComponent(jLabel5)))
         );
 
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 93, -1, -1));
+
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Chọn tất");
         jLabel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(627, 48, 57, 27));
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Xóa");
         jLabel7.setOpaque(true);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(702, 48, 53, 27));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

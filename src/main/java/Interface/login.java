@@ -6,15 +6,12 @@ package Interface;
 
 import Process.customers;
 import Validate.UserDTO;
-import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import Library.Capcha;
 import Process.user;
 import com.mycompany.vietpro.CustomerLayout;
 import com.mycompany.vietpro.Homepage;
-import javax.swing.JTextField;
 
 /**
  *
@@ -238,7 +235,6 @@ public class login extends javax.swing.JFrame {
                 case "customer" -> {
                     JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
                     us = cs.findUserByEmail(user.getEmail());
-                                        System.out.println("us: " + us.getAddress());
                     CustomerLayout customerFrame = new CustomerLayout(us);
                     customerFrame.setVisible(true);
                     this.dispose(); // Close the login frame
@@ -290,6 +286,7 @@ public class login extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
+     * 
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

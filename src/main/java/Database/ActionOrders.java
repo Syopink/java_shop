@@ -1,6 +1,8 @@
 package Database;
 
 import Pojo.Order;
+import Pojo.OrderItem;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,273 +12,340 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author An Ninh
+ * Quản lý các thao tác với bảng orders_new và OrderItems.
  */
 public class ActionOrders {
-        private final Connect cn = new Connect();
+    private final Connect cn = new Connect();
     private Connection conn;
 
-     public ActionOrders() {
-        this.conn = cn.connectSQL(); // Mở kết nối trong hàm tạo
+    public ActionOrders() {
+        this.conn = cn.connectSQL(); // Kết nối tới database
     }
 
-    public List<Object[]> getOrders() {
-        String query = "SELECT * FROM products"; // Assuming you're getting order-related data from the "products" table
-        List<Object[]> resultList = new ArrayList<>();
-
-        try (PreparedStatement statement = conn.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-            
-            // Iterate through the result set
-            while (resultSet.next()) {
-                int idProduct = resultSet.getInt("idProduct");
-                int idCustomer = resultSet.getInt("idCustomer");
-                int idOrder = resultSet.getInt("idOrder");
-                String name = resultSet.getString("name");
-                String phone = resultSet.getString("phone");
-                String email = resultSet.getString("email");
-                String item = resultSet.getString("item");
-                int isApproved=resultSet.getInt("isApproved");
-                String address = resultSet.getString("address");
-                String createdAt = resultSet.getString("createdAt");
-
-                // Define an array to store the data (size 9 to accommodate all columns)
-                Object[] row = new Object[9];  // Updated size
-                row[0] = idOrder;
-                row[1] = idCustomer;
-                row[2] = idProduct;
-                row[3] = name;
-                row[4] = phone;
-                row[5] = email;
-                row[6] = address;
-                row[7] = item;
-                row[8] = createdAt;
-                row[9] = isApproved;
-                resultList.add(row);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return resultList;
-    }
-    
-    public List<Order> getOrdersByCustomerAndStatus(String idCustomer, boolean isDeleted) throws SQLException {
+    // Lấy danh sách tất cả đơn hàng
+ public List<Order> getAllOrders() throws SQLException {
     List<Order> orders = new ArrayList<>();
-    String sql = "SELECT o.idOrder, o.name AS customerName, o.email, o.address, o.phone, o.createdAt, p.name AS nameProduct " +
-                 "FROM orders o " +
-                 "JOIN products p ON o.idProduct = p.idProduct " +
-                 "WHERE o.idCustomer = ? AND o.isDeleted = ?";
-    
-    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        pstmt.setString(1, idCustomer);
-        pstmt.setBoolean(2, isDeleted);
-        
-        try (ResultSet rs = pstmt.executeQuery()) {
-            while (rs.next()) {
-                String idOrder = rs.getString("idOrder");
-                String customerName = rs.getString("customerName");
-                String email = rs.getString("email");
-                String address = rs.getString("address");
-                String phone = rs.getString("phone");
-                Timestamp  createdAt = rs.getTimestamp("createdAt");
-                String nameProduct = rs.getString("nameProduct");
-                int isApproved = rs.getInt("isApproved");
-                // Tạo đối tượng Order và thêm vào danh sách
-                orders.add(new Order( idOrder,customerName, nameProduct, email, customerName, phone, address, nameProduct, createdAt,isApproved));
-            }
-        }
-    } catch (SQLException e) {
-        System.err.println("Lỗi khi lấy danh sách đơn hàng: " + e.getMessage());
-        throw e;
-    }
-    
-    return orders;
-}
-public List<Order> getAllOrders() throws SQLException {
-    List<Order> orders = new ArrayList<>();
-    String sql = "SELECT * FROM orders";
-    
+    String sql = "SELECT * FROM orders_new";
+
     try (PreparedStatement pstmt = conn.prepareStatement(sql);
          ResultSet rs = pstmt.executeQuery()) {
-        
-        // Duyệt qua kết quả trả về và tạo đối tượng Order cho mỗi bản ghi
         while (rs.next()) {
-            String idOrder = rs.getString("idOrder");
-            String idCustomer = rs.getString("idCustomer");
-            String idProduct = rs.getString("idProduct");
+            int idOrder = rs.getInt("idOrder");
+            int idCustomer = rs.getInt("idCustomer");
             String name = rs.getString("name");
-            String phone = rs.getString("phone");
             String email = rs.getString("email");
+            String phone = rs.getString("phone");
             String address = rs.getString("address");
-            String item = rs.getString("item");
+            BigDecimal totalPrice = rs.getBigDecimal("TotalPrice");
+            int status = rs.getInt("status");
             Timestamp createdAt = rs.getTimestamp("createdAt");
-            int isApproved = rs.getInt("isApproved");
-            
-            // Tạo đối tượng Order và thêm vào danh sách
-            orders.add(new Order( idOrder,idCustomer, idProduct, email, name, phone, address, item, createdAt,isApproved));
+            Timestamp updatedAt = rs.getTimestamp("updatedAt");
+
+            // Lấy danh sách OrderItem cho từng đơn hàng
+            List<OrderItem> orderItems = getOrderItemsByOrderId(idOrder);
+
+            // Tạo đối tượng Order
+            orders.add(new Order(idOrder, String.valueOf(idCustomer), null, email, name, phone, address, orderItems, createdAt, updatedAt, status, totalPrice));
         }
     } catch (SQLException e) {
         System.err.println("Lỗi khi lấy danh sách đơn hàng: " + e.getMessage());
-        throw e;
-    }
-    
-    return orders;
-}
-public List<Order> searchOrdersByNameEmailOrPhone(String name, String email, String phone) throws SQLException {
-    List<Order> orders = new ArrayList<>();
-    StringBuilder sql = new StringBuilder("SELECT * FROM orders WHERE 1=1");
-    
-    // Thêm điều kiện tìm kiếm vào câu lệnh SQL dựa trên các tham số nhập vào
-    if (!name.isEmpty()) {
-        sql.append(" AND name LIKE ?");
-    }
-    if (!email.isEmpty()) {
-        sql.append(" AND email LIKE ?");
-    }
-    if (!phone.isEmpty()) {
-        sql.append(" AND phone LIKE ?");
     }
 
-    try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
-        int index = 1;
-        if (!name.isEmpty()) {
-            pstmt.setString(index++, "%" + name + "%");
+    return orders;
+}
+
+    // Helper method to get OrderItems by Order ID
+    private List<OrderItem> getOrderItemsByOrderId(int orderId) throws SQLException {
+        List<OrderItem> orderItems = new ArrayList<>();
+        String sql = "SELECT oi.idProduct, oi.quantity, oi.price, p.name AS productName " +
+                     "FROM OrderItems oi " +
+                     "JOIN Products p ON oi.idProduct = p.idProduct " +
+                     "WHERE oi.idOrder = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, orderId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    int idProduct = rs.getInt("idProduct");
+                    String productName = rs.getString("productName");
+                    int quantity = rs.getInt("quantity");
+                    BigDecimal price = rs.getBigDecimal("price");
+
+                    // Create OrderItem and add it to the list
+                    OrderItem orderItem = new OrderItem(idProduct, productName, quantity, price);
+                    orderItems.add(orderItem);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi lấy chi tiết sản phẩm của đơn hàng: " + e.getMessage());
         }
-        if (!email.isEmpty()) {
-            pstmt.setString(index++, "%" + email + "%");
+
+        return orderItems;
+    }
+
+    // Thêm đơn hàng mới
+    public void addOrder(Order order) {
+        String query = "INSERT INTO orders_new(idCustomer, name, email, phone, address, TotalPrice, status, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, Integer.parseInt(order.getIdCustomer()));
+            statement.setString(2, order.getName());
+            statement.setString(3, order.getEmail());
+            statement.setString(4, order.getPhone());
+            statement.setString(5, order.getAddress());
+            statement.setBigDecimal(6, order.getTotalPrice()); // Sử dụng BigDecimal cho TotalPrice
+            statement.setInt(7, order.getStatus());
+            statement.setTimestamp(8, order.getCreatedAt());
+            statement.setTimestamp(9, order.getUpdatedAt());
+            statement.executeUpdate();
+            System.out.println("Đã thêm đơn hàng mới!");
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi thêm đơn hàng: " + e.getMessage());
         }
-        if (!phone.isEmpty()) {
-            pstmt.setString(index++, "%" + phone + "%");
+    }
+
+    // Xóa đơn hàng theo ID
+    public void deleteOrder(String orderId) {
+        String query = "DELETE FROM orders_new WHERE idOrder = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, Integer.parseInt(orderId));
+            statement.executeUpdate();
+            System.out.println("Đã xóa đơn hàng với ID: " + orderId);
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi xóa đơn hàng: " + e.getMessage());
         }
+    }
+
+    // Lấy danh sách đơn hàng theo trạng thái
+    public List<Order> getOrdersByStatus(int status) {
+        List<Order> orders_new = new ArrayList<>();
+        String query = "SELECT * FROM orders_new WHERE status = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, status);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    int idOrder = rs.getInt("idOrder");
+                    int idCustomer = rs.getInt("idCustomer");
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String phone = rs.getString("phone");
+                    String address = rs.getString("address");
+                    BigDecimal totalPrice = rs.getBigDecimal("TotalPrice"); // Sử dụng BigDecimal cho TotalPrice
+                    Timestamp createdAt = rs.getTimestamp("createdAt");
+                    Timestamp updatedAt = rs.getTimestamp("updatedAt");
+
+                orders_new.add(new Order(idOrder, String.valueOf(idCustomer), email, name, phone, address,  status,createdAt, updatedAt, totalPrice));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi lấy danh sách đơn hàng theo trạng thái: " + e.getMessage());
+        }
+
+        return orders_new;
+    }
+
+    // Cập nhật trạng thái đơn hàng
+public void updateApprove(int isSelectedApproved, int orderId) {
+    String query = "UPDATE orders_new SET status = ? WHERE idOrder = ?";
+    try (PreparedStatement statement = conn.prepareStatement(query)) {
+        statement.setInt(1, isSelectedApproved);  // Sử dụng int cho trạng thái
+        statement.setInt(2, orderId);  // Sử dụng int cho idOrder
+        statement.executeUpdate();
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi cập nhật trạng thái đơn hàng: " + e.getMessage());
+    }
+}
+    // Lấy tên sản phẩm theo ID
+    public String getProductNameById(int productId) {
+        String productName = null;
+        String query = "SELECT name FROM products WHERE idProduct = ?";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, productId); // Set the productId as parameter
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    productName = rs.getString("name"); // Get the product name
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi lấy tên sản phẩm theo ID: " + e.getMessage());
+        }
+
+        return productName;
+    }
+
+    // Tìm kiếm đơn hàng theo tên, email hoặc số điện thoại
+    public List<Order> searchOrdersByNameEmailOrPhone(String name, String email, String phone) throws SQLException {
+        List<Order> orders_new = new ArrayList<>();
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM orders_new WHERE 1 = 1");
+
+        // Add conditions based on the provided parameters
+        if (name != null && !name.isEmpty()) {
+            queryBuilder.append(" AND name LIKE ?");
+        }
+        if (email != null && !email.isEmpty()) {
+            queryBuilder.append(" AND email LIKE ?");
+        }
+        if (phone != null && !phone.isEmpty()) {
+            queryBuilder.append(" AND phone LIKE ?");
+        }
+
+        String query = queryBuilder.toString();
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            int index = 1;
+
+            // Set the parameters for the PreparedStatement
+            if (name != null && !name.isEmpty()) {
+                statement.setString(index++, "%" + name + "%"); // Use LIKE for partial matching
+            }
+            if (email != null && !email.isEmpty()) {
+                statement.setString(index++, "%" + email + "%");
+            }
+            if (phone != null && !phone.isEmpty()) {
+                statement.setString(index++, "%" + phone + "%");
+            }
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    int idOrder = rs.getInt("idOrder");
+                    int idCustomer = rs.getInt("idCustomer");
+                    String orderName = rs.getString("name");
+                    String orderEmail = rs.getString("email");
+                    String orderPhone = rs.getString("phone");
+                    String address = rs.getString("address");
+                    BigDecimal totalPrice = rs.getBigDecimal("TotalPrice"); // Use BigDecimal for TotalPrice
+                    Timestamp createdAt = rs.getTimestamp("createdAt");
+                    Timestamp updatedAt = rs.getTimestamp("updatedAt");
+                    int status = rs.getInt("status");
+
+                orders_new.add(new Order(idOrder, String.valueOf(idCustomer), orderEmail, orderName, orderPhone, address,  status,createdAt, updatedAt, totalPrice));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error while searching orders_new: " + e.getMessage());
+        }
+
+        return orders_new;
+    }
+   
+    
+    
+    
+    
+    
+    // customer order
+    public List<Order> getAllOrdersByIdCustomer(int idCustomer) throws SQLException {
+    List<Order> orders = new ArrayList<>();
+    String sql = "SELECT * FROM orders_new WHERE idCustomer = ?";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setInt(1, idCustomer); // Gán tham số idCustomer
 
         try (ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                String idOrder = rs.getString("idOrder");
-                String idCustomer = rs.getString("idCustomer");
-                String idProduct = rs.getString("idProduct");
-                String customerName = rs.getString("name");
-                String phoneNumber = rs.getString("phone");
-                String emailAddr = rs.getString("email");
-                String address = rs.getString("address");
-                String item = rs.getString("item");
-                Timestamp createdAt = rs.getTimestamp("createdAt");
-                int isApproved = rs.getInt("isApproved");
-                orders.add(new Order(idOrder, idCustomer, idProduct, emailAddr, customerName, phoneNumber, address, item, createdAt,isApproved));
-            }
-        }
-    } catch (SQLException e) {
-        System.err.println("Lỗi khi tìm kiếm đơn hàng: " + e.getMessage());
-        throw e;
-    }
-
-    return orders;
-}
-
-    public void updateApprove(int isSelectedApproved,String orderId){
-        String query ="UPDATE orders SET isApproved = ? WHERE idOrder = ? ";
-            try (
-            PreparedStatement statement = conn.prepareStatement(query)
-        )   {
-            statement.setInt(1, isSelectedApproved); 
-            statement.setString(2, orderId);
-            statement.executeUpdate(); 
-        } catch (Exception e) {
-            e.printStackTrace();
-    }
-}
-    
-    public void deleteOrder(String orderId) {
-    String query = "DELETE FROM orders WHERE idOrder = ?";
-    try (PreparedStatement statement = conn.prepareStatement(query)) {
-        statement.setString(1, orderId);
-        statement.executeUpdate();
-        System.out.println("Đã xóa đơn hàng với ID: " + orderId);
-    } catch (SQLException e) {
-        System.err.println("Lỗi khi xóa đơn hàng: " + e.getMessage());
-    }
-}
-    
-    public void addOrder(Order order) {
-    String query = "INSERT INTO orders (idOrder, idCustomer, idProduct, name, phone, email, address, item, createdAt, isApproved) " +
-                   "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    try (PreparedStatement statement = conn.prepareStatement(query)) {
-        statement.setString(1, order.getIdOrder());
-        statement.setString(2, order.getIdCustomer());
-        statement.setString(3, order.getIdProduct());
-        statement.setString(4, order.getName());
-        statement.setString(5, order.getPhone());
-        statement.setString(6, order.getEmail());
-        statement.setString(7, order.getAddress());
-        statement.setString(8, order.getItem());
-        statement.setTimestamp(9, order.getCreatedAt());
-        statement.setInt(10, order.getIsApproved());
-        statement.executeUpdate();
-        System.out.println("Đã thêm đơn hàng mới!");
-    } catch (SQLException e) {
-        System.err.println("Lỗi khi thêm đơn hàng: " + e.getMessage());
-    }
-}
-    
-    public void updateOrder(Order order) {
-    String query = "UPDATE orders SET idCustomer = ?, idProduct = ?, name = ?, phone = ?, email = ?, address = ?, " +
-                   "item = ?, createdAt = ?, isApproved = ? WHERE idOrder = ?";
-    try (PreparedStatement statement = conn.prepareStatement(query)) {
-        statement.setString(1, order.getIdCustomer());
-        statement.setString(2, order.getIdProduct());
-        statement.setString(3, order.getName());
-        statement.setString(4, order.getPhone());
-        statement.setString(5, order.getEmail());
-        statement.setString(6, order.getAddress());
-        statement.setString(7, order.getItem());
-        statement.setTimestamp(8, order.getCreatedAt());
-        statement.setInt(9, order.getIsApproved());
-        statement.setString(10, order.getIdOrder());
-        statement.executeUpdate();
-        System.out.println("Đã cập nhật đơn hàng với ID: " + order.getIdOrder());
-    } catch (SQLException e) {
-        System.err.println("Lỗi khi cập nhật đơn hàng: " + e.getMessage());
-    }
-}
-public List<Order> getOrdersByApprovalStatus(int isApproved) {
-    List<Order> orders = new ArrayList<>();
-    String query = "SELECT * FROM orders WHERE isApproved = ?";
-    try (PreparedStatement statement = conn.prepareStatement(query)) {
-        statement.setInt(1, isApproved);
-        try (ResultSet rs = statement.executeQuery()) {
-            while (rs.next()) {
-                String idOrder = rs.getString("idOrder");
-                String idCustomer = rs.getString("idCustomer");
-                String idProduct = rs.getString("idProduct");
+                int idOrder = rs.getInt("idOrder");
                 String name = rs.getString("name");
-                String phone = rs.getString("phone");
                 String email = rs.getString("email");
+                String phone = rs.getString("phone");
                 String address = rs.getString("address");
-                String item = rs.getString("item");
+                BigDecimal totalPrice = rs.getBigDecimal("TotalPrice");
+                int status = rs.getInt("status");
                 Timestamp createdAt = rs.getTimestamp("createdAt");
-                orders.add(new Order(idOrder, idCustomer, idProduct, email, name, phone, address, item, createdAt, isApproved));
+                Timestamp updatedAt = rs.getTimestamp("updatedAt");
+
+                // Lấy danh sách OrderItem cho từng đơn hàng
+                List<OrderItem> orderItems = getOrderItemsByOrderId(idOrder);
+                System.out.println("a" + orderItems);
+                // Tạo đối tượng Order
+                orders.add(new Order(idOrder, String.valueOf(idCustomer), null, email, name, phone, address, orderItems, createdAt, updatedAt, status, totalPrice));
             }
         }
     } catch (SQLException e) {
-        System.err.println("Lỗi khi lấy danh sách đơn hàng theo trạng thái: " + e.getMessage());
+        System.err.println("Lỗi khi lấy danh sách đơn hàng theo idCustomer: " + e.getMessage());
     }
+
     return orders;
 }
+    
+    
+    public boolean placeOrder(int idCustomer, List<OrderItem> cartItems, String name, String email, String phone, String address) {
+    // Bắt đầu giao dịch để đảm bảo tính toàn vẹn của các thao tác
+    try {
+        conn.setAutoCommit(false); // Tắt tự động commit (để bắt đầu giao dịch)
 
-public int getTotalOrdersCount() {
-    String query = "SELECT COUNT(*) AS total FROM orders";
-    try (PreparedStatement statement = conn.prepareStatement(query);
-         ResultSet rs = statement.executeQuery()) {
-        if (rs.next()) {
-            return rs.getInt("total");
+        // 1. Tính tổng giá trị đơn hàng
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (OrderItem item : cartItems) {
+            totalPrice = totalPrice.add(item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
+        }
+
+        // 2. Thêm đơn hàng vào bảng `orders_new`
+        String insertOrderSql = "INSERT INTO orders_new (idCustomer, name, email, phone, address, TotalPrice, status, createdAt, updatedAt) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(insertOrderSql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, idCustomer);
+            stmt.setString(2, name);
+            stmt.setString(3, email);
+            stmt.setString(4, phone);
+            stmt.setString(5, address);
+            stmt.setBigDecimal(6, totalPrice);
+            stmt.setInt(7, 0);  // Trạng thái mặc định là "Chưa xử lý" (0)
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            stmt.setTimestamp(8, timestamp);
+            stmt.setTimestamp(9, timestamp);
+
+            // Thực thi lệnh thêm đơn hàng
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted == 0) {
+                conn.rollback(); // Hủy giao dịch nếu không thể thêm đơn hàng
+                return false;
+            }
+
+            // Lấy idOrder vừa tạo
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            int idOrder = -1;
+            if (generatedKeys.next()) {
+                idOrder = generatedKeys.getInt(1);
+            }
+
+            // 3. Thêm các sản phẩm vào bảng `OrderItems`
+            String insertOrderItemSql = "INSERT INTO OrderItems (idOrder, idProduct, quantity, price) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement stmtItem = conn.prepareStatement(insertOrderItemSql)) {
+                for (OrderItem item : cartItems) {
+                    stmtItem.setInt(1, idOrder);
+                    stmtItem.setInt(2, item.getIdProduct());
+                    stmtItem.setInt(3, item.getQuantity());
+                    stmtItem.setBigDecimal(4, item.getPrice());
+                    stmtItem.addBatch();  // Thêm vào batch
+                }
+                // Thực thi batch chèn OrderItems
+                int[] rowsInsertedItems = stmtItem.executeBatch();
+            }
+
+            // Commit giao dịch
+            conn.commit();
+            return true;
+        } catch (SQLException e) {
+            conn.rollback();  // Nếu có lỗi, rollback lại giao dịch
+            System.err.println("Lỗi khi thêm đơn hàng: " + e.getMessage());
+            return false;
         }
     } catch (SQLException e) {
-        System.err.println("Lỗi khi đếm tổng số đơn hàng: " + e.getMessage());
+        try {
+            conn.rollback();  // Nếu có lỗi, rollback lại giao dịch
+        } catch (SQLException ex) {
+            System.err.println("Lỗi rollback giao dịch: " + ex.getMessage());
+        }
+        System.err.println("Lỗi khi xử lý đơn hàng: " + e.getMessage());
+        return false;
+    } finally {
+        try {
+            conn.setAutoCommit(true);  // Bật lại auto commit
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi khôi phục trạng thái auto commit: " + e.getMessage());
+        }
     }
-    return 0;
 }
 
-
+    
 }
-

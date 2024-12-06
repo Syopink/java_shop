@@ -251,7 +251,8 @@ public class customers {
                     String role = rs.getString("role");
                     String phone = rs.getString("numberOfPhone");
                     String address = rs.getString("address");
-                    us = new user(email, name, role, address, phone);
+                    String id = rs.getString("idCustomer");
+                    us = new user(email, name, role, address, phone, id);
                 }
             }
         } catch (SQLException e) {

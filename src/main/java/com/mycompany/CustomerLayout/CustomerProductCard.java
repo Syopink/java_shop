@@ -5,27 +5,39 @@
 package com.mycompany.CustomerLayout;
 
 import Database.ActionOrders;
+import Pojo.Customer;
+import Pojo.OrderItem;
 import Pojo.Product;
 import Process.user;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author An Ninh
  */
 public class CustomerProductCard extends javax.swing.JPanel {
+    private Product product;
     private user us;
+    private Product pr;
     private boolean isSelect = false;
     ActionOrders Ao = new ActionOrders();
+
     /**
      * Creates new form CustomerProductCard
      */
-    public CustomerProductCard() {
+    public CustomerProductCard(user us) {
+        this.us = us;
         initComponents();
     }
 
@@ -53,6 +65,7 @@ public class CustomerProductCard extends javax.swing.JPanel {
         jLBuy = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         nameCate1 = new javax.swing.JLabel();
+        id = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         image = new javax.swing.JLabel();
         buy = new javax.swing.JLabel();
@@ -138,6 +151,7 @@ public class CustomerProductCard extends javax.swing.JPanel {
 
         nameCate1.setText("???");
         jDialog1.getContentPane().add(nameCate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 102, 82, -1));
+        jDialog1.getContentPane().add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 90, -1, -1));
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -162,7 +176,6 @@ public class CustomerProductCard extends javax.swing.JPanel {
 
         price1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         price1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        price1.setText("Giá:");
 
         name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -174,8 +187,8 @@ public class CustomerProductCard extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(price1, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))
+                    .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(price1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buy, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -192,7 +205,7 @@ public class CustomerProductCard extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(price1))
                     .addComponent(buy, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addGap(0, 21, Short.MAX_VALUE))
         );
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 220));
@@ -223,10 +236,69 @@ public class CustomerProductCard extends javax.swing.JPanel {
         // TODO add your handling code here:
         jDialog1.dispose(); // dialog1 là đối tượng JDialog mà bạn muốn đóng
     }//GEN-LAST:event_jLExitMouseClicked
+private BigDecimal parsePrice(String priceText) {
+    try {
+        // Xóa bỏ " VND" và chuyển chuỗi thành BigDecimal
+        return new BigDecimal(priceText.replace(" VND", "").trim());
+    } catch (NumberFormatException e) {
+        // Nếu giá không hợp lệ, trả về giá mặc định 0
+        return BigDecimal.ZERO;
+    }
+}
+private String formatPrice(BigDecimal price) {
+    NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+    return format.format(price); // Định dạng tiền tệ theo chuẩn Việt Nam
+}
 
+private boolean purchaseProduct(String productName, BigDecimal price) {
+    // Giả lập việc mua hàng
+    System.out.println("Đang mua: " + productName + " với giá " + formatPrice(price));
+    return true; // Giả lập việc mua thành công
+}
+
+    
     private void jLBuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLBuyMouseClicked
+ String productName = nameProduct.getText();
+    String productStatus = status.getText();
+    BigDecimal productPrice = parsePrice(price1.getText());
+    String productDescription = Descripiton.getText();
+    int id = Integer.parseInt(this.id.getText());
+    // Kiểm tra xem sản phẩm có sẵn để mua hay không
+    if (productStatus.equalsIgnoreCase("Còn hàng")) {
+        // Xác nhận hành động mua
+        int option = JOptionPane.showConfirmDialog(this, 
+            "Bạn có muốn mua " + productName + " với giá " + formatPrice(productPrice) + " VND?", 
+            "Xác nhận mua hàng", 
+            JOptionPane.YES_NO_OPTION);
 
-        
+        if (option == JOptionPane.YES_OPTION) {
+            // Chuẩn bị dữ liệu cho phương thức placeOrder
+            String idCustomer = us.getIdCustomer(); // Giả sử user `us` chứa thông tin khách hàng đang đăng nhập
+            String customerName = us.getFullName(); // Tên khách hàng
+            String customerEmail = us.getEmail(); // Email khách hàng
+            String customerPhone = us.getNumberOfPhone(); // Số điện thoại khách hàng
+            String customerAddress = us.getAddress(); // Địa chỉ khách hàng
+
+            // Tạo danh sách OrderItem (giả định sản phẩm hiện tại là duy nhất trong đơn hàng)
+            List<OrderItem> cartItems = new ArrayList<>();
+            OrderItem item = new OrderItem(id,productName, 1,productPrice); // Số lượng mặc định là 1
+            cartItems.add(item);
+
+            // Gọi phương thức placeOrder
+            boolean orderSuccess = Ao.placeOrder(Integer.parseInt(idCustomer), cartItems, customerName, customerEmail, customerPhone, customerAddress);
+
+            // Hiển thị kết quả
+            if (orderSuccess) {
+                JOptionPane.showMessageDialog(this, "Mua hàng thành công! Đơn hàng đã được đặt.");
+                        cartItems.clear(); // Reset the cart
+                 jDialog1.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi trong quá trình đặt hàng.");
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Xin lỗi, sản phẩm này không có sẵn để mua.");
+    }
     }//GEN-LAST:event_jLBuyMouseClicked
     public void setProductData(Product product) {
         String basePath = "D:\\Onedrive\\Documents\\NetBeansProjects\\VietPro3\\java_shop\\src\\main\\resources\\images";
@@ -242,7 +314,8 @@ public class CustomerProductCard extends javax.swing.JPanel {
         status.setText(product.getStatus()); // Trạng thái sản phẩm
         price1.setText(String.format("%.2f", product.getPrice()) + " VND");
         nameCate1.setText(String.valueOf(product.getCategoryTitle()));
-
+        id.setText(String.valueOf(product.getIdProduct()));
+        id.setVisible(false);
 // Lấy tên file ảnh
         String imageName = product.getThumbnail();
         if (imageName != null && !imageName.isEmpty()) {
@@ -293,6 +366,7 @@ public class CustomerProductCard extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea Descripiton;
     private javax.swing.JLabel buy;
+    private javax.swing.JLabel id;
     private javax.swing.JLabel image;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jImageDetail;

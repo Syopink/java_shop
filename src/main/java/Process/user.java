@@ -13,8 +13,6 @@ import java.sql.SQLException;
 
 public class user {
     private String idCustomer;
-
-
     private String email;
     private String fullName;
     private String role;
@@ -28,12 +26,13 @@ public class user {
         this.role = role;
     }
 
-    public user(String email, String fullName, String role, String address, String numberOfPhone) {
+    public user(String email, String fullName, String role, String address, String numberOfPhone, String idCustomer) {
         this.email = email;
         this.fullName = fullName;
         this.role = role;
         this.address = address;
         this.numberOfPhone = numberOfPhone;
+        this.idCustomer = idCustomer;  // Gán idCustomer vào constructor
     }
     
     

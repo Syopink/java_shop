@@ -31,6 +31,7 @@ public class ManagerOrders extends javax.swing.JPanel {
      * Creates new form ManagerOrders
      */
     public ManagerOrders() {
+        System.out.println("od"+order);
         initComponents();
         initOrderList(); // Tải dữ liệu người dùng khi khởi tạo
 

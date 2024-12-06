@@ -197,10 +197,9 @@ public void addRows(){
         String thumbnail = (String) row[4];
         String status = (String) row[5];
         String nameCate = (String) row[6];
-        boolean featured=(boolean) row[7];
-        String promotion=(String) row[8];
-        String warranty=(String) row[9];
-        String accessories=(String) row[10];
+        String promotion=(String) row[7];
+        String warranty=(String) row[8];
+        String accessories=(String) row[9];
         // Tạo đối tượng Product
         Product product = new Product();
         product.setIdProduct(idProduct);
@@ -209,11 +208,9 @@ public void addRows(){
         product.setThumbnail(thumbnail);
         product.setStatus(status);
         product.setCategoryTitle(nameCate);
-        product.setFeatured(featured);
         product.setPromotion(promotion);
         product.setWarranty(warranty);
         product.setAccessories(accessories);
-
         
         // Gọi phương thức filter với đối tượng Product
         filter(product, panelRows);
