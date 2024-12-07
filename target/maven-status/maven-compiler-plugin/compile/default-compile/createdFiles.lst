@@ -33,6 +33,7 @@ com\mycompany\components\ManagerComments.class
 com\raven\component\RoundedButton.class
 com\mycompany\components\util\rowOrder$1.class
 com\mycompany\CustomerLayout\CustomerProducts.class
+com\mycompany\CustomerLayout\CustomerOrder$1.class
 com\mycompany\vietpro\Vietpro.class
 Interface\forgetPassword$4.class
 Interface\forgetPassword.class
@@ -61,7 +62,6 @@ Database\ActionOrders.class
 Interface\forgetPassword$10.class
 Interface\forgetPassword$8.class
 Database\ActionProduct.class
-com\mycompany\CustomerLayout\CustomeCart.class
 Interface\forgetPassword$7.class
 com\mycompany\vietpro\Homepage.class
 com\mycompany\components\util\rowProducts$4.class

@@ -30,6 +30,7 @@ public class CustomerProductCard extends javax.swing.JPanel {
     private Product product;
     private user us;
     private Product pr;
+    private String imagePath = "D:\\Onedrive\\Documents\\NetBeansProjects\\VietPro3\\java_shop\\src\\main\\resources\\images\\"; // Đường dẫn tương đối
     private boolean isSelect = false;
     ActionOrders Ao = new ActionOrders();
 
@@ -107,8 +108,9 @@ public class CustomerProductCard extends javax.swing.JPanel {
         jDialog1.getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 40, 30));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Trạng thái:");
-        jDialog1.getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 60, 30));
+        jDialog1.getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 70, 30));
 
         nameProduct.setText("???");
         jDialog1.getContentPane().add(nameProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 65, 82, -1));
@@ -219,11 +221,16 @@ public class CustomerProductCard extends javax.swing.JPanel {
         jDialog1.revalidate();
         jDialog1.repaint();
         isSelect = true;
+  Descripiton.setEditable(false);
+    Descripiton.setBackground(new Color(0, 0, 0, 0));
+    Descripiton.setFocusable(false);
+    Descripiton.setBorder(BorderFactory.createEmptyBorder());
+    Descripiton.setLineWrap(true); // Bật chế độ tự động ngắt dòng
+    Descripiton.setWrapStyleWord(true); // Ngắt dòng theo từ
 
-        Descripiton.setEditable(false);
-        Descripiton.setBackground(new Color(0, 0, 0, 0));
-        Descripiton.setFocusable(false); // Không cho nhận focus
-        Descripiton.setBorder(BorderFactory.createEmptyBorder());  // Loại bỏ viền
+    // Loại bỏ thanh cuộn trong JScrollPane
+    jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jDialog1.setSize(560, 380);
         jDialog1.setResizable(false);
@@ -236,33 +243,28 @@ public class CustomerProductCard extends javax.swing.JPanel {
         // TODO add your handling code here:
         jDialog1.dispose(); // dialog1 là đối tượng JDialog mà bạn muốn đóng
     }//GEN-LAST:event_jLExitMouseClicked
-private BigDecimal parsePrice(String priceText) {
+private BigDecimal parsePrice(String priceString) {
+    if (priceString == null || priceString.trim().isEmpty()) {
+        throw new IllegalArgumentException("Price cannot be null or empty");
+    }
     try {
-        // Xóa bỏ " VND" và chuyển chuỗi thành BigDecimal
-        return new BigDecimal(priceText.replace(" VND", "").trim());
+        return new BigDecimal(priceString.trim());
     } catch (NumberFormatException e) {
-        // Nếu giá không hợp lệ, trả về giá mặc định 0
-        return BigDecimal.ZERO;
+        throw new IllegalArgumentException("Invalid price format: " + priceString);
     }
 }
 private String formatPrice(BigDecimal price) {
     NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
     return format.format(price); // Định dạng tiền tệ theo chuẩn Việt Nam
 }
-
-private boolean purchaseProduct(String productName, BigDecimal price) {
-    // Giả lập việc mua hàng
-    System.out.println("Đang mua: " + productName + " với giá " + formatPrice(price));
-    return true; // Giả lập việc mua thành công
-}
-
     
     private void jLBuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLBuyMouseClicked
  String productName = nameProduct.getText();
-    String productStatus = status.getText();
-    BigDecimal productPrice = parsePrice(price1.getText());
+    String statuss = product.getStatus();
+    String productStatus = product.getStatus();
+    BigDecimal productPrice = (product.getPrice());
     String productDescription = Descripiton.getText();
-    int id = Integer.parseInt(this.id.getText());
+    int id = (product.getIdProduct());
     // Kiểm tra xem sản phẩm có sẵn để mua hay không
     if (productStatus.equalsIgnoreCase("Còn hàng")) {
         // Xác nhận hành động mua
@@ -301,43 +303,51 @@ private boolean purchaseProduct(String productName, BigDecimal price) {
     }
     }//GEN-LAST:event_jLBuyMouseClicked
     public void setProductData(Product product) {
-        String basePath = "D:\\Onedrive\\Documents\\NetBeansProjects\\VietPro3\\java_shop\\src\\main\\resources\\images";
-
-// Gán thông tin sản phẩm vào các thành phần
-        nameProduct.setText(product.getName());
-        String ProductName=product.getName();
-        if(ProductName.length() > 7){
-          ProductName=ProductName.substring(0,7)+ "...";
+         this.product = product;
+        
+        // Kiểm tra null để tránh lỗi
+        if (product == null) {
+            JOptionPane.showMessageDialog(this, "Sản phẩm không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        name.setText(ProductName);
-        Descripiton.setText(product.getDescriptions()); // Mô tả sản phẩm
-        status.setText(product.getStatus()); // Trạng thái sản phẩm
-        price1.setText(String.format("%.2f", product.getPrice()) + " VND");
-        nameCate1.setText(String.valueOf(product.getCategoryTitle()));
-        id.setText(String.valueOf(product.getIdProduct()));
-        id.setVisible(false);
-// Lấy tên file ảnh
-        String imageName = product.getThumbnail();
-        if (imageName != null && !imageName.isEmpty()) {
-            // Tạo đường dẫn đầy đủ đến file ảnh
-            String thumbnailPath = basePath + File.separator + imageName;
-            File imageFile = new File(thumbnailPath);
-            System.out.println("thumbnailPath: " + thumbnailPath);
-            if (imageFile.exists()) {
-                image.setIcon(resizeImage(imageFile.getAbsolutePath(), 100, 150));
-                jImageDetail.setIcon(resizeImage(imageFile.getAbsolutePath(), 100, 150));
-            } else {
-                image.setIcon(resizeImage(basePath + File.separator + "logoVietpro.jpg", 100, 150));
-                jImageDetail.setIcon(resizeImage(basePath + File.separator + "logoVietpro.jpg", 100, 150));
+        nameCate1.setText(product.getCategoryTitle());
+        name.setText(shortenProductName(product.getName() != null ? product.getName() : "Không rõ"));
+        price1.setText(formatCurrency(product.getPrice() != null ? product.getPrice() : BigDecimal.ZERO));
+        status.setText(product.getStatus() != null && product.getStatus().equals("Còn hàng") ? "Còn hàng" : "Hết hàng");
+                nameProduct.setText(product.getName() != null ? product.getName() : "Không rõ");
 
-            }
-        } else {
-            // Nếu `thumbnail` là null hoặc rỗng, sử dụng ảnh mặc định
-            ImageIcon defaultIcon = new ImageIcon(basePath + File.separator + "logoVietpro.jpg");
-            image.setIcon(defaultIcon);
-            jImageDetail.setIcon(resizeImage(basePath + File.separator + "logoVietpro.jpg", 100, 150));
-
+        String description = product.getDescriptions() != null ? product.getDescriptions() : "Không có mô tả.";
+        Descripiton.setText(description);
+        
+        // Hiển thị hình ảnh sản phẩm
+        String imageFile = imagePath + (product.getThumbnail()!= null ? product.getThumbnail(): "default.png");
+        image.setIcon(resizeImage(imageFile));
+        jImageDetail.setIcon(resizeImage(imageFile));
+    }
+    
+    private String shortenProductName(String productName) {
+    int maxLength = 10; // Giới hạn độ dài tối đa
+    if (productName.length() > maxLength) {
+        return productName.substring(0, maxLength) + "...";
+    }
+    return productName;
+}
+    
+      // Hàm resize hình ảnh
+    private ImageIcon resizeImage(String imagePath) {
+        try {
+            ImageIcon icon = new ImageIcon(imagePath);
+            Image img = icon.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+            return new ImageIcon(img);
+        } catch (Exception e) {
+            return new ImageIcon(imagePath + "default.png"); // Ảnh mặc định khi lỗi
         }
+    }
+
+      private String formatCurrency(BigDecimal price) {
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+        return currencyVN.format(price);
     }
 
     private ImageIcon resizeImage(String imagePath, int width, int height) {

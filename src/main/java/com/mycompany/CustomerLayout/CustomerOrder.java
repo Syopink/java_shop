@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  * @author An Ninh
  */
 public class CustomerOrder extends javax.swing.JPanel {
-
+    private int idCustomer; // Khai báo biến thành viên để lưu ID khách hàng
     private List<rowOrder> rowsList = new ArrayList<>(); // Danh sách các hàng người dùng
     private Order order;
     ActionOrders Ao = new ActionOrders();  // Khởi tạo đối tượng customers
@@ -31,13 +31,32 @@ public class CustomerOrder extends javax.swing.JPanel {
      * Creates new form CustomerOrder
      */
 public CustomerOrder(int idCustomer) {
-    initComponents();
-    try {
-        loadCustomerOrders(idCustomer);  // Truyền idCustomer vào phương thức loadCustomerOrders
-    } catch (SQLException ex) {
-        Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        this.idCustomer = idCustomer; // Lưu lại ID khách hàng
+        initComponents();
+
+        // Thêm ComponentListener
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                try {
+                    reloadData();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+        try {
+            loadCustomerOrders(idCustomer);
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-}
+
+    private void reloadData() throws SQLException {
+        loadCustomerOrders(idCustomer);
+    }
+
 private void loadCustomerOrders(int idCustomer) throws SQLException {
     // Lấy danh sách đơn hàng cho khách hàng từ cơ sở dữ liệu
     List<Order> orders = Ao.getAllOrdersByIdCustomer(idCustomer);
@@ -115,10 +134,8 @@ private void loadCustomerOrders(int idCustomer) throws SQLException {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
 
-        setPreferredSize(new java.awt.Dimension(794, 422));
+        setPreferredSize(new java.awt.Dimension(1100, 700));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -129,7 +146,7 @@ private void loadCustomerOrders(int idCustomer) throws SQLException {
         jScrollPane1.setBorder(null);
         jScrollPane1.setViewportView(customerOrderCard1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 120, 790, 293));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 120, 1100, 460));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
@@ -184,18 +201,6 @@ private void loadCustomerOrders(int idCustomer) throws SQLException {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 93, -1, -1));
 
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Chọn tất");
-        jLabel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(627, 48, 57, 27));
-
-        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Xóa");
-        jLabel7.setOpaque(true);
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(702, 48, 53, 27));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -217,8 +222,6 @@ private void loadCustomerOrders(int idCustomer) throws SQLException {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

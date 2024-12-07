@@ -141,7 +141,6 @@ try (PreparedStatement stmt = conn.prepareStatement(query)) {
             product.setPrice(rs.getBigDecimal("price"));
             product.setDescriptions(rs.getString("descriptions"));
             product.setStatus(rs.getString("status"));
-            product.setFeatured(rs.getBoolean("featured"));
             product.setPromotion(rs.getString("promotion"));
             product.setWarranty(rs.getString("warranty"));
             product.setAccessories(rs.getString("accessories"));

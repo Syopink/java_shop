@@ -43,7 +43,7 @@ public class CustomerProducts extends javax.swing.JPanel {
 
         // Tạo JPanel để chứa các hàng sản phẩm
         JPanel listPanel = new JPanel();
-        listPanel.setLayout(new GridLayout(0, 4, 10, 10));
+        listPanel.setLayout(new GridLayout(0, 5, 10, 10));
         // Tạo đối tượng product và gọi phương thức getAllProducts
         productList = pr.getAllProducts(); // Lấy tất cả sản phẩm từ cơ sở dữ liệu
 
@@ -117,7 +117,7 @@ public class CustomerProducts extends javax.swing.JPanel {
 
     // Tạo JPanel để chứa các hàng sản phẩm đã lọc
     JPanel listPanel = new JPanel();
-    listPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 15)); // Sắp xếp ngang, cách nhau 10px
+    listPanel.setLayout(new GridLayout(0, 5, 10, 10)); // 5 sản phẩm mỗi hàng, khoảng cách 10px giữa các ô
 
     // Tạo các thẻ sản phẩm cho các sản phẩm đã lọc và thêm vào giao diện
     for (Product product : filteredProducts) {
@@ -157,6 +157,10 @@ public class CustomerProducts extends javax.swing.JPanel {
         jFilterProduct = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jtFindName = new javax.swing.JTextField();
+
+        setPreferredSize(new java.awt.Dimension(1000, 700));
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(1100, 700));
 
         jBoxCate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -225,7 +229,7 @@ public class CustomerProducts extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jFilterProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSeacrhProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(257, Short.MAX_VALUE))))
+                        .addContainerGap(330, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,13 +259,13 @@ public class CustomerProducts extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 932, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 647, Short.MAX_VALUE)
+            .addGap(0, 700, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
