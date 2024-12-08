@@ -147,6 +147,7 @@ Interface\login$7.class
 Interface\login$4.class
 com\mycompany\CustomerLayout\CustomeCart$1.class
 com\mycompany\components\util\rowCate$2.class
+com\mycompany\components\util\pathImg.class
 Interface\forgetPassword$1.class
 com\mycompany\CustomerLayout\CustomerNavbar$1.class
 com\mycompany\components\Navbar.class

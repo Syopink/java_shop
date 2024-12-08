@@ -10,6 +10,7 @@ import Pojo.Customer;
 import Pojo.OrderItem;
 import Pojo.Product;
 import Process.user;
+import com.mycompany.components.util.pathImg;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
@@ -31,7 +32,7 @@ public class CustomerProductCard extends javax.swing.JPanel {
     private Product product;
     private user us;
     private Product pr;
-    private String imagePath = "D:\\Onedrive\\Documents\\NetBeansProjects\\VietPro3\\java_shop\\src\\main\\resources\\images\\"; // Đường dẫn tương đối
+    private String imagePath = new pathImg().path();
     private boolean isSelect = false;
     ActionOrders Ao = new ActionOrders();
 

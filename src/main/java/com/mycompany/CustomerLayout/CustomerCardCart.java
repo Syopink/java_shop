@@ -8,7 +8,12 @@ import Database.ActionCartProduct;
 import Database.ActionOrders;
 import Pojo.CartProduct;
 import Pojo.OrderItem;
+import Process.product;
 import Process.user;
+<<<<<<< HEAD
+=======
+import com.mycompany.components.util.pathImg;
+>>>>>>> 2ebee26cb7ab0bf863e5143c73ba0ec784b11c6d
 import java.awt.Image;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -20,7 +25,10 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Locale;
+=======
+>>>>>>> 2ebee26cb7ab0bf863e5143c73ba0ec784b11c6d
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -40,6 +48,8 @@ public class CustomerCardCart extends javax.swing.JPanel {
     private String idCartProduct;
     private String idProductss;
     private user us;
+    private String imagePath = new pathImg().path(); // Đường dẫn tương đối
+
     ActionOrders Ao = new ActionOrders();
     public CustomerCardCart(CartProduct cartProduct,ActionCartProduct accp,user us) {
         initComponents();
@@ -64,7 +74,15 @@ public class CustomerCardCart extends javax.swing.JPanel {
      private void loadData() {
         setCartProductData(cartProduct);
     }
-    
+    private ImageIcon resizeImage(String imagePath) {
+        try {
+            ImageIcon icon = new ImageIcon(imagePath);
+            Image img = icon.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+            return new ImageIcon(img);
+        } catch (Exception e) {
+            return new ImageIcon(imagePath + "default.png"); // Ảnh mặc định khi lỗi
+        }
+    }
      
      public void setCartProductData(CartProduct cartProduct){
          nameProduct.setText(cartProduct.getNameProduct());
@@ -73,8 +91,13 @@ public class CustomerCardCart extends javax.swing.JPanel {
          jTextField1.setText(String.valueOf(cartProduct.getQuantity()));
          statusLabel.setText(cartProduct.getStatus());
          Cate1.setText(cartProduct.getCategory());
+<<<<<<< HEAD
           String imageFile = imagePath + (cartProduct.getThumbnail()!= null ? cartProduct.getThumbnail(): "logo.png");
         jLabel1.setIcon(resizeImage(imageFile));
+=======
+         String imageFile = imagePath + (cartProduct.getThumbnail()!= null ? cartProduct.getThumbnail(): "default.png");
+        image.setIcon(resizeImage(imageFile));
+>>>>>>> 2ebee26cb7ab0bf863e5143c73ba0ec784b11c6d
          this.idCartProduct=cartProduct.getIdCartProduct();
          this.idProductss=cartProduct.getIdProduct();
      }
@@ -155,7 +178,7 @@ JOptionPane.showMessageDialog(CustomerCardCart.this, "Xóa thành công!");
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        image = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         nameProduct = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -173,10 +196,10 @@ JOptionPane.showMessageDialog(CustomerCardCart.this, "Xóa thành công!");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
-        jLabel1.setBackground(new java.awt.Color(153, 153, 153));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoVietpro.jpg"))); // NOI18N
-        jLabel1.setOpaque(true);
+        image.setBackground(new java.awt.Color(153, 153, 153));
+        image.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoVietpro.jpg"))); // NOI18N
+        image.setOpaque(true);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Tên sản phẩm  :");
@@ -245,7 +268,7 @@ JOptionPane.showMessageDialog(CustomerCardCart.this, "Xóa thành công!");
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -314,7 +337,7 @@ JOptionPane.showMessageDialog(CustomerCardCart.this, "Xóa thành công!");
                         .addContainerGap(28, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(image, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -393,7 +416,7 @@ JOptionPane.showMessageDialog(CustomerCardCart.this, "Xóa thành công!");
     private javax.swing.JLabel Buy;
     private javax.swing.JLabel Cate1;
     private javax.swing.JLabel Price;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel image;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
