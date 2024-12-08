@@ -38,16 +38,9 @@ private int id;
 
     private Option ops = new Option();
     private List<Object[]> categories = ac.getCate();
-    private String the_name_product;
-    private String the_category_product;
-    private String the_status_product;
-    private String the_thumbnail_product;
-    private BigDecimal the_price_product;
+ 
     private boolean choose_file = false;
-    private String the_description_product;
-    private String the_promotion_product;
-    private String the_warranty_product;
-    private String the_accessories_product;
+
     private  String imageName;
     private Product currentProduct;
 

@@ -28,7 +28,7 @@ public class ActionCartProduct {
     
     public List<CartProduct> getCartProduct(int idCustomer) {
     List<CartProduct> cartProducts = new ArrayList<>();
-    String query = "SELECT idCartProduct, idProduct , nameProduct, quantity, category, TotalPrice,idCustomer,status FROM cartProduct WHERE idCustomer = ?"; // Truy vấn để lấy sản phẩm trong giỏ hàng của khách hàng
+    String query = "SELECT idCartProduct, idProduct , nameProduct, quantity, category, TotalPrice,idCustomer,status ,thumbnail FROM cartProduct WHERE idCustomer = ?"; // Truy vấn để lấy sản phẩm trong giỏ hàng của khách hàng
     
     try (PreparedStatement stmt = conn.prepareStatement(query)) {
         stmt.setInt(1, idCustomer); 
@@ -45,6 +45,7 @@ public class ActionCartProduct {
                 cartProduct.setIdProduct(rs.getString("idProduct"));
                 cartProduct.setStatus(rs.getString("status"));
                 cartProduct.setIdCustomer(rs.getString("idCustomer"));
+                cartProduct.setThumbnail(rs.getString("thumbnail"));
                 cartProducts.add(cartProduct);
             }
         }
