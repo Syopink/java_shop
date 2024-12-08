@@ -1,69 +1,69 @@
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\util\rows.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\vietpro\Homepage.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\Home.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\util\rowsCustomer.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\raven\component\Profile.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Database\ActionOrders.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Middlewares\LoginManager.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\util\rowsUser.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\utils\PasswordUtils.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\Header.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\raven\component\TextFieldWithPlaceholder.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\util\rowProducts.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerNavbar.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Database\ActionCate.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerCardCart.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\ManagerCustomer.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\raven\component\RoundedButton.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Library\Capcha.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\util\Option.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\util\rowOrder.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Pojo\Order.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\Navbar.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomeCart.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerProducts.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerToggleRouter.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\ManagerComments.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Process\user.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Database\ActionOrderItem.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\ManagerOrders.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\util\pathImg.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerProductCard.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Database\Connect.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Database\ActionCartProduct.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Library\Library.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\ManagerProducts.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\Button\Search.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Pojo\OrderItem.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Process\customers.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\vietpro\Vietpro.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\Button\toggleButtonRouter.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Pojo\Product.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Validate\Validate.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\util\rowCate.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Interface\login.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Database\ActionCustomers.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerOrderCard.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Database\Action.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Process\product.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\util\Select.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Interface\frmChangeInformation.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Pojo\Customer.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\vietpro\CustomerLayout.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\ManagerUser.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\util\rowComment.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Interface\forgetPassword.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\CustomBorder\RoundedPanelBorder.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\raven\component\Textfield.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerOrder.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Interface\register.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Process\sendMail.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\UserManager.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Database\ActionComments.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Database\ActionProduct.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\Card\CardDashBoard.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Validate\UserDTO.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Library\hashPassword.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\Pojo\CartProduct.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\CustomBorder\RoundedTextFieldBorder.java
-D:\Onedrive\Documents\NetBeansProjects\VietPro3\java_shop\src\main\java\com\mycompany\components\ManagerCategory.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\raven\component\RoundedButton.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Process\customers.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerProducts.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Middlewares\LoginManager.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomeCart.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rowsUser.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Interface\register.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\ActionCate.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerComments.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\ActionComments.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Navbar.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\vietpro\Vietpro.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Button\toggleButtonRouter.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\raven\component\Textfield.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Interface\forgetPassword.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\Option.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Card\CardDashBoard.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Home.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rowOrder.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rowCate.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Process\sendMail.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Validate\Validate.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Pojo\Product.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Library\hashPassword.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerOrders.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\vietpro\Homepage.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\pathImg.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Library\Capcha.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rows.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\CustomBorder\RoundedTextFieldBorder.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerProducts.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\CustomBorder\RoundedPanelBorder.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\Connect.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Button\Search.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\Action.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rowProducts.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\raven\component\TextFieldWithPlaceholder.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rowComment.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\Select.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\ActionCustomers.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Interface\frmChangeInformation.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\ActionProduct.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Pojo\Order.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Process\user.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerOrderCard.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\raven\component\Profile.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Interface\login.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\vietpro\CustomerLayout.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerProductCard.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerOrder.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\ActionOrders.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\util\rowsCustomer.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerUser.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerToggleRouter.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\ActionOrderItem.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerCustomer.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerCardCart.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\utils\PasswordUtils.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\CustomerLayout\CustomerNavbar.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Validate\UserDTO.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Pojo\CartProduct.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Library\Library.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Database\ActionCartProduct.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\UserManager.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Process\product.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\ManagerCategory.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\com\mycompany\components\Header.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Pojo\Customer.java
+C:\Users\An Ninh\Documents\NetBeansProjects\java_shop\src\main\java\Pojo\OrderItem.java

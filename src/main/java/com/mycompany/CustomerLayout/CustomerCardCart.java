@@ -10,6 +10,7 @@ import Pojo.CartProduct;
 import Pojo.OrderItem;
 import Process.product;
 import Process.user;
+import com.mycompany.components.util.pathImg;
 import java.awt.Image;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -35,7 +36,7 @@ public class CustomerCardCart extends javax.swing.JPanel {
     /**
      * Creates new form CustomerCardCart
      */
-    private String imagePath = "D:\\Onedrive\\Documents\\NetBeansProjects\\VietPro3\\java_shop\\src\\main\\resources\\images\\"; // Đường dẫn tương đối
+    private String imagePath = new pathImg().path(); // Đường dẫn tương đối
     private CartProduct cartProduct;
     private ActionCartProduct accp;
     private int enteredValue;
@@ -81,6 +82,7 @@ public class CustomerCardCart extends javax.swing.JPanel {
         }
     }
 
+
     public void setCartProductData(CartProduct cartProduct) {
         nameProduct.setText(cartProduct.getNameProduct());
         Price.setText(formatCurrency(cartProduct.getTotalPrice()));
@@ -98,7 +100,10 @@ public class CustomerCardCart extends javax.swing.JPanel {
         this.idProductss = cartProduct.getIdProduct();
     }
 
-    private String formatCurrency(BigDecimal price) {
+   
+    
+         
+      private String formatCurrency(BigDecimal price) {
         Locale localeVN = new Locale("vi", "VN");
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
         return currencyVN.format(price);
