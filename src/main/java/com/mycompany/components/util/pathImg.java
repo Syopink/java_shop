@@ -10,6 +10,6 @@ package com.mycompany.components.util;
  */
 public class pathImg {
     public String path(){
-    return "C:\\Users\\An Ninh\\Documents\\NetBeansProjects\\java_shop\\src\\main\\resources\\images\\";
+    return "D:\\Onedrive\\Documents\\NetBeansProjects\\VietPro3\\java_shop\\src\\main\\resources\\images\\";
     };
 }
