@@ -91,71 +91,80 @@ public List<String> getAllStatuses() throws SQLException {
 }
 
 public List<String> getPriceRanges() {
-    return Arrays.asList("Tất cả", "Dưới 1.000.000", "1.000.000 - 5.000.000", "5.000.000 - 10.000.000", "Trên 10.000.000");
+    return Arrays.asList("Dưới 1.000.000", "1.000.000 - 5.000.000", "5.000.000 - 10.000.000", "Trên 10.000.000");
 }
 
 public List<Product> getFilteredProducts(String category, String status, String priceRange, String name) throws SQLException {
-   List<Product> products = new ArrayList<>();
-String query = "SELECT p.*, c.title FROM products p " + 
-               "JOIN categories c ON p.idCate = c.idCate WHERE 1=1"; // Truy vấn kết hợp
+    List<Product> products = new ArrayList<>();
+    String query = "SELECT p.*, c.title FROM products p " + 
+                   "JOIN categories c ON p.idCate = c.idCate WHERE 1=1"; // Default query
 
-// Xây dựng điều kiện truy vấn
-if (!"Tất cả".equals(category)) {
-    query += " AND c.title = ?";
-}
-if (!"Tất cả".equals(status)) {
-    query += " AND p.status = ?";
-}
-if (!"Tất cả".equals(priceRange)) {
-    if ("Dưới 1.000.000".equals(priceRange)) {
-        query += " AND p.price < 1000000";
-    } else if ("1.000.000 - 5.000.000".equals(priceRange)) {
-        query += " AND p.price BETWEEN 1000000 AND 5000000";
-    } else if ("5.000.000 - 10.000.000".equals(priceRange)) {
-        query += " AND p.price BETWEEN 5000000 AND 10000000";
-    } else if ("Trên 10.000.000".equals(priceRange)) {
-        query += " AND p.price > 10000000";
-    }
-}
-if (name != null && !name.isEmpty()) {
-    query += " AND p.name LIKE ?";
-}
+    // Log the filters being passed in
+    System.out.println("Generated filters:");
+    System.out.println("Category: " + category);
+    System.out.println("Status: " + status);
+    System.out.println("Price Range: " + priceRange);
+    System.out.println("Product Name Search: " + name);
 
-try (PreparedStatement stmt = conn.prepareStatement(query)) {
-    int index = 1;
-
-    // Truyền tham số vào truy vấn
-    if (!"Tất cả".equals(category)) {
-        stmt.setString(index++, category);
+    // Constructing the query
+    if (!category.isEmpty()) {
+        query += " AND c.title = ?";
     }
-    if (!"Tất cả".equals(status)) {
-        stmt.setString(index++, status);
+    if (status != null && !status.isEmpty() && !status.equals("Tất cả")) {
+        query += " AND p.status = ?";
     }
-    if (name != null && !name.isEmpty()) {
-        stmt.setString(index, "%" + name + "%");
-    }
-
-    try (ResultSet rs = stmt.executeQuery()) {
-        while (rs.next()) {
-            Product product = new Product();
-            product.setIdProduct(rs.getInt("idProduct"));
-            product.setName(rs.getString("name"));
-            product.setThumbnail(rs.getString("thumbnail"));
-            product.setCategoryTitle(rs.getString("title"));  // Lấy title từ bảng categories
-            product.setPrice(rs.getBigDecimal("price"));
-            product.setDescriptions(rs.getString("descriptions"));
-            product.setStatus(rs.getString("status"));
-            product.setPromotion(rs.getString("promotion"));
-            product.setWarranty(rs.getString("warranty"));
-            product.setAccessories(rs.getString("accessories"));
-            product.setCreatedAt(rs.getTimestamp("createdAt"));
-            product.setUpdatedAt(rs.getTimestamp("updatedAt"));
-            products.add(product);
+    if (!priceRange.isEmpty()) {
+        switch (priceRange) {
+            case "Dưới 1.000.000" -> query += " AND p.price < 1000000";
+            case "1.000.000 - 5.000.000" -> query += " AND p.price BETWEEN 1000000 AND 5000000";
+            case "5.000.000 - 10.000.000" -> query += " AND p.price BETWEEN 5000000 AND 10000000";
+            case "Trên 10.000.000" -> query += " AND p.price > 10000000";
+            default -> {
+            }
         }
     }
-}
+    if (name != null && !name.isEmpty()) {
+        query += " AND p.name LIKE ?";
+    }
 
-return products;
+    // Log the final query
+    System.out.println("Final SQL query: " + query);
+
+    try (PreparedStatement stmt = conn.prepareStatement(query)) {
+        int index = 1;
+
+        // Set parameters for the query
+        if (!category.isEmpty()) {
+            stmt.setString(index++, category);
+        }
+        if (!status.isEmpty()) {
+            stmt.setString(index++, status);
+        }
+        if (name != null && !name.isEmpty()) {
+            stmt.setString(index++, "%" + name + "%");
+        }
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Product product = new Product();
+                product.setIdProduct(rs.getInt("idProduct"));
+                product.setName(rs.getString("name"));
+                product.setThumbnail(rs.getString("thumbnail"));
+                product.setCategoryTitle(rs.getString("title"));
+                product.setPrice(rs.getBigDecimal("price"));
+                product.setDescriptions(rs.getString("descriptions"));
+                product.setStatus(rs.getString("status"));
+                product.setPromotion(rs.getString("promotion"));
+                product.setWarranty(rs.getString("warranty"));
+                product.setAccessories(rs.getString("accessories"));
+                product.setCreatedAt(rs.getTimestamp("createdAt"));
+                product.setUpdatedAt(rs.getTimestamp("updatedAt"));
+                products.add(product);
+            }
+        }
+    }
+
+    return products;
 
 }
 

@@ -38,7 +38,8 @@ private int id;
 
     private Option ops = new Option();
     private List<Object[]> categories = ac.getCate();
- 
+     private String imagePath = new pathImg().path();
+
     private boolean choose_file = false;
 
     private  String imageName;
@@ -66,22 +67,22 @@ private int id;
         int result = jFileChooser1.showOpenDialog(this);
         if (result == jFileChooser1.APPROVE_OPTION) {
             File selectedFile = jFileChooser1.getSelectedFile();
-            this.imageName = selectedFile.getAbsolutePath();
+        this.imageName = imagePath + selectedFile.getName();
 
             ImageIcon resizedIcon = resizeImage(selectedFile.getAbsolutePath(), 100, 150);
             update_thumbnail.setIcon(resizedIcon);
             update_thumbnail.setText("");
+            
             choose_file = true;
             currentProduct.setThumbnail(imageName);
         }
     }
 
-    private ImageIcon resizeImage(String imagePath, int width, int height) {
-        ImageIcon icon = new ImageIcon(imagePath);
-        Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return new ImageIcon(scaledImage);
-    }
-
+private ImageIcon resizeImage(String imagePath, int width, int height) {
+    ImageIcon icon = new ImageIcon(imagePath);
+    Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    return new ImageIcon(scaledImage);
+}
     public JToggleButton getDeleteToggle() {
         return deletetoggle;
     }
