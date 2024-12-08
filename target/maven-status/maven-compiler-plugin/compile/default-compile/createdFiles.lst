@@ -19,6 +19,7 @@ Pojo\Order.class
 Interface\login$1.class
 Database\ActionCartProduct.class
 com\mycompany\components\ManagerProducts.class
+com\mycompany\CustomerLayout\CustomerProducts$2.class
 com\mycompany\components\util\rowProducts$2.class
 com\mycompany\components\util\rowProducts.class
 com\mycompany\CustomerLayout\CustomerNavbar$4.class

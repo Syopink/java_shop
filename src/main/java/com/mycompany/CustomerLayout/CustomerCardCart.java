@@ -40,7 +40,6 @@ public class CustomerCardCart extends javax.swing.JPanel {
     private String idProductss;
     private user us;
     private String imagePath = new pathImg().path(); // Đường dẫn tương đối
-
     ActionOrders Ao = new ActionOrders();
     public CustomerCardCart(CartProduct cartProduct,ActionCartProduct accp,user us) {
         initComponents();
@@ -96,6 +95,10 @@ public class CustomerCardCart extends javax.swing.JPanel {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
     try {
         enteredValue = Integer.valueOf(jTextField1.getText());
+        if(enteredValue<=0 ){
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
+            return;
+        }
         System.out.println("Giá trị nhập vào: " + enteredValue);
 
         accp.updateProductQuantity(idCartProduct, enteredValue);
@@ -104,7 +107,7 @@ public class CustomerCardCart extends javax.swing.JPanel {
         BigDecimal unitPrice = cartProduct.getTotalPrice(); // Lấy giá của sản phẩm
         BigDecimal updatedTotalPrice = unitPrice.multiply(BigDecimal.valueOf(enteredValue)); // Tính tổng giá
 
-            Price.setText(String.valueOf(updatedTotalPrice));
+        Price.setText(String.valueOf(updatedTotalPrice));
 
     } catch (NumberFormatException ex) {
         // Hiển thị lỗi nếu người dùng nhập không phải số

@@ -71,11 +71,13 @@ public void loadCart(int idCustomer) throws SQLException {
     List<CartProduct> cartProducts = accp.getCartProduct(idCustomer);
     if (cartProducts == null || cartProducts.isEmpty()) {
         empty.setVisible(true);
-        return;
+        
+        
     }else{
         empty.setVisible(false);
+        
     }
-    loadProductCart(cartProducts); 
+     loadProductCart(cartProducts);
 }
 
 
@@ -200,9 +202,9 @@ public void loadCart(int idCustomer) throws SQLException {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

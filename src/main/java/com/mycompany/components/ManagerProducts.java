@@ -8,6 +8,7 @@ import Database.ActionCate;
 import Database.ActionProduct;
 import Pojo.Product;
 import com.mycompany.components.util.Option;
+import com.mycompany.components.util.pathImg;
 import com.mycompany.components.util.rowProducts;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -45,8 +46,8 @@ public class ManagerProducts extends javax.swing.JPanel {
     private String selectCate="Chọn danh mục";
     private String selectRanges="Chọn khoảng giá";
     private String selectStatus="Chọn trạng thái";
-    
- 
+    private String fileName;
+    private String targetDirectory;
 
     
 
@@ -139,19 +140,36 @@ void ImgUpLoad(){
 }
     
  private void uploadImage() {
-            jFileChooser1.setDialogTitle("Chọn hình ảnh");
-            jFileChooser1.setAcceptAllFileFilterUsed(false);
-            jFileChooser1.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png", "gif"));
-        int result = jFileChooser1.showOpenDialog(this);
-        if (result == jFileChooser1.APPROVE_OPTION) {
-            File selectedFile = jFileChooser1.getSelectedFile();
-            ImageIcon imageIcon = new ImageIcon(selectedFile.getAbsolutePath());
-            Image image = imageIcon.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
-            ImageIcon resizedIcon = new ImageIcon(image);
-            jLabel12.setIcon(resizedIcon);
-            jLabel12.setText("");
-        }
+    jFileChooser1.setDialogTitle("Chọn hình ảnh");
+    jFileChooser1.setAcceptAllFileFilterUsed(false);
+    jFileChooser1.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png", "gif"));
+    
+    int result = jFileChooser1.showOpenDialog(this);
+    if (result == jFileChooser1.APPROVE_OPTION) {
+        File selectedFile = jFileChooser1.getSelectedFile();
+        
+        // Get the file name (without path)
+         this.fileName = selectedFile.getName();
+        
+        // Define the target directory path
+         targetDirectory = new pathImg().path();
+        
+        // Combine the directory path with the file name
+        String imagePath = targetDirectory  + fileName;
+        
+        // Print the full image path (optional, for debugging)
+        System.out.println("Full image path: " + imagePath);
+        
+        // Create the ImageIcon for the selected image
+        ImageIcon imageIcon = new ImageIcon(selectedFile.getAbsolutePath());
+        Image image = imageIcon.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(image);
+        
+        // Set the image icon on the label and clear any text
+        jLabel12.setIcon(resizedIcon);
+        jLabel12.setText("");
     }
+}
 
  
 void addComponents(JPanel panelRows, Product product, Runnable callback){
@@ -246,7 +264,7 @@ public void addRows(){
             BigDecimal price = new BigDecimal(pricePro.getText());
 
             File selectedFile = jFileChooser1.getSelectedFile();
-            String thumbnail = selectedFile != null ? selectedFile.getAbsolutePath() : "";
+            String thumbnail = selectedFile.getName();
             String selectedStatus = (String) statusBox.getSelectedItem();
             String selectedCate = (String) CateBox.getSelectedItem();
             String description = jtdescription.getText();

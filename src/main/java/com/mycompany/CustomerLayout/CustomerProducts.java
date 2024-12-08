@@ -13,6 +13,9 @@ import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -31,9 +34,26 @@ public class CustomerProducts extends javax.swing.JPanel {
      * Creates new form CustomerProducts
      */
     public CustomerProducts(user us) {
-            this.us = us;  // Lưu đối tượng user vào biến trong lớp
-        initComponents();
-            loadComboBoxData(); // Đổ dữ liệu vào các JComboBox
+        
+   this.us = us;  // Lưu đối tượng user vào biến trong lớp
+    initComponents();
+    loadComboBoxData(); // Đổ dữ liệu vào các JComboBox
+    loadProducts(); // Load products initially
+
+    this.addComponentListener(new java.awt.event.ComponentAdapter() {
+        @Override
+        public void componentShown(java.awt.event.ComponentEvent evt) {
+            try {
+                reloadData();
+            } catch (SQLException ex) {
+                Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, "Error reloading data", ex);
+                JOptionPane.showMessageDialog(CustomerProducts.this, "Error loading product data", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }); 
+    }
+    
+     private void reloadData() throws SQLException {
         loadProducts();
     }
 

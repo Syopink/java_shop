@@ -43,7 +43,8 @@ private int id;
 
     private  String imageName;
     private Product currentProduct;
-
+    private String targetDirectory;
+    
     public rowProducts() {
         initComponents();
         buttonShowDialog();
@@ -60,27 +61,47 @@ private int id;
     }
 
     private void uploadImage() {
-        jFileChooser1.setDialogTitle("Chọn hình ảnh");
-        jFileChooser1.setAcceptAllFileFilterUsed(false);
-        jFileChooser1.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png", "gif"));
-        int result = jFileChooser1.showOpenDialog(this);
-        if (result == jFileChooser1.APPROVE_OPTION) {
-            File selectedFile = jFileChooser1.getSelectedFile();
-            this.imageName = selectedFile.getAbsolutePath();
+    jFileChooser1.setDialogTitle("Chọn hình ảnh");
+    jFileChooser1.setAcceptAllFileFilterUsed(false);
+    jFileChooser1.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png", "gif"));
+    
+    int result = jFileChooser1.showOpenDialog(this);
+    if (result == jFileChooser1.APPROVE_OPTION) {
+        File selectedFile = jFileChooser1.getSelectedFile();
+        
+        // Get the image file name
+        String fileName = selectedFile.getName();
+        
+        // Define the target directory path
+        this.targetDirectory = new pathImg().path();
+        
+        // Combine the directory path with the file name to form the full image path
+        String imagePath = targetDirectory  + fileName;
+        
+        // Store the full path in the imageName variable
+        this.imageName = imagePath;
 
-            ImageIcon resizedIcon = resizeImage(selectedFile.getAbsolutePath(), 100, 150);
-            update_thumbnail.setIcon(resizedIcon);
-            update_thumbnail.setText("");
-            choose_file = true;
-            currentProduct.setThumbnail(imageName);
-        }
+        // Resize the image
+        ImageIcon resizedIcon = resizeImage(imagePath, 100, 150);
+        
+        // Set the resized image to the thumbnail label
+        update_thumbnail.setIcon(resizedIcon);
+        update_thumbnail.setText("");
+        
+        // Mark the file as chosen
+        choose_file = true;
+        
+        // Set the thumbnail image path for the current product
+        currentProduct.setThumbnail(imageName);
     }
+}
 
-    private ImageIcon resizeImage(String imagePath, int width, int height) {
-        ImageIcon icon = new ImageIcon(imagePath);
-        Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return new ImageIcon(scaledImage);
-    }
+private ImageIcon resizeImage(String imagePath, int width, int height) {
+    ImageIcon icon = new ImageIcon(imagePath);
+    Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    return new ImageIcon(scaledImage);
+}
+
 
     public JToggleButton getDeleteToggle() {
         return deletetoggle;
@@ -123,7 +144,7 @@ private int id;
         category_product.setText(product.getCategoryTitle());
 
         if (product.getThumbnail() != null && !product.getThumbnail().isEmpty()) {
-            ImageIcon resizedIcon = resizeImage(product.getThumbnail(), 100, 150);
+            ImageIcon resizedIcon = resizeImage(new pathImg().path()+ product.getThumbnail(), 100, 150);
             image.setIcon(resizedIcon);
         } else {
             String defaultThumbnailPath = "path/to/default/thumbnail.jpg";
@@ -148,7 +169,7 @@ private int id;
                 
                 
                 if (product.getThumbnail() != null && !product.getThumbnail().isEmpty()) {
-                    File imgFile = new File(product.getThumbnail());
+                    File imgFile = new File(product.getThumbnail()+new pathImg().path());
                     if (imgFile.exists()) {
                         ImageIcon imageIcon = new ImageIcon(imgFile.getAbsolutePath());
                         Image image = imageIcon.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
@@ -183,7 +204,7 @@ private int id;
 
                 BigDecimal price = new BigDecimal(priceText);
 
-                String thumbnail = choose_file ? jFileChooser1.getSelectedFile().getAbsolutePath() : currentProduct.getThumbnail();
+                String thumbnail = choose_file ? jFileChooser1.getSelectedFile().getName()  : currentProduct.getThumbnail();
 
                 String status = (String) StatusBox.getSelectedItem();
                 String category = (String) CateBox.getSelectedItem();
@@ -201,9 +222,9 @@ private int id;
                 currentProduct.setPromotion(promotion);
                 currentProduct.setWarranty(warranty);
                 currentProduct.setAccessories(accessories);
-                currentProduct.setThumbnail(imageName);
+                currentProduct.setThumbnail(thumbnail);
                 
-                System.out.println(".mouseClicked()"+imageName);
+             
                 String result = acp.updateProduct(currentProduct);
                 javax.swing.JOptionPane.showMessageDialog(null, result);
 
