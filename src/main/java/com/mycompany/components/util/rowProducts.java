@@ -233,7 +233,7 @@ private ImageIcon resizeImage(String imagePath, int width, int height) {
 
     public void deleteProduct(Runnable callback) {
         deletetoggle.addActionListener(e -> {
-            String result = acp.DeleteProduct(id);
+            String result = acp.DeleteProduct(currentProduct.getIdProduct());
             javax.swing.JOptionPane.showMessageDialog(null, result);
             callback.run();
         });
