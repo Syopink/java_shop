@@ -4,7 +4,7 @@
  */
 package com.mycompany.components.util;
 
-/**
+/*
  *
  * @author An Ninh
  */
