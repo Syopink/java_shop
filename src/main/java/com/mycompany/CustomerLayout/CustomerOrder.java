@@ -23,7 +23,7 @@ import javax.swing.JPanel;
  */
 public class CustomerOrder extends javax.swing.JPanel {
     private int idCustomer; // Khai báo biến thành viên để lưu ID khách hàng
-    private List<rowOrder> rowsList = new ArrayList<>(); // Danh sách các hàng người dùng
+    private List<CustomerOrderCard> rowsList = new ArrayList<>(); // Danh sách các hàng người dùng
     private Order order;
     ActionOrders Ao = new ActionOrders();  // Khởi tạo đối tượng customers
     
@@ -86,20 +86,19 @@ private void loadCustomerOrders(int idCustomer) throws SQLException {
     
 
     private void loadOrders(List<Order> orders) {
-        // Xóa hết các hàng cũ trong giao diện nếu có
         jScrollPane1.getViewport().removeAll();
         rowsList.clear();
 
-        // Tạo một JPanel mới để chứa các hàng đơn hàng
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new javax.swing.BoxLayout(listPanel, javax.swing.BoxLayout.Y_AXIS)); // Sắp xếp các hàng theo chiều dọc
-
+        jScrollPane1.getVerticalScrollBar().setValue(0);
         int index = 1; // Bắt đầu từ số thứ tự 1
         for (Order order : orders) {
             // Tạo một hàng orderRow mới để hiển thị thông tin đơn hàng
-            rowOrder row = new rowOrder(index, order, Ao); // Truyền số thứ tự vào rowOrder
+            CustomerOrderCard row = new CustomerOrderCard(index, order, Ao); // Truyền số thứ tự vào rowOrder
             rowsList.add(row); // Thêm vào danh sách rowsList để quản lý các hàng
             listPanel.add(row); // Thêm hàng vào panel
+            
             index++; // Tăng số thứ tự cho các đơn hàng tiếp theo
         }
 
@@ -126,7 +125,6 @@ private void loadCustomerOrders(int idCustomer) throws SQLException {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        customerOrderCard1 = new com.mycompany.CustomerLayout.CustomerOrderCard();
         jPanel2 = new javax.swing.JPanel();
         idOrder = new javax.swing.JLabel();
         nameProduct = new javax.swing.JLabel();
@@ -144,9 +142,7 @@ private void loadCustomerOrders(int idCustomer) throws SQLException {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 163, 36));
 
         jScrollPane1.setBorder(null);
-        jScrollPane1.setViewportView(customerOrderCard1);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 120, 1100, 460));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 1070, 540));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
@@ -173,18 +169,19 @@ private void loadCustomerOrders(int idCustomer) throws SQLException {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addComponent(idOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(nameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(nameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(139, 139, 139)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(52, 52, 52))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +196,7 @@ private void loadCustomerOrders(int idCustomer) throws SQLException {
                     .addComponent(jLabel5)))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 93, -1, -1));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 93, 1080, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -215,7 +212,6 @@ private void loadCustomerOrders(int idCustomer) throws SQLException {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.mycompany.CustomerLayout.CustomerOrderCard customerOrderCard1;
     private javax.swing.JLabel idOrder;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

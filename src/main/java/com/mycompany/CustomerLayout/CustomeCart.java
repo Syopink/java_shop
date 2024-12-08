@@ -4,6 +4,26 @@
  */
 package com.mycompany.CustomerLayout;
 
+import Database.ActionCartProduct;
+import Database.ActionOrders;
+import Pojo.CartProduct;
+import Pojo.Customer;
+import Pojo.Order;
+import Pojo.OrderItem;
+import Pojo.Product;
+import Process.customers;
+import Process.user;
+import com.mycompany.components.util.rowOrder;
+import com.mycompany.components.util.rowsCustomer;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 /**
  *
  * @author An Ninh
@@ -13,8 +33,79 @@ public class CustomeCart extends javax.swing.JPanel {
     /**
      * Creates new form CustomeCart
      */
-    public CustomeCart() {
+    private List<CustomerCardCart> rowsList=new ArrayList<>();
+    private int idCustomer;
+    private ActionCartProduct accp=new ActionCartProduct();
+    private user  us;
+    
+    ActionOrders Ao=new ActionOrders();
+    public CustomeCart(int idCustomer,user us) {
+        this.idCustomer=idCustomer;
         initComponents();
+        this.us=us;
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                try {
+                    reloadData();
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+        try {
+            loadCart(idCustomer);
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void reloadData() throws SQLException {
+        loadCart(idCustomer);
+    }
+
+public void loadCart(int idCustomer) throws SQLException {
+    // Lấy danh sách đơn hàng cho khách hàng từ cơ sở dữ liệu
+    List<CartProduct> cartProducts = accp.getCartProduct(idCustomer);
+    if (cartProducts == null || cartProducts.isEmpty()) {
+        empty.setVisible(true);
+        return;
+    }else{
+        empty.setVisible(false);
+    }
+    loadProductCart(cartProducts); 
+}
+
+
+
+  void loadProductCart(List<CartProduct> cartProducts) {
+        // Xóa hết các hàng cũ trong giao diện nếu có
+        jScrollPane1.getViewport().removeAll();
+        rowsList.clear();
+
+        // Tạo một JPanel mới để chứa các hàng đơn hàng
+        JPanel listPanel = new JPanel();
+        listPanel.setLayout(new javax.swing.BoxLayout(listPanel, javax.swing.BoxLayout.Y_AXIS)); // Sắp xếp các hàng theo chiều dọc
+        jScrollPane1.getVerticalScrollBar().setValue(0);
+    
+        for (CartProduct cartProduct : cartProducts) {
+            CustomerCardCart row = new CustomerCardCart( cartProduct, accp,us); 
+            rowsList.add(row); // Thêm vào danh sách rowsList để quản lý các hàng
+            listPanel.add(row); // Thêm hàng vào panel
+            
+        }
+
+        // Thiết lập chiều cao cố định cho listPanel
+        listPanel.setPreferredSize(new java.awt.Dimension(listPanel.getPreferredSize().width, 400));
+
+        // Đặt listPanel vào trong JScrollPane
+        jScrollPane1.setViewportView(listPanel);
+        
+        // Làm mới giao diện
+        listPanel.revalidate();
+        listPanel.repaint();
     }
 
     /**
@@ -27,56 +118,216 @@ public class CustomeCart extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        customerCardCart1 = new com.mycompany.CustomerLayout.CustomerCardCart();
+        empty = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         selectAll = new javax.swing.JLabel();
         delete = new javax.swing.JLabel();
+        BuyAll = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1100, 502));
 
         jScrollPane1.setBorder(null);
-        jScrollPane1.setViewportView(customerCardCart1);
+
+        empty.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        empty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        empty.setText("Không có sản phẩm nào!!!");
+        jScrollPane1.setViewportView(empty);
 
         selectAll.setBackground(new java.awt.Color(51, 51, 51));
         selectAll.setForeground(new java.awt.Color(255, 255, 255));
         selectAll.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         selectAll.setText("Chọn tất");
         selectAll.setOpaque(true);
+        selectAll.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectAllMouseClicked(evt);
+            }
+        });
 
         delete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         delete.setText("Xóa ");
         delete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteMouseClicked(evt);
+            }
+        });
+
+        BuyAll.setBackground(new java.awt.Color(204, 51, 0));
+        BuyAll.setForeground(new java.awt.Color(255, 255, 255));
+        BuyAll.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        BuyAll.setText("Mua tất");
+        BuyAll.setOpaque(true);
+        BuyAll.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BuyAllMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BuyAll, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(selectAll, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(selectAll, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BuyAll, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(58, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(selectAll, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
-                    .addComponent(delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(333, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 671, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(118, 118, 118)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(selectAll, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(67, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void selectAllMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectAllMouseClicked
+        // TODO add your handling code here:
+          boolean selectAll = rowsList.stream().allMatch(row -> row.isSelected());
+    
+          for (CustomerCardCart row : rowsList) {
+          row.setRChoseSelected(!selectAll);
+            }
+
+    this.revalidate();  
+    this.repaint();
+    }//GEN-LAST:event_selectAllMouseClicked
+
+    private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
+       List<CartProduct> cartToDelete = new ArrayList<>();
+    // Kiểm tra tất cả các hàng trong rowsList và tìm các sản phẩm đã chọn
+    for (CustomerCardCart row : rowsList) {
+        if (row.isSelected()) {  // Kiểm tra xem row có được chọn không
+            row.setVisible(false);  // Ẩn row trong giao diện
+            cartToDelete.add(row.getCartProduct());  // Lấy CartProduct từ row và thêm vào danh sách
+        }
+    }
+    
+    if (!cartToDelete.isEmpty() && cartToDelete!=null) {
+        try {
+            accp.deleteCartProducts(cartToDelete);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xóa sản phẩm: " + e.getMessage());
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Không có sản phẩm nào được chọn.");
+    }
+
+    this.revalidate();
+    this.repaint();
+    }//GEN-LAST:event_deleteMouseClicked
+
+    private void BuyAllMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuyAllMouseClicked
+       
+    // Kiểm tra tất cả các hàng trong rowsList và tìm các sản phẩm đã chọn
+    List<CustomerCardCart> selectedRows = new ArrayList<>();
+    List<CartProduct> cartToBuy = new ArrayList<>();
+    
+    for (CustomerCardCart row : rowsList) {
+        if (row.isSelected()) {  // Kiểm tra xem row có được chọn không
+            selectedRows.add(row);  // Thêm hàng được chọn vào danh sách xử lý
+            cartToBuy.add(row.getCartProduct());  // Lấy CartProduct từ row và thêm vào danh sách
+        }
+    }
+
+    // Nếu không có sản phẩm nào được chọn, hiển thị thông báo và kết thúc
+    if (cartToBuy.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Không có sản phẩm nào được chọn.");
+        return;
+    }
+
+    // Hiển thị hộp thoại xác nhận
+    int option = JOptionPane.showConfirmDialog(this, 
+            "Bạn có muốn mua tất cả các sản phẩm đã chọn không?", 
+            "Xác nhận mua hàng", 
+            JOptionPane.YES_NO_OPTION);
+
+    // Nếu người dùng chọn YES_OPTION
+    if (option == JOptionPane.YES_OPTION) {
+        // Ẩn tất cả các hàng đã chọn
+        for (CustomerCardCart row : selectedRows) {
+            row.setVisible(false); // Ẩn hàng khỏi giao diện
+        }
+
+        // Cập nhật lại giao diện ngay lập tức
+        this.revalidate();
+        this.repaint();
+
+        // Thực hiện logic mua hàng
+        try {
+            // Lấy thông tin khách hàng từ đối tượng user
+            String idCustomer = us.getIdCustomer(); 
+            String customerName = us.getFullName(); 
+            String customerEmail = us.getEmail(); 
+            String customerPhone = us.getNumberOfPhone(); 
+            String customerAddress = us.getAddress(); 
+
+            // Tạo danh sách OrderItem
+            List<OrderItem> cartItems = new ArrayList<>();
+            List<String> CartIdList = new ArrayList<>();
+
+            for (CartProduct product : cartToBuy) {
+                String id = product.getIdProduct();
+                String productName = product.getNameProduct();
+                BigDecimal productPrice = product.getTotalPrice();
+                CartIdList.add(product.getIdCartProduct());
+
+                OrderItem item = new OrderItem(Integer.valueOf(id), productName, 1, productPrice);
+                cartItems.add(item);
+            }
+
+            // Gọi phương thức placeOrder
+            boolean orderSuccess = Ao.placeOrder(Integer.parseInt(idCustomer), cartItems, customerName, customerEmail, customerPhone, customerAddress);
+
+            // Xử lý kết quả
+            if (orderSuccess) {
+                // Xóa các sản phẩm khỏi cơ sở dữ liệu
+                for (String id : CartIdList) {
+                    accp.deleteProductFromCart(id);
+                }
+
+                JOptionPane.showMessageDialog(this, "Mua hàng thành công! Đơn hàng đã được đặt.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi trong quá trình đặt hàng.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xử lý mua hàng: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    }//GEN-LAST:event_BuyAllMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.mycompany.CustomerLayout.CustomerCardCart customerCardCart1;
+    private javax.swing.JLabel BuyAll;
     private javax.swing.JLabel delete;
+    private javax.swing.JLabel empty;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel selectAll;
     // End of variables declaration//GEN-END:variables

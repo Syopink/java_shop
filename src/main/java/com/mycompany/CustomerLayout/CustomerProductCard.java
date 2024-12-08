@@ -4,6 +4,7 @@
  */
 package com.mycompany.CustomerLayout;
 
+import Database.ActionCartProduct;
 import Database.ActionOrders;
 import Pojo.Customer;
 import Pojo.OrderItem;
@@ -132,6 +133,11 @@ public class CustomerProductCard extends javax.swing.JPanel {
         jLaddCart.setText("Thêm vào giỏ ");
         jLaddCart.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLaddCart.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLaddCart.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLaddCartMouseClicked(evt);
+            }
+        });
         jDialog1.getContentPane().add(jLaddCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 320, 88, 30));
 
         jLBuy.setBackground(new java.awt.Color(24, 26, 47));
@@ -259,11 +265,9 @@ private String formatPrice(BigDecimal price) {
 }
     
     private void jLBuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLBuyMouseClicked
- String productName = nameProduct.getText();
-    String statuss = product.getStatus();
+    String productName = nameProduct.getText();
     String productStatus = product.getStatus();
     BigDecimal productPrice = (product.getPrice());
-    String productDescription = Descripiton.getText();
     int id = (product.getIdProduct());
     // Kiểm tra xem sản phẩm có sẵn để mua hay không
     if (productStatus.equalsIgnoreCase("Còn hàng")) {
@@ -302,6 +306,20 @@ private String formatPrice(BigDecimal price) {
         JOptionPane.showMessageDialog(this, "Xin lỗi, sản phẩm này không có sẵn để mua.");
     }
     }//GEN-LAST:event_jLBuyMouseClicked
+
+    private void jLaddCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLaddCartMouseClicked
+        // TODO add your handling code here:
+        if("Còn hàng".equals(product.getStatus())){
+            ActionCartProduct accp = new ActionCartProduct();
+            String check= accp.addProductToCart(String.valueOf(product.getIdProduct()),us.getIdCustomer(),nameProduct.getText(),1,product.getCategoryTitle(),product.getPrice(),product.getStatus());
+            JOptionPane.showMessageDialog(this,check );
+            return;
+        }else{
+            JOptionPane.showMessageDialog(this,"Vui lòng chọn sản phẩm khác" );
+            return;
+            }
+            
+    }//GEN-LAST:event_jLaddCartMouseClicked
     public void setProductData(Product product) {
          this.product = product;
         

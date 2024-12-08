@@ -104,6 +104,7 @@ public class rowsCustomer extends javax.swing.JPanel {
         if (confirm == JOptionPane.YES_OPTION) {
             boolean isDeleted = cs.deleteCustomer(customer.getId()); // Gọi phương thức xóa từ lớp `customers`
             if (isDeleted) {
+                
                 this.setVisible(false); // Ẩn hàng này khỏi giao diện
                 JOptionPane.showMessageDialog(this, "Xóa thành công!");
                 updateIndexes(rowsList);  // Cập nhật lại số thứ tự sau khi xóa

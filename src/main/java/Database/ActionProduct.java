@@ -49,7 +49,7 @@ public class ActionProduct {
                 nameCate = resultFind.getString("title");
             }
             String name = resultSet.getString("name");
-                BigDecimal price = resultSet.getBigDecimal("price");  // Change to BigDecimal
+            BigDecimal price = resultSet.getBigDecimal("price");  // Change to BigDecimal
             String thumbnail = resultSet.getString("thumbnail");
             String status = resultSet.getString("status");
             String createdAt = resultSet.getString("createdAt");

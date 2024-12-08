@@ -9,6 +9,7 @@ import Pojo.Order;
 import Pojo.OrderItem;
 import java.awt.Color;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +20,7 @@ public class CustomerOrderCard extends javax.swing.JPanel {
     private Order order; // Dữ liệu đơn hàng
     private int index; // Đối số số thứ tự cho đơn hàng
     private ActionOrders Ao;
+    private String idOrders;
 
     /**
      * Creates new form CustomerOrderCard
@@ -54,7 +56,8 @@ public class CustomerOrderCard extends javax.swing.JPanel {
     }
      
      private void setOrderData(Order order) {
-    if (order != null) {
+    if (order != null ) {
+        
             // Cập nhật các thông tin đơn hàng
             idOrder.setText(String.valueOf(order.getIdOrder()));  // Hiển thị ID đơn hàng
             nameProduct.setText(order.getName()); // Hiển thị tên người mua
@@ -62,7 +65,7 @@ public class CustomerOrderCard extends javax.swing.JPanel {
             jPhone.setText(order.getPhone()); // Hiển thị số điện thoại
             jTimeOrder.setText(order.getFormattedCreatedAt()); // Hiển thị ngày mua (Timestamp)
             jTimeOrder.setToolTipText(order.getAddress()); // Tooltip cho Địa chỉ
-
+            this.idOrders=String.valueOf(order.getIdOrder());
             // Xử lý hiển thị sản phẩm
             StringBuilder productNames = new StringBuilder();
             List<OrderItem> items = order.getOrderItems();
@@ -83,6 +86,7 @@ public class CustomerOrderCard extends javax.swing.JPanel {
 
         } else {
             // Nếu order là null, hiển thị thông báo
+            
             System.out.println("Order is null");
         }
 }
@@ -90,20 +94,20 @@ public class CustomerOrderCard extends javax.swing.JPanel {
      private void updateApprovalStatus(int status) {
         switch (status) {
             case 0:
-                jAction.setText("Chờ xét duyệt");
-                jAction.setBackground(Color.orange);
+                jisApprove.setText("Chờ xét duyệt");
+                jisApprove.setBackground(Color.orange);
                 break;
             case 1:
-                jAction.setText("Đang giao hàng");
-                jAction.setBackground(Color.green);
+                jisApprove.setText("Đang giao hàng");
+                jisApprove.setBackground(Color.green);
                 break;
             case 2:
-                jAction.setText("Đơn hàng bị hủy");
-                jAction.setBackground(Color.red);
+                jisApprove.setText("Đơn hàng bị hủy");
+                jisApprove.setBackground(Color.red);
                 break;
             default:
-                jAction.setText("Trạng thái không xác định");
-                jAction.setBackground(Color.gray);
+                jisApprove.setText("Trạng thái không xác định");
+                jisApprove.setBackground(Color.gray);
                 break;
         }
     }
@@ -125,7 +129,7 @@ public class CustomerOrderCard extends javax.swing.JPanel {
         jPhone = new javax.swing.JLabel();
         jTimeOrder = new javax.swing.JLabel();
         jAction = new javax.swing.JLabel();
-        jSelect = new javax.swing.JRadioButton();
+        jisApprove = new javax.swing.JLabel();
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -134,23 +138,27 @@ public class CustomerOrderCard extends javax.swing.JPanel {
 
         idOrder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         idOrder.setText("Mã đơn");
+        idOrder.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         jPanel1.add(idOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 81, 54));
 
         nameProduct.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         nameProduct.setText("Tên sản phẩm");
-        jPanel1.add(nameProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(108, 0, 97, 54));
+        nameProduct.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
+        jPanel1.add(nameProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(87, 0, 140, 54));
 
         jAddress.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jAddress.setText("Địa chỉ");
-        jPanel1.add(jAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, 93, 54));
+        jAddress.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
+        jPanel1.add(jAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 290, 54));
 
         jPhone.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPhone.setText("Số điện thoại");
-        jPanel1.add(jPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 93, 54));
+        jPanel1.add(jPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(713, 0, 130, 54));
 
         jTimeOrder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jTimeOrder.setText("Ngày đặt");
-        jPanel1.add(jTimeOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 93, 54));
+        jTimeOrder.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
+        jPanel1.add(jTimeOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(233, 0, 140, 54));
 
         jAction.setBackground(new java.awt.Color(255, 0, 0));
         jAction.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -158,20 +166,28 @@ public class CustomerOrderCard extends javax.swing.JPanel {
         jAction.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jAction.setText("Hủy ");
         jAction.setOpaque(true);
-        jPanel1.add(jAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 60, 60));
-
-        jSelect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jSelectActionPerformed(evt);
+        jAction.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jActionMouseClicked(evt);
             }
         });
-        jPanel1.add(jSelect, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 20, -1, -1));
+        jPanel1.add(jAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, 60, 50));
+
+        jisApprove.setBackground(new java.awt.Color(153, 153, 153));
+        jisApprove.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jisApprove.setForeground(new java.awt.Color(255, 255, 255));
+        jisApprove.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jisApprove.setText("chờ xét");
+        jisApprove.setOpaque(true);
+        jPanel1.add(jisApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 20, 100, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1061, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,9 +195,16 @@ public class CustomerOrderCard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSelectActionPerformed
+    private void jActionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jActionMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jSelectActionPerformed
+        ActionOrders aco= new ActionOrders();
+        String confirmRemove=aco.sofrRemove(idOrders);
+        if("Hủy thành công".equals(confirmRemove)){
+            this.setVisible(false);
+        }
+        JOptionPane.showMessageDialog(this, confirmRemove);
+        
+    }//GEN-LAST:event_jActionMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -191,8 +214,8 @@ public class CustomerOrderCard extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel jPhone;
     private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jSelect;
     private javax.swing.JLabel jTimeOrder;
+    private javax.swing.JLabel jisApprove;
     private javax.swing.JLabel nameProduct;
     // End of variables declaration//GEN-END:variables
 }

@@ -210,26 +210,32 @@ public class rowOrder extends javax.swing.JPanel {
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         name.setText("Người mua");
+        name.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         jPanel6.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 100, 42));
 
         email.setText("Email");
+        email.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         jPanel6.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 90, 42));
 
         jaddress.setText("Địa chỉ");
+        jaddress.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         jPanel6.add(jaddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 130, 40));
 
         jPhone.setText("Số điện thoại");
+        jPhone.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         jPanel6.add(jPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 110, 40));
 
         id.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         id.setText("ID");
+        id.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         jPanel6.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 43));
 
         jCreate.setText("Ngày mua");
+        jCreate.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         jPanel6.add(jCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 120, 40));
 
         jNameProduct.setText("Sản phẩm");
-        jPanel6.add(jNameProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 0, 110, 40));
+        jPanel6.add(jNameProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 0, 100, 40));
 
         jisApprove.setBackground(new java.awt.Color(153, 153, 153));
         jisApprove.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
