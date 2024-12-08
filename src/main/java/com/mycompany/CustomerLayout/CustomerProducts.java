@@ -85,6 +85,7 @@ public class CustomerProducts extends javax.swing.JPanel {
         // Lấy danh sách giá (giá trị cố định hoặc từ cơ sở dữ liệu)
         List<String> priceRanges = action.getPriceRanges();
         jBoxRangePrice.removeAllItems();
+        jBoxRangePrice.addItem("Tất cả");
         for (String range : priceRanges) {
             jBoxRangePrice.addItem(range);
         }
@@ -103,8 +104,12 @@ public class CustomerProducts extends javax.swing.JPanel {
     // Lọc sản phẩm dựa trên các bộ lọc
     Action action = new Action();
     try {
-        return action.getFilteredProducts(selectedCategory, selectedStatus, selectedPriceRange, searchName);
-    } catch (SQLException ex) {
+ return action.getFilteredProducts(
+        selectedCategory.equals("Tất cả") ? null : selectedCategory,
+        selectedStatus.equals("Tất cả") ? null : selectedStatus,
+        selectedPriceRange.equals("Tất cả") ? null : selectedPriceRange,
+        searchName
+    );    } catch (SQLException ex) {
         ex.printStackTrace();
     }
     return new ArrayList<>(); // Trả về danh sách rỗng nếu lỗi

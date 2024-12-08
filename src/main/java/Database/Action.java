@@ -91,7 +91,7 @@ public List<String> getAllStatuses() throws SQLException {
 }
 
 public List<String> getPriceRanges() {
-    return Arrays.asList("Dưới 1.000.000", "1.000.000 - 5.000.000", "5.000.000 - 10.000.000", "Trên 10.000.000");
+    return Arrays.asList("Tất cả", "Dưới 1.000.000", "1.000.000 - 5.000.000", "5.000.000 - 10.000.000", "Trên 10.000.000");
 }
 
 public List<Product> getFilteredProducts(String category, String status, String priceRange, String name) throws SQLException {
@@ -106,7 +106,7 @@ if (!"Tất cả".equals(category)) {
 if (!"Tất cả".equals(status)) {
     query += " AND p.status = ?";
 }
-if (priceRange != null && !priceRange.isEmpty()) {
+if (!"Tất cả".equals(priceRange)) {
     if ("Dưới 1.000.000".equals(priceRange)) {
         query += " AND p.price < 1000000";
     } else if ("1.000.000 - 5.000.000".equals(priceRange)) {

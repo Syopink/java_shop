@@ -62,7 +62,9 @@ public final class Homepage extends javax.swing.JFrame {
     public static user getUser() {
         return Homepage.us;
     }
-
+public static void setUser(user newUser) {
+    Homepage.us = newUser;
+}
     public void setUpPanels() throws SQLException {
         CardLayout cardlayout = new CardLayout();
         jPanel2.setLayout(cardlayout);

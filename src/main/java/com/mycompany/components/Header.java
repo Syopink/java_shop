@@ -68,6 +68,7 @@ public class Header extends javax.swing.JPanel {
 
             int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận", JOptionPane.YES_NO_OPTION);
     if (confirm == JOptionPane.YES_OPTION) {
+        Homepage.setUser(null);
         JFrame homepageFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         homepageFrame.dispose();
         login loginFrame = new login();  // Tạo đối tượng frmLogin

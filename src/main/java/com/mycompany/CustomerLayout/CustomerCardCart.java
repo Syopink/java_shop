@@ -9,6 +9,7 @@ import Database.ActionOrders;
 import Pojo.CartProduct;
 import Pojo.OrderItem;
 import Process.user;
+import java.awt.Image;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -16,8 +17,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,6 +33,7 @@ public class CustomerCardCart extends javax.swing.JPanel {
     /**
      * Creates new form CustomerCardCart
      */
+    private String imagePath = "D:\\Onedrive\\Documents\\NetBeansProjects\\VietPro3\\java_shop\\src\\main\\resources\\images\\"; // Đường dẫn tương đối
     private CartProduct cartProduct;
     private ActionCartProduct accp;
     private int enteredValue;
@@ -63,14 +68,33 @@ public class CustomerCardCart extends javax.swing.JPanel {
      
      public void setCartProductData(CartProduct cartProduct){
          nameProduct.setText(cartProduct.getNameProduct());
-         Price.setText(String.valueOf(cartProduct.getTotalPrice()));
+         Price.setText(formatCurrency(cartProduct.getTotalPrice()));
          statusLabel.setText(cartProduct.getCategory());
          jTextField1.setText(String.valueOf(cartProduct.getQuantity()));
          statusLabel.setText(cartProduct.getStatus());
          Cate1.setText(cartProduct.getCategory());
+          String imageFile = imagePath + (cartProduct.getThumbnail()!= null ? cartProduct.getThumbnail(): "logo.png");
+        jLabel1.setIcon(resizeImage(imageFile));
          this.idCartProduct=cartProduct.getIdCartProduct();
          this.idProductss=cartProduct.getIdProduct();
      }
+     
+         private ImageIcon resizeImage(String imagePath) {
+        try {
+            ImageIcon icon = new ImageIcon(imagePath);
+            Image img = icon.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+            return new ImageIcon(img);
+        } catch (Exception e) {
+            return new ImageIcon(imagePath + "default.png"); // Ảnh mặc định khi lỗi
+        }
+    }
+         
+      private String formatCurrency(BigDecimal price) {
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+        return currencyVN.format(price);
+    }
+         
      
     public void changeQuantity() {
     jTextField1.addKeyListener(new KeyAdapter() {
