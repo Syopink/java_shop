@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Quản lý các thao tác với bảng orders_new và OrderItems.
+
  */
 public class ActionOrders {
     private final Connect cn = new Connect();
@@ -236,7 +236,7 @@ public void updateApprove(int isSelectedApproved, int orderId) {
     // customer order
     public List<Order> getAllOrdersByIdCustomer(int idCustomer) throws SQLException {
     List<Order> orders = new ArrayList<>();
-    String sql = "SELECT * FROM orders_new WHERE idCustomer = ?";
+    String sql = "SELECT * FROM orders_new WHERE idCustomer = ? AND status != 2";
 
     try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
         pstmt.setInt(1, idCustomer); // Gán tham số idCustomer
@@ -346,6 +346,27 @@ public void updateApprove(int isSelectedApproved, int orderId) {
         }
     }
 }
+    
+   public String sofrRemove(String idOrder) {
+    String query = "UPDATE orders_new SET status = 2 WHERE idOrder = ?"; // Sửa câu SQL
+
+    try (PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, idOrder); // Gán giá trị idOrder vào câu truy vấn
+
+        int rowsAffected = stmt.executeUpdate();
+        if (rowsAffected > 0) {
+            return "Hủy thành công"; 
+        } else {
+            return "Hủy không thành công ra khỏi đơn hàng";
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // In ra lỗi nếu có
+        return "Lỗi: " + e.getMessage();
+    }
+}
+
+    
+   
 
     
 }

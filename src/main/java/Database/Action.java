@@ -48,16 +48,20 @@ public class Action {
     }
 
 public double getTotalRevenueForAllOrders() throws SQLException {
-    String query = "SELECT SUM(p.price) AS totalPrice " +
-                   "FROM VietPro.dbo.orders o " +
-                   "JOIN VietPro.dbo.products p ON o.idProduct = p.idProduct";  // Không có điều kiện WHERE để tính tổng cho tất cả đơn hàng
-    
+    String query = "SELECT p.idOrder, SUM(o.price) AS TotalPrice " +
+               "FROM VietPro.dbo.OrderItems o " +
+               "JOIN VietPro.dbo.orders_new p ON o.idOrder = p.idOrder " +
+               "GROUP BY p.idOrder";
+
+  // Không có điều kiện WHERE để tính tổng cho tất cả đơn hàng
+                   
     double totalRevenue = 0.0;  // Khởi tạo tổng doanh thu mặc định là 0
 
     try (PreparedStatement stmt = conn.prepareStatement(query);
-         ResultSet rs = stmt.executeQuery()) {
+         ResultSet rs = stmt.executeQuery();
+            ) {
         if (rs.next()) {
-            totalRevenue = rs.getDouble("totalPrice");  // Lấy tổng doanh thu từ kết quả truy vấn
+            totalRevenue = rs.getDouble("TotalPrice");  // Lấy tổng doanh thu từ kết quả truy vấn
         }
     }
     

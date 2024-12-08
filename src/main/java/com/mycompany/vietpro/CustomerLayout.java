@@ -109,7 +109,7 @@ public class CustomerLayout extends javax.swing.JFrame {
         CardLayout cardlayout = new CardLayout();
         jmianPanel.setLayout(cardlayout);
         jmianPanel.add(new CustomerProducts(us),"Trang chủ");
-        jmianPanel.add(new CustomeCart(),"Giỏ hàng");
+        jmianPanel.add(new CustomeCart(Integer.parseInt(us.getIdCustomer()),us),"Giỏ hàng");
         jmianPanel.add(new CustomerOrder(Integer.parseInt(us.getIdCustomer())),"Đơn hàng");
  
         customerNavbar1.Router1( "Trang chủ",jmianPanel);

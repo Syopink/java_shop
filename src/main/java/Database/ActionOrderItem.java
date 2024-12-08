@@ -46,6 +46,7 @@ public Order getOrderDetails(int idOrder) {
                 int status = rs.getInt("status");
                 Timestamp createdAt = rs.getTimestamp("createdAt");
                 Timestamp updatedAt = rs.getTimestamp("updatedAt");
+                
 
                 order = new Order(idOrder, String.valueOf(idCustomer), null, email, name, phone, address, orderItems, createdAt, updatedAt, status, totalPrice);
             }
