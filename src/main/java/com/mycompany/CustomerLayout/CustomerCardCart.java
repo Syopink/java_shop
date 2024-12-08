@@ -10,6 +10,7 @@ import Pojo.CartProduct;
 import Pojo.OrderItem;
 import Process.product;
 import Process.user;
+import com.mycompany.components.util.pathImg;
 import java.awt.Image;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -34,7 +35,7 @@ public class CustomerCardCart extends javax.swing.JPanel {
     /**
      * Creates new form CustomerCardCart
      */
-    private String imagePath = "D:\\Onedrive\\Documents\\NetBeansProjects\\VietPro3\\java_shop\\src\\main\\resources\\images\\"; // Đường dẫn tương đối
+    private String imagePath = new pathImg().path(); // Đường dẫn tương đối
     private CartProduct cartProduct;
     private ActionCartProduct accp;
     private int enteredValue;
@@ -85,8 +86,8 @@ public class CustomerCardCart extends javax.swing.JPanel {
          Cate1.setText(cartProduct.getCategory());
 
          String imageFile = imagePath + (cartProduct.getThumbnail()!= null ? cartProduct.getThumbnail(): "default.png");
-         System.out.println("cartProduct" + cartProduct.getThumbnail());
-        image.setIcon(resizeImage(imageFile));
+         System.out.println("cartProduct : ---" + imageFile);
+         image.setIcon(resizeImage(imageFile));
          System.out.println("imaegFIle" + imageFile);
          System.out.println("image" + image);
          this.idCartProduct=cartProduct.getIdCartProduct();
