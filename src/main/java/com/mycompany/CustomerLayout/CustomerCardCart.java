@@ -12,6 +12,7 @@ import Process.product;
 import Process.user;
 import com.mycompany.components.util.pathImg;
 import java.awt.Image;
+import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -44,29 +45,33 @@ public class CustomerCardCart extends javax.swing.JPanel {
     private user us;
 
     ActionOrders Ao = new ActionOrders();
-    public CustomerCardCart(CartProduct cartProduct,ActionCartProduct accp,user us) {
+
+    public CustomerCardCart(CartProduct cartProduct, ActionCartProduct accp, user us) {
         initComponents();
-        this.cartProduct=cartProduct;
-        this.accp=accp;
-        this.us=us;
+        this.cartProduct = cartProduct;
+        this.accp = accp;
+        this.us = us;
         remove();
         changeQuantity();
         loadData();
     }
-    
-    public CartProduct getCartProduct(){
+
+    public CartProduct getCartProduct() {
         return this.cartProduct;
     }
 
     public boolean isSelected() {
         return jRChose.isSelected();
     }
-     public void setRChoseSelected(boolean selected) {
+
+    public void setRChoseSelected(boolean selected) {
         jRChose.setSelected(selected);  // Setter để thay đổi trạng thái chọn của jRChose
     }
-     private void loadData() {
+
+    private void loadData() {
         setCartProductData(cartProduct);
     }
+
     private ImageIcon resizeImage(String imagePath) {
         try {
             ImageIcon icon = new ImageIcon(imagePath);
@@ -76,23 +81,26 @@ public class CustomerCardCart extends javax.swing.JPanel {
             return new ImageIcon(imagePath + "default.png"); // Ảnh mặc định khi lỗi
         }
     }
-     
-     public void setCartProductData(CartProduct cartProduct){
-         nameProduct.setText(cartProduct.getNameProduct());
-         Price.setText(formatCurrency(cartProduct.getTotalPrice()));
-         statusLabel.setText(cartProduct.getCategory());
-         jTextField1.setText(String.valueOf(cartProduct.getQuantity()));
-         statusLabel.setText(cartProduct.getStatus());
-         Cate1.setText(cartProduct.getCategory());
 
-         String imageFile = imagePath + (cartProduct.getThumbnail()!= null ? cartProduct.getThumbnail(): "default.png");
-         System.out.println("cartProduct : ---" + imageFile);
-         image.setIcon(resizeImage(imageFile));
-         System.out.println("imaegFIle" + imageFile);
-         System.out.println("image" + image);
-         this.idCartProduct=cartProduct.getIdCartProduct();
-         this.idProductss=cartProduct.getIdProduct();
-     }
+
+    public void setCartProductData(CartProduct cartProduct) {
+        nameProduct.setText(cartProduct.getNameProduct());
+        Price.setText(formatCurrency(cartProduct.getTotalPrice()));
+        statusLabel.setText(cartProduct.getCategory());
+        jTextField1.setText(String.valueOf(cartProduct.getQuantity()));
+        statusLabel.setText(cartProduct.getStatus());
+        Cate1.setText(cartProduct.getCategory());
+
+        String imageFile = imagePath + (cartProduct.getThumbnail() != null ? cartProduct.getThumbnail() : "default.png");
+        System.out.println("cartProduct" + cartProduct.getThumbnail());
+        image.setIcon(resizeImage(imageFile));
+        System.out.println("imaegFIle" + imageFile);
+        System.out.println("image" + image);
+        this.idCartProduct = cartProduct.getIdCartProduct();
+        this.idProductss = cartProduct.getIdProduct();
+    }
+
+   
     
          
       private String formatCurrency(BigDecimal price) {
@@ -100,90 +108,87 @@ public class CustomerCardCart extends javax.swing.JPanel {
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
         return currencyVN.format(price);
     }
-         
-     
+
     public void changeQuantity() {
-    jTextField1.addKeyListener(new KeyAdapter() {
-        @Override
-        public void keyPressed(KeyEvent e) {
-            // Kiểm tra nếu người dùng nhấn Enter (phím mã 10)
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-    try {
-        enteredValue = Integer.valueOf(jTextField1.getText());
-        System.out.println("Giá trị nhập vào: " + enteredValue);
+        jTextField1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Kiểm tra nếu người dùng nhấn Enter (phím mã 10)
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    try {
+                        enteredValue = Integer.valueOf(jTextField1.getText());
 
-        accp.updateProductQuantity(idCartProduct, enteredValue);
+                        accp.updateProductQuantity(idCartProduct, enteredValue);
 
-        jTextField1.setText(String.valueOf(enteredValue));
-        BigDecimal unitPrice = cartProduct.getTotalPrice(); // Lấy giá của sản phẩm
-        BigDecimal updatedTotalPrice = unitPrice.multiply(BigDecimal.valueOf(enteredValue)); // Tính tổng giá
+                        jTextField1.setText(String.valueOf(enteredValue));
+                        BigDecimal unitPrice = cartProduct.getTotalPrice(); // Lấy giá của sản phẩm
+                        BigDecimal updatedTotalPrice = unitPrice.multiply(BigDecimal.valueOf(enteredValue)); // Tính tổng giá
 
-            Price.setText(String.valueOf(updatedTotalPrice));
+                        Price.setText(String.valueOf(updatedTotalPrice));
 
-    } catch (NumberFormatException ex) {
-        // Hiển thị lỗi nếu người dùng nhập không phải số
-        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
-    }
-}
-        }
-    });
-}
-
-     
-      public void remove() {
-    remove.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            // Hiển thị hộp thoại xác nhận
-            int confirmed = JOptionPane.showConfirmDialog(
-                null,
-                "Bạn có chắc chắn muốn xóa không?",
-                "Xác nhận",
-                JOptionPane.YES_NO_OPTION
-            );
-
-            // Nếu người dùng xác nhận xóa
-            if (confirmed == JOptionPane.YES_OPTION) {
-                try {
-                    // Thực hiện xóa sản phẩm khỏi giỏ hàng
-                    String confirmDelete = accp.deleteProductFromCart(idCartProduct);
-
-                    // Kiểm tra kết quả trả về
-                    if ("Thành công".equals(confirmDelete)) {
-                        // Ẩn sản phẩm trong giao diện nếu xóa thành công
-                        CustomerCardCart.this.setVisible(false);
-                        JOptionPane.showMessageDialog(
-                            CustomerCardCart.this,
-                            "Xóa thành công!"
-                        );
-                    } else {
-                        // Hiển thị thông báo nếu xóa thất bại
-                        JOptionPane.showMessageDialog(
-                            CustomerCardCart.this,
-                            "Xóa thất bại: " + confirmDelete
-                        );
+                    } catch (NumberFormatException ex) {
+                        // Hiển thị lỗi nếu người dùng nhập không phải số
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!");
                     }
-                } catch (Exception ex) {
-                    // Xử lý lỗi kết nối hoặc lỗi SQL
-                    JOptionPane.showMessageDialog(
-                        CustomerCardCart.this,
-                        "Lỗi khi xóa sản phẩm: " + ex.getMessage()
-                    );
-                    ex.printStackTrace(); // Debug lỗi nếu cần
                 }
-            } else {
-                // Người dùng chọn "No", không làm gì cả
-                JOptionPane.showMessageDialog(
-                    CustomerCardCart.this,
-                    "Hủy thao tác xóa."
-                );
             }
-        }
-    });
-}
+        });
+    }
+    
+    
 
-     
-     
+    public void remove() {
+        remove.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Hiển thị hộp thoại xác nhận
+                int confirmed = JOptionPane.showConfirmDialog(
+                        null,
+                        "Bạn có chắc chắn muốn xóa không?",
+                        "Xác nhận",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                // Nếu người dùng xác nhận xóa
+                if (confirmed == JOptionPane.YES_OPTION) {
+                    try {
+                        // Thực hiện xóa sản phẩm khỏi giỏ hàng
+                        String confirmDelete = accp.deleteProductFromCart(idCartProduct);
+
+                        // Kiểm tra kết quả trả về
+                        if ("Thành công".equals(confirmDelete)) {
+                            // Ẩn sản phẩm trong giao diện nếu xóa thành công
+                            CustomerCardCart.this.setVisible(false);
+                            JOptionPane.showMessageDialog(
+                                    CustomerCardCart.this,
+                                    "Xóa thành công!"
+                            );
+                        } else {
+                            // Hiển thị thông báo nếu xóa thất bại
+                            JOptionPane.showMessageDialog(
+                                    CustomerCardCart.this,
+                                    "Xóa thất bại: " + confirmDelete
+                            );
+                        }
+                    } catch (Exception ex) {
+                        // Xử lý lỗi kết nối hoặc lỗi SQL
+                        JOptionPane.showMessageDialog(
+                                CustomerCardCart.this,
+                                "Lỗi khi xóa sản phẩm: " + ex.getMessage()
+                        );
+                        ex.printStackTrace(); // Debug lỗi nếu cần
+                    }
+                } else {
+                    // Người dùng chọn "No", không làm gì cả
+                    JOptionPane.showMessageDialog(
+                            CustomerCardCart.this,
+                            "Hủy thao tác xóa."
+                    );
+                }
+            }
+        });
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -383,43 +388,43 @@ public class CustomerCardCart extends javax.swing.JPanel {
         String productStatus = cartProduct.getStatus();
         BigDecimal productPrice = (cartProduct.getTotalPrice());
         int id = (Integer.valueOf(idProductss));
-    // Kiểm tra xem sản phẩm có sẵn để mua hay không
-    if (productStatus.equalsIgnoreCase("Còn hàng")) {
-        // Xác nhận hành động mua
-        int option = JOptionPane.showConfirmDialog(this, 
-            "Bạn có muốn mua " + productName + " với giá " + productPrice + " VND?", 
-            "Xác nhận mua hàng", 
-            JOptionPane.YES_NO_OPTION);
+        // Kiểm tra xem sản phẩm có sẵn để mua hay không
+        if (productStatus.equalsIgnoreCase("Còn hàng")) {
+            // Xác nhận hành động mua
+            int option = JOptionPane.showConfirmDialog(this,
+                    "Bạn có muốn mua " + productName + " với giá " + formatCurrency(productPrice) + " VND?",
+                    "Xác nhận mua hàng",
+                    JOptionPane.YES_NO_OPTION);
 
-        if (option == JOptionPane.YES_OPTION) {
-            // Chuẩn bị dữ liệu cho phương thức placeOrder
-            String idCustomer = us.getIdCustomer(); // Giả sử user `us` chứa thông tin khách hàng đang đăng nhập
-            String customerName = us.getFullName(); // Tên khách hàng
-            String customerEmail = us.getEmail(); // Email khách hàng
-            String customerPhone = us.getNumberOfPhone(); // Số điện thoại khách hàng
-            String customerAddress = us.getAddress(); // Địa chỉ khách hàng
+            if (option == JOptionPane.YES_OPTION) {
+                // Chuẩn bị dữ liệu cho phương thức placeOrder
+                String idCustomer = us.getIdCustomer(); // Giả sử user `us` chứa thông tin khách hàng đang đăng nhập
+                String customerName = us.getFullName(); // Tên khách hàng
+                String customerEmail = us.getEmail(); // Email khách hàng
+                String customerPhone = us.getNumberOfPhone(); // Số điện thoại khách hàng
+                String customerAddress = us.getAddress(); // Địa chỉ khách hàng
 
-            // Tạo danh sách OrderItem (giả định sản phẩm hiện tại là duy nhất trong đơn hàng)
-            List<OrderItem> cartItems = new ArrayList<>();
-            OrderItem item = new OrderItem(id,productName, 1,productPrice); // Số lượng mặc định là 1
-            cartItems.add(item);
+                // Tạo danh sách OrderItem (giả định sản phẩm hiện tại là duy nhất trong đơn hàng)
+                List<OrderItem> cartItems = new ArrayList<>();
+                OrderItem item = new OrderItem(id, productName, 1, productPrice); // Số lượng mặc định là 1
+                cartItems.add(item);
 
-            // Gọi phương thức placeOrder
-            boolean orderSuccess = Ao.placeOrder(Integer.parseInt(idCustomer), cartItems, customerName, customerEmail, customerPhone, customerAddress);
+                // Gọi phương thức placeOrder
+                boolean orderSuccess = Ao.placeOrder(Integer.parseInt(idCustomer), cartItems, customerName, customerEmail, customerPhone, customerAddress);
 
-            // Hiển thị kết quả
-            if (orderSuccess) {
-                accp.deleteProductFromCart(idCartProduct);
-                this.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Mua hàng thành công! Đơn hàng đã được đặt.");
-                        cartItems.clear(); // Reset the cart
-            } else {
-                JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi trong quá trình đặt hàng.");
+                // Hiển thị kết quả
+                if (orderSuccess) {
+                    accp.deleteProductFromCart(idCartProduct);
+                    this.setVisible(false);
+                    JOptionPane.showMessageDialog(this, "Mua hàng thành công! Đơn hàng đã được đặt.");
+                    cartItems.clear(); // Reset the cart
+                } else {
+                    JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi trong quá trình đặt hàng.");
+                }
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Xin lỗi, sản phẩm này không có sẵn để mua.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Xin lỗi, sản phẩm này không có sẵn để mua.");
-    }
     }//GEN-LAST:event_BuyMouseClicked
 
 

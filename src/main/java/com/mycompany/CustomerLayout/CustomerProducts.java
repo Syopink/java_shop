@@ -77,7 +77,7 @@ public class CustomerProducts extends javax.swing.JPanel {
         // Lấy trạng thái sản phẩm
         List<String> statuses = action.getAllStatuses();
         jBoxStatus.removeAllItems();
-        jBoxStatus.addItem("Tất cả"); // Thêm mục "Tất cả" để không lọc theo trạng thái
+        jBoxStatus.addItem("Tất cả"); // Thêm mục "Tất cả" để không lọc theo danh mục
         for (String status : statuses) {
             jBoxStatus.addItem(status);
         }
@@ -85,6 +85,7 @@ public class CustomerProducts extends javax.swing.JPanel {
         // Lấy danh sách giá (giá trị cố định hoặc từ cơ sở dữ liệu)
         List<String> priceRanges = action.getPriceRanges();
         jBoxRangePrice.removeAllItems();
+        jBoxRangePrice.addItem("Tất cả"); // Thêm mục "Tất cả" để không lọc theo trạng thái
         for (String range : priceRanges) {
             jBoxRangePrice.addItem(range);
         }
@@ -93,22 +94,21 @@ public class CustomerProducts extends javax.swing.JPanel {
         ex.printStackTrace(); // Xử lý lỗi kết nối
     }
 }
+private String normalizeFilter(String filterValue) {
+    return (filterValue == null || filterValue.trim().isEmpty() || filterValue.equals("Tất cả")) ? "" : filterValue;
+}
     
     private List<Product> filterProducts() {
-    String selectedCategory = (String) jBoxCate.getSelectedItem();
-    String selectedStatus = (String) jBoxStatus.getSelectedItem();
-    String selectedPriceRange = (String) jBoxRangePrice.getSelectedItem();
+    String selectedCategory = normalizeFilter((String) jBoxCate.getSelectedItem());
+String selectedStatus = normalizeFilter((String) jBoxStatus.getSelectedItem());
+String selectedPriceRange = normalizeFilter((String) jBoxRangePrice.getSelectedItem());
     String searchName = jtFindName.getText().trim();
 
     // Lọc sản phẩm dựa trên các bộ lọc
     Action action = new Action();
     try {
- return action.getFilteredProducts(
-        selectedCategory.equals("Tất cả") ? null : selectedCategory,
-        selectedStatus.equals("Tất cả") ? null : selectedStatus,
-        selectedPriceRange.equals("Tất cả") ? null : selectedPriceRange,
-        searchName
-    );    } catch (SQLException ex) {
+                return action.getFilteredProducts(selectedCategory, selectedStatus, selectedPriceRange, searchName);
+ } catch (SQLException ex) {
         ex.printStackTrace();
     }
     return new ArrayList<>(); // Trả về danh sách rỗng nếu lỗi

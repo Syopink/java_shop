@@ -115,7 +115,7 @@ public class CustomerProductCard extends javax.swing.JPanel {
         jDialog1.getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 70, 30));
 
         nameProduct.setText("???");
-        jDialog1.getContentPane().add(nameProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 65, 82, -1));
+        jDialog1.getContentPane().add(nameProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 65, 170, -1));
 
         status.setText("???");
         jDialog1.getContentPane().add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 146, 82, -1));
@@ -273,7 +273,7 @@ private String formatPrice(BigDecimal price) {
     // Kiểm tra xem sản phẩm có sẵn để mua hay không
     if (productStatus.equalsIgnoreCase("Còn hàng")) {
         // Xác nhận hành động mua
-        int option = JOptionPane.showConfirmDialog(this, 
+        int option = JOptionPane.showConfirmDialog(null, 
             "Bạn có muốn mua " + productName + " với giá " + formatPrice(productPrice) + " VND?", 
             "Xác nhận mua hàng", 
             JOptionPane.YES_NO_OPTION);
@@ -296,15 +296,19 @@ private String formatPrice(BigDecimal price) {
 
             // Hiển thị kết quả
             if (orderSuccess) {
-                JOptionPane.showMessageDialog(this, "Mua hàng thành công! Đơn hàng đã được đặt.");
-                        cartItems.clear(); // Reset the cart
-                 jDialog1.dispose();
+                JOptionPane.showMessageDialog(null, "Mua hàng thành công! Đơn hàng đã được đặt.");
+                cartItems.clear(); // Reset the cart
+                jDialog1.dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi trong quá trình đặt hàng.");
+                JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi trong quá trình đặt hàng.");
+                jDialog1.dispose(); // Đóng dialog tự động sau khi thông báo thất bại
+
             }
         }
     } else {
-        JOptionPane.showMessageDialog(this, "Xin lỗi, sản phẩm này không có sẵn để mua.");
+        JOptionPane.showMessageDialog(null, "Xin lỗi, sản phẩm này không có sẵn để mua.");
+        jDialog1.dispose(); // Đóng dialog tự động sau khi thông báo thất bại
+
     }
     }//GEN-LAST:event_jLBuyMouseClicked
 
@@ -313,10 +317,12 @@ private String formatPrice(BigDecimal price) {
         if("Còn hàng".equals(product.getStatus())){
             ActionCartProduct accp = new ActionCartProduct();
             String check= accp.addProductToCart(String.valueOf(product.getIdProduct()),us.getIdCustomer(),nameProduct.getText(),1,product.getCategoryTitle(),product.getPrice(),product.getStatus(),product.getThumbnail());
-            JOptionPane.showMessageDialog(this,check );
+            JOptionPane.showMessageDialog(null,check);
+                    jDialog1.dispose();
             return;
         }else{
-            JOptionPane.showMessageDialog(this,"Vui lòng chọn sản phẩm khác" );
+            JOptionPane.showMessageDialog(null,"Sản phẩm đã hết hàng. Vui lòng chọn sản phẩm khác." );
+                    jDialog1.dispose(); // Đóng dialog tự động sau khi thông báo thất bại
             return;
             }
             
@@ -326,13 +332,22 @@ private String formatPrice(BigDecimal price) {
         
         // Kiểm tra null để tránh lỗi
         if (product == null) {
-            JOptionPane.showMessageDialog(this, "Sản phẩm không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Sản phẩm không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
         nameCate1.setText(product.getCategoryTitle());
         name.setText(shortenProductName(product.getName() != null ? product.getName() : "Không rõ"));
         price1.setText(formatCurrency(product.getPrice() != null ? product.getPrice() : BigDecimal.ZERO));
-        status.setText(product.getStatus() != null && product.getStatus().equals("Còn hàng") ? "Còn hàng" : "Hết hàng");
+         // Kiểm tra tình trạng sản phẩm và thay đổi màu chữ và trạng thái nút
+    if ("Còn hàng".equals(product.getStatus())) {
+        status.setText("Còn hàng");
+        status.setForeground(Color.BLACK); // Màu đen cho "Còn hàng"
+        jLaddCart.setEnabled(true); // Kích hoạt nút "Thêm vào giỏ hàng"
+    } else {
+        status.setText("Hết hàng");
+        status.setForeground(Color.RED); // Màu đỏ cho "Hết hàng"
+        jLaddCart.setEnabled(false); // Vô hiệu hóa nút "Thêm vào giỏ hàng"
+    }
                 nameProduct.setText(product.getName() != null ? product.getName() : "Không rõ");
 
         String description = product.getDescriptions() != null ? product.getDescriptions() : "Không có mô tả.";

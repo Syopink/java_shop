@@ -38,7 +38,8 @@ private int id;
 
     private Option ops = new Option();
     private List<Object[]> categories = ac.getCate();
- 
+     private String imagePath = new pathImg().path();
+
     private boolean choose_file = false;
 
     private  String imageName;
@@ -59,6 +60,7 @@ private int id;
     void ImgUpLoad() {
         jToggleButton5.addActionListener(e -> uploadImage());
     }
+
 
      private void uploadImage() {
     jFileChooser1.setDialogTitle("Chọn hình ảnh");
@@ -95,6 +97,7 @@ private int id;
         currentProduct.setThumbnail(imageName);
     }
 }
+
 
 private ImageIcon resizeImage(String imagePath, int width, int height) {
     ImageIcon icon = new ImageIcon(imagePath);
@@ -142,7 +145,7 @@ private ImageIcon resizeImage(String imagePath, int width, int height) {
         category_product.setText(product.getCategoryTitle());
 
         if (product.getThumbnail() != null && !product.getThumbnail().isEmpty()) {
-            ImageIcon resizedIcon = resizeImage(new pathImg().path()+ product.getThumbnail(), 100, 150);
+            ImageIcon resizedIcon = resizeImage(pathimg + product.getThumbnail(), 100, 150);
             image.setIcon(resizedIcon);
         } else {
             String defaultThumbnailPath = "path/to/default/thumbnail.jpg";
