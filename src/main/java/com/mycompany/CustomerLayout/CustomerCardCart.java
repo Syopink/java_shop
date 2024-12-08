@@ -10,10 +10,6 @@ import Pojo.CartProduct;
 import Pojo.OrderItem;
 import Process.product;
 import Process.user;
-<<<<<<< HEAD
-=======
-import com.mycompany.components.util.pathImg;
->>>>>>> 2ebee26cb7ab0bf863e5143c73ba0ec784b11c6d
 import java.awt.Image;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -25,10 +21,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
 import java.util.Locale;
-=======
->>>>>>> 2ebee26cb7ab0bf863e5143c73ba0ec784b11c6d
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -48,7 +41,6 @@ public class CustomerCardCart extends javax.swing.JPanel {
     private String idCartProduct;
     private String idProductss;
     private user us;
-    private String imagePath = new pathImg().path(); // Đường dẫn tương đối
 
     ActionOrders Ao = new ActionOrders();
     public CustomerCardCart(CartProduct cartProduct,ActionCartProduct accp,user us) {
@@ -91,26 +83,16 @@ public class CustomerCardCart extends javax.swing.JPanel {
          jTextField1.setText(String.valueOf(cartProduct.getQuantity()));
          statusLabel.setText(cartProduct.getStatus());
          Cate1.setText(cartProduct.getCategory());
-<<<<<<< HEAD
-          String imageFile = imagePath + (cartProduct.getThumbnail()!= null ? cartProduct.getThumbnail(): "logo.png");
-        jLabel1.setIcon(resizeImage(imageFile));
-=======
+
          String imageFile = imagePath + (cartProduct.getThumbnail()!= null ? cartProduct.getThumbnail(): "default.png");
+         System.out.println("cartProduct" + cartProduct.getThumbnail());
         image.setIcon(resizeImage(imageFile));
->>>>>>> 2ebee26cb7ab0bf863e5143c73ba0ec784b11c6d
+         System.out.println("imaegFIle" + imageFile);
+         System.out.println("image" + image);
          this.idCartProduct=cartProduct.getIdCartProduct();
          this.idProductss=cartProduct.getIdProduct();
      }
-     
-         private ImageIcon resizeImage(String imagePath) {
-        try {
-            ImageIcon icon = new ImageIcon(imagePath);
-            Image img = icon.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
-            return new ImageIcon(img);
-        } catch (Exception e) {
-            return new ImageIcon(imagePath + "default.png"); // Ảnh mặc định khi lỗi
-        }
-    }
+    
          
       private String formatCurrency(BigDecimal price) {
         Locale localeVN = new Locale("vi", "VN");
@@ -147,30 +129,58 @@ public class CustomerCardCart extends javax.swing.JPanel {
 }
 
      
-      public void remove(){
-         
-     remove.addMouseListener(new MouseAdapter() {
-         
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        int confirmed = JOptionPane.showConfirmDialog(
-            null, 
-            "Bạn có chắc chắn muốn xóa không?", 
-            "Xác nhận", 
-            JOptionPane.YES_NO_OPTION
-        );
-JOptionPane.showMessageDialog(CustomerCardCart.this, "Xóa thành công!");
-        if (confirmed == JOptionPane.YES_OPTION) {
-            String confirmDelete= accp.deleteProductFromCart(idCartProduct);
-            if("Thành công".equals(confirmDelete)){
-                CustomerCardCart.this.setVisible(false);
-                JOptionPane.showMessageDialog(CustomerCardCart.this, "Xóa thành công!");
-                
+      public void remove() {
+    remove.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            // Hiển thị hộp thoại xác nhận
+            int confirmed = JOptionPane.showConfirmDialog(
+                null,
+                "Bạn có chắc chắn muốn xóa không?",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            // Nếu người dùng xác nhận xóa
+            if (confirmed == JOptionPane.YES_OPTION) {
+                try {
+                    // Thực hiện xóa sản phẩm khỏi giỏ hàng
+                    String confirmDelete = accp.deleteProductFromCart(idCartProduct);
+
+                    // Kiểm tra kết quả trả về
+                    if ("Thành công".equals(confirmDelete)) {
+                        // Ẩn sản phẩm trong giao diện nếu xóa thành công
+                        CustomerCardCart.this.setVisible(false);
+                        JOptionPane.showMessageDialog(
+                            CustomerCardCart.this,
+                            "Xóa thành công!"
+                        );
+                    } else {
+                        // Hiển thị thông báo nếu xóa thất bại
+                        JOptionPane.showMessageDialog(
+                            CustomerCardCart.this,
+                            "Xóa thất bại: " + confirmDelete
+                        );
+                    }
+                } catch (Exception ex) {
+                    // Xử lý lỗi kết nối hoặc lỗi SQL
+                    JOptionPane.showMessageDialog(
+                        CustomerCardCart.this,
+                        "Lỗi khi xóa sản phẩm: " + ex.getMessage()
+                    );
+                    ex.printStackTrace(); // Debug lỗi nếu cần
+                }
+            } else {
+                // Người dùng chọn "No", không làm gì cả
+                JOptionPane.showMessageDialog(
+                    CustomerCardCart.this,
+                    "Hủy thao tác xóa."
+                );
             }
         }
-    }
-});
-     }
+    });
+}
+
      
      
     @SuppressWarnings("unchecked")
@@ -196,7 +206,7 @@ JOptionPane.showMessageDialog(CustomerCardCart.this, "Xóa thành công!");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
-        image.setBackground(new java.awt.Color(153, 153, 153));
+        image.setBackground(new java.awt.Color(255, 255, 255));
         image.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoVietpro.jpg"))); // NOI18N
         image.setOpaque(true);

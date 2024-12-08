@@ -36,7 +36,7 @@ public class ActionCartProduct {
         try (ResultSet rs = stmt.executeQuery()) { 
             while (rs.next()) {
                 CartProduct cartProduct = new CartProduct();
-                
+               
                 cartProduct.setIdCartProduct(rs.getString("idCartProduct"));
                 cartProduct.setNameProduct(rs.getString("nameProduct"));
                 cartProduct.setQuantity(rs.getInt("quantity"));
@@ -56,9 +56,9 @@ public class ActionCartProduct {
     return cartProducts; 
 }
     
-    public String addProductToCart(String idProduct, String idCustomer, String nameProduct, int quantity, String category, BigDecimal TotalPrice,String status) {
-    String query = "INSERT INTO cartProduct(idProduct, idCustomer, nameProduct, quantity, category, TotalPrice,status) " +
-                   "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public String addProductToCart(String idProduct, String idCustomer, String nameProduct, int quantity, String category, BigDecimal TotalPrice,String status,String thumbnail) {
+    String query = "INSERT INTO cartProduct(idProduct, idCustomer, nameProduct, quantity, category, TotalPrice,status, thumbnail) " +
+                   "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     try (PreparedStatement stmt = conn.prepareStatement(query)) {
         stmt.setString(1, idProduct);
@@ -68,6 +68,7 @@ public class ActionCartProduct {
         stmt.setString(5, category);
         stmt.setBigDecimal(6, TotalPrice);
         stmt.setString(7, status);
+        stmt.setString(8,thumbnail);
         int rowsAffected = stmt.executeUpdate();
         if (rowsAffected > 0) {
             return "Sản phẩm đã được thêm vào giỏ hàng thành công.";

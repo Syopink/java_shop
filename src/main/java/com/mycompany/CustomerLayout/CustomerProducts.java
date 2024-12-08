@@ -85,7 +85,6 @@ public class CustomerProducts extends javax.swing.JPanel {
         // Lấy danh sách giá (giá trị cố định hoặc từ cơ sở dữ liệu)
         List<String> priceRanges = action.getPriceRanges();
         jBoxRangePrice.removeAllItems();
-        jBoxRangePrice.addItem("Tất cả");
         for (String range : priceRanges) {
             jBoxRangePrice.addItem(range);
         }

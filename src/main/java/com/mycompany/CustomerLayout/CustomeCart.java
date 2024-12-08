@@ -219,25 +219,46 @@ public void loadCart(int idCustomer) throws SQLException {
     }//GEN-LAST:event_selectAllMouseClicked
 
     private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
-       List<CartProduct> cartToDelete = new ArrayList<>();
+     List<CartProduct> cartToDelete = new ArrayList<>();
+    
     // Kiểm tra tất cả các hàng trong rowsList và tìm các sản phẩm đã chọn
     for (CustomerCardCart row : rowsList) {
         if (row.isSelected()) {  // Kiểm tra xem row có được chọn không
-            row.setVisible(false);  // Ẩn row trong giao diện
             cartToDelete.add(row.getCartProduct());  // Lấy CartProduct từ row và thêm vào danh sách
         }
     }
     
-    if (!cartToDelete.isEmpty() && cartToDelete!=null) {
-        try {
-            accp.deleteCartProducts(cartToDelete);
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Lỗi khi xóa sản phẩm: " + e.getMessage());
+    if (!cartToDelete.isEmpty()) {
+        // Hiển thị hộp thoại xác nhận xóa
+        int confirm = JOptionPane.showConfirmDialog(this, 
+                "Bạn có chắc chắn muốn xóa các sản phẩm đã chọn khỏi giỏ hàng?", 
+                "Xác nhận xóa", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.WARNING_MESSAGE);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Nếu người dùng chọn "Yes", tiến hành xóa
+            try {
+                for (CustomerCardCart row : rowsList) {
+                    if (row.isSelected()) {
+                        row.setVisible(false);  // Ẩn row trong giao diện
+                    }
+                }
+                
+                accp.deleteCartProducts(cartToDelete);  // Xóa sản phẩm khỏi cơ sở dữ liệu
+                JOptionPane.showMessageDialog(this, "Xóa sản phẩm thành công.");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Lỗi khi xóa sản phẩm: " + e.getMessage());
+            }
+        } else {
+            // Người dùng chọn "No"
+            JOptionPane.showMessageDialog(this, "Hủy thao tác xóa.");
         }
     } else {
         JOptionPane.showMessageDialog(this, "Không có sản phẩm nào được chọn.");
     }
 
+    // Cập nhật lại giao diện
     this.revalidate();
     this.repaint();
     }//GEN-LAST:event_deleteMouseClicked

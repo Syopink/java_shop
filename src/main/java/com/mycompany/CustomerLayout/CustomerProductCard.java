@@ -312,7 +312,7 @@ private String formatPrice(BigDecimal price) {
         // TODO add your handling code here:
         if("Còn hàng".equals(product.getStatus())){
             ActionCartProduct accp = new ActionCartProduct();
-            String check= accp.addProductToCart(String.valueOf(product.getIdProduct()),us.getIdCustomer(),nameProduct.getText(),1,product.getCategoryTitle(),product.getPrice(),product.getStatus());
+            String check= accp.addProductToCart(String.valueOf(product.getIdProduct()),us.getIdCustomer(),nameProduct.getText(),1,product.getCategoryTitle(),product.getPrice(),product.getStatus(),product.getThumbnail());
             JOptionPane.showMessageDialog(this,check );
             return;
         }else{
